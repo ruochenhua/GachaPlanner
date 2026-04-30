@@ -1,0 +1,49 @@
+<view class="probability-interval" role="img" aria-label="{{ariaLabel}}">
+  <!-- 空数据状态 -->
+  <view wx:if="{{isEmpty}}" class="empty-state">
+    <text class="empty-text">暂无概率数据</text>
+  </view>
+
+  <!-- 区间展示 -->
+  <block wx:else>
+    <!-- 区间标签 -->
+    <view class="interval-label">
+      <text class="label-text">置信区间</text>
+      <text class="confidence-level">({{confidenceLevel}}%)</text>
+    </view>
+
+    <!-- 区间可视化 -->
+    <view class="interval-visual">
+      <!-- 区间条背景 -->
+      <view class="interval-track">
+        <!-- 区间范围条 -->
+        <view
+          class="interval-range"
+          style="left: {{lowerBound}}%; width: {{intervalWidth}}%;"
+        >
+          <!-- 当前概率标记点 -->
+          <view
+            class="current-marker {{colorClass}}"
+            style="left: calc({{positionPercent}}% - 6px);"
+          ></view>
+        </view>
+      </view>
+
+      <!-- 区间端点数值 -->
+      <view class="interval-values">
+        <text class="lower-value" style="left: {{lowerBound}}%;">{{lowerBound}}%</text>
+        <text class="upper-value" style="left: {{upperBound}}%;">{{upperBound}}%</text>
+      </view>
+    </view>
+
+    <!-- 不确定性说明 -->
+    <view class="uncertainty-hint" wx:if="{{showWarning}}">
+      <text class="hint-text">不确定性较高，建议参考更多信息</text>
+    </view>
+
+    <!-- 区间摘要（可访问性） -->
+    <view class="interval-summary" aria-live="polite">
+      <text class="summary-text">{{ariaLabel}}</text>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,18 @@
+/* components/probability-chart/probability-chart.wxss */
+/* 概率分布图表组件样式 */
+
+/* 主容器 */
+.probability-chart {
+  width: 100%;
+  height: 240px;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Canvas画布 */
+.chart-canvas {
+  width: 100%;
+  height: 220px;
+}

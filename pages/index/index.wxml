@@ -1,0 +1,41 @@
+<!--pages/index/index.wxml-->
+<!-- 首页 - 资源总览页面 -->
+
+<view class="index-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 内容区域 -->
+  <view wx:else>
+    <!-- 总览卡片区域 -->
+    <overview-card
+      total-resources="{{totalResources}}"
+      monthly-plans="{{monthlyPlans}}"
+      resource-distribution="{{resourceDistribution}}"
+      average-probability="{{averageProbability}}"
+      combined-probability="{{combinedProbability}}"
+      optimal-game-name="{{optimalGameName}}"
+      strategy-advice="{{strategyAdvice}}"
+    />
+
+    <!-- 游戏卡片网格区域 -->
+    <view class="game-cards-section">
+      <view class="section-title">🎮 我的游戏</view>
+      <view class="game-cards-grid">
+        <block wx:for="{{games}}" wx:key="gameId">
+          <game-card
+            game-id="{{item.gameId}}"
+            game-name="{{item.name}}"
+            game-icon="{{item.icon}}"
+            total-pulls="{{item.totalPulls}}"
+            probability="{{item.probability}}"
+            bind:tap="onGameCardTap"
+          />
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

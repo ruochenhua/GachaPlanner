@@ -1,0 +1,68 @@
+/* components/probability-display/probability-display.wxss */
+/* 概率展示组件样式 */
+
+/* 主容器 */
+.probability-display {
+  background: #F5F3F0;           /* Gray 100 - 莫兰迪暖灰背景 */
+  border-radius: 12px;           /* 圆角12px */
+  padding: 24px;                 /* 内边距24px */
+  text-align: center;            /* 文字居中 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+}
+
+/* 概率标签 */
+.probability-label {
+  font-size: 14px;               /* 小字体 */
+  color: #78716C;                /* Gray 500 - 次要文本色 */
+  margin-bottom: 8px;            /* 底部间距 */
+  font-weight: 400;              /* Regular字重 */
+}
+
+/* 概率数字容器 */
+.probability-value {
+  margin-bottom: 8px;            /* 底部间距 */
+}
+
+/* 概率数字 */
+.probability-number {
+  font-size: 48px;               /* 大字体48px */
+  font-weight: 700;              /* Bold字重 */
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace; /* 等宽字体 */
+  transition: color 300ms ease;  /* 颜色过渡动画 */
+  line-height: 1.2;              /* 行高 */
+}
+
+/* 风险指示器容器 */
+.risk-indicator {
+  display: flex;                 /* 弹性布局 */
+  align-items: center;           /* 垂直居中 */
+  justify-content: center;       /* 水平居中 */
+  gap: 4px;                      /* 元素间距 */
+}
+
+/* 风险图标 */
+.risk-icon {
+  font-size: 16px;               /* 图标大小 */
+}
+
+/* 风险文字 */
+.risk-text {
+  font-size: 14px;               /* 小字体 */
+  color: #78716C;                /* Gray 500 */
+  font-weight: 500;              /* Medium字重 */
+}
+
+/* 颜色类 - 高概率 */
+.probability-value.high {
+  color: #7FB069;                /* Success Green - 莫兰迪绿 */
+}
+
+/* 颜色类 - 中等概率 */
+.probability-value.medium {
+  color: #E4C786;                /* Warning Yellow - 莫兰迪黄 */
+}
+
+/* 颜色类 - 低概率 */
+.probability-value.low {
+  color: #C47070;                /* Error Red - 莫兰迪红 */
+}

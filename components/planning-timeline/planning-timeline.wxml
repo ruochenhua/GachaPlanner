@@ -1,0 +1,59 @@
+<view class="timeline-container">
+  <!-- 空数据状态 -->
+  <view class="empty-state" wx:if="{{nodes.length === 0}}">
+    <text class="empty-text">暂无规划数据</text>
+  </view>
+
+  <!-- 时间轴 -->
+  <scroll-view
+    class="timeline-scroll"
+    scroll-x
+    scroll-left="{{scrollLeft}}"
+    enhanced
+    show-scrollbar="{{false}}"
+    wx:if="{{nodes.length > 0}}"
+  >
+    <view class="timeline-content">
+      <!-- 时间轴线 -->
+      <view class="timeline-line"></view>
+
+      <!-- 节点列表 -->
+      <block wx:for="{{nodes}}" wx:key="id">
+        <view
+          class="timeline-node {{item.status}}"
+          data-node="{{item}}"
+          bindtap="onNodeTap"
+        >
+          <!-- 节点圆点 -->
+          <view class="node-dot {{item.status}}">
+            <view class="dot-inner" wx:if="{{item.isCurrent}}"></view>
+          </view>
+
+          <!-- 节点内容 -->
+          <view class="node-content">
+            <!-- 日期 -->
+            <text class="node-date">{{item.date}}</text>
+
+            <!-- 游戏图标 -->
+            <view class="game-badge">
+              <text>{{item.gameName}}</text>
+            </view>
+
+            <!-- 卡池名称 -->
+            <text class="node-pool">{{item.poolName}}</text>
+
+            <!-- 达成概率 -->
+            <view class="node-probability" wx:if="{{item.probability > 0}}">
+              <text>{{item.probability}}%</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <!-- 滚动指示器 -->
+  <view class="scroll-indicator" wx:if="{{nodes.length > 3}}">
+    <text class="indicator-text">左右滑动查看更多</text>
+  </view>
+</view>

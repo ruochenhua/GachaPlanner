@@ -1,0 +1,43 @@
+<view class="trend-chart-container">
+  <!-- 图表标题 -->
+  <view class="chart-header">
+    <text class="chart-title">历史数据趋势</text>
+    <text class="chart-range">近{{daysRange}}天</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空数据状态 -->
+  <view class="empty-state" wx:if="{{!loading && !hasData}}">
+    <text class="empty-text">暂无历史数据</text>
+  </view>
+
+  <!-- Canvas图表 -->
+  <view class="chart-canvas" wx:if="{{!loading && hasData}}">
+    <canvas
+      type="2d"
+      id="trendCanvas"
+      class="trend-canvas"
+      style="width: 100%; height: {{canvasHeight}}px;"
+    ></canvas>
+  </view>
+
+  <!-- 图例说明 -->
+  <view class="chart-legend" wx:if="{{!loading && hasData}}">
+    <view class="legend-item">
+      <view class="legend-line primary"></view>
+      <text>资源消耗</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-bar success"></view>
+      <text>规划频率</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot"></view>
+      <text>重要事件</text>
+    </view>
+  </view>
+</view>

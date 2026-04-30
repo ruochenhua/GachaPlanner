@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/planning/planning",
+    "pages/overview/overview",
+    "pages/history/history",
+    "pages/history-detail/history-detail",
+    "pages/profile/profile",
+    "pages/reminder-list/reminder-list",
+    "pages/version-list/version-list",
+    "pages/rule-settings/rule-settings",
+    "pages/config-manager/config-manager",
+    "pages/planning-data/planning-data"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#C4A77D",
+    "navigationBarTitleText": "GachaPlaner",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FAF9F7"
+  },
+  "tabBar": {
+    "color": "#7A7168",
+    "selectedColor": "#C4A77D",
+    "backgroundColor": "#FAF9F7",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/overview/overview",
+        "text": "总览"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "历史"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

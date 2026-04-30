@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "游戏规划",
+  "usingComponents": {
+    "resource-input": "/components/resource-input/resource-input",
+    "probability-display": "/components/probability-display/probability-display",
+    "probability-chart": "/components/probability-chart/probability-chart"
+  }
+}

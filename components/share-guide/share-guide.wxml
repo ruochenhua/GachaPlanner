@@ -1,0 +1,46 @@
+<view class="share-guide">
+  <!-- 引导弹窗 -->
+  <view wx:if="{{show}}" class="guide-popup">
+    <view class="guide-mask" bindtap="onClose"></view>
+    <view class="guide-popup-container">
+      <view class="guide-container">
+        <view class="guide-header">
+          <text class="guide-icon">🎉</text>
+          <text class="guide-title">图片已保存</text>
+        </view>
+
+        <view class="guide-content">
+          <text class="guide-desc">图片已保存到相册，请按以下步骤分享到朋友圈：</text>
+
+          <view class="guide-steps">
+            <view class="guide-step">
+              <view class="step-number">1</view>
+              <text class="step-text">打开微信，进入朋友圈</text>
+            </view>
+            <view class="guide-step">
+              <view class="step-number">2</view>
+              <text class="step-text">点击右上角相机图标</text>
+            </view>
+            <view class="guide-step">
+              <view class="step-number">3</view>
+              <text class="step-text">选择刚保存的规划图片</text>
+            </view>
+            <view class="guide-step">
+              <view class="step-number">4</view>
+              <text class="step-text">编辑文字并发布</text>
+            </view>
+          </view>
+
+          <view class="guide-tip">
+            <text class="tip-icon">💡</text>
+            <text class="tip-text">长按图片可预览或分享给好友</text>
+          </view>
+        </view>
+
+        <view class="guide-footer">
+          <button class="guide-btn primary" bindtap="onClose">知道了</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

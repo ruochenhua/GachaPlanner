@@ -1,0 +1,42 @@
+<view class="resource-curve-chart" role="img" aria-label="资源消耗曲线图表{{isEmpty ? '' : '，展示' + pools.length + '个卡池的资源消耗趋势'}}">
+  <!-- 图表容器 -->
+  <view class="chart-container" style="height: {{height}}px;">
+    <!-- 空数据状态 -->
+    <view wx:if="{{isEmpty}}" class="empty-state" aria-label="暂无规划数据">
+      <text class="empty-text">暂无规划数据</text>
+      <text class="empty-hint">添加卡池规划后显示资源消耗趋势</text>
+    </view>
+
+    <!-- Canvas图表 -->
+    <canvas
+      wx:else
+      type="2d"
+      id="resourceCanvas"
+      class="chart-canvas"
+      bindtouchstart="onTouchStart"
+      bindtouchmove="onTouchMove"
+      bindtouchend="onTouchEnd"
+      aria-hidden="true"
+    ></canvas>
+  </view>
+
+  <!-- 图表摘要（可访问性） -->
+  <view class="chart-summary" wx:if="{{!isEmpty && summary}}" aria-live="polite">
+    <text class="summary-text">{{summary}}</text>
+  </view>
+
+  <!-- Tooltip（节点详情） -->
+  <view
+    wx:if="{{selectedNode}}"
+    class="tooltip"
+    style="left: {{tooltipX}}px; top: {{tooltipY}}px;"
+    role="tooltip"
+    aria-label="{{selectedNode.poolName}}卡池详情"
+  >
+    <text class="tooltip-title">{{selectedNode.poolName}}</text>
+    <text class="tooltip-game">{{selectedNode.gameName}}</text>
+    <text class="tooltip-date">开始日期: {{selectedNode.date}}</text>
+    <text class="tooltip-pulls">计划抽数: {{selectedNode.plannedPulls}}</text>
+    <text class="tooltip-cost">预估消耗: {{selectedNode.estimatedCost}}</text>
+  </view>
+</view>

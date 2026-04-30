@@ -1,0 +1,80 @@
+<view class="hoarding-reminder">
+  <view class="reminder-header">
+    <text class="reminder-title">囤积进度提醒</text>
+    <text class="reminder-game">{{gameName}}</text>
+  </view>
+
+  <view class="reminder-content">
+    <!-- 进度条 -->
+    <view class="progress-bar">
+      <view class="progress-track">
+        <view class="progress-fill {{progressColor}}" style="width: {{progress}}%;"></view>
+      </view>
+      <text class="progress-label">{{progress}}%</text>
+    </view>
+
+    <!-- 数据展示 -->
+    <view class="reminder-stats">
+      <view class="stat-item">
+        <text class="stat-label">当前</text>
+        <text class="stat-value">{{currentResource}}</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-label">目标</text>
+        <text class="stat-value">{{targetResource}}</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-label">还需</text>
+        <text class="stat-value remaining">{{remaining}}</text>
+      </view>
+    </view>
+
+    <!-- 提醒设置 -->
+    <view class="reminder-settings">
+      <view class="setting-item">
+        <text class="setting-label">提醒阈值</text>
+        <input
+          class="setting-input"
+          type="number"
+          value="{{reminderThreshold}}"
+          bindinput="onThresholdInput"
+        />
+        <text class="setting-unit">抽</text>
+      </view>
+
+      <view class="setting-item">
+        <text class="setting-label">定期提醒</text>
+        <view class="setting-options">
+          <view
+            class="option {{periodicReminder === 'none' ? 'active' : ''}}"
+            bindtap="onPeriodicChange"
+            data-value="none"
+          >
+            关闭
+          </view>
+          <view
+            class="option {{periodicReminder === 'weekly' ? 'active' : ''}}"
+            bindtap="onPeriodicChange"
+            data-value="weekly"
+          >
+            每周
+          </view>
+          <view
+            class="option {{periodicReminder === 'monthly' ? 'active' : ''}}"
+            bindtap="onPeriodicChange"
+            data-value="monthly"
+          >
+            每月
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="reminder-footer">
+    <button class="reminder-btn update" bindtap="onUpdateResource">更新资源</button>
+    <button class="reminder-btn save" bindtap="onSave">保存设置</button>
+  </view>
+</view>

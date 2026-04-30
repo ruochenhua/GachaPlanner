@@ -1,0 +1,195 @@
+/* components/hoarding-reminder/hoarding-reminder.wxss */
+
+.hoarding-reminder {
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.reminder-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  background-color: var(--color-white, #fff);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.reminder-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+}
+
+.reminder-game {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+}
+
+.reminder-content {
+  padding: var(--spacing-lg);
+}
+
+/* 进度条 */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.progress-track {
+  flex: 1;
+  height: 12px;
+  background-color: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--duration-normal);
+}
+
+.progress-fill.success {
+  background-color: var(--color-success);
+}
+
+.progress-fill.warning {
+  background-color: var(--color-warning);
+}
+
+.progress-fill.danger {
+  background-color: var(--color-danger);
+}
+
+.progress-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+}
+
+/* 统计数据 */
+.reminder-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: var(--spacing-md);
+  background-color: var(--color-white, #fff);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.stat-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+  font-family: 'Courier New', monospace;
+}
+
+.stat-value.remaining {
+  color: var(--color-primary);
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background-color: var(--color-gray-200);
+}
+
+/* 提醒设置 */
+.reminder-settings {
+  margin-bottom: var(--spacing-md);
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.setting-label {
+  flex-shrink: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+}
+
+.setting-input {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-white, #fff);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  text-align: center;
+}
+
+.setting-unit {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+}
+
+.setting-options {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.option {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-white, #fff);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  transition: all var(--duration-fast);
+}
+
+.option.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white, #fff);
+}
+
+/* 底部按钮 */
+.reminder-footer {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+}
+
+.reminder-btn {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.reminder-btn::after {
+  border: none;
+}
+
+.reminder-btn.update {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-700);
+}
+
+.reminder-btn.save {
+  background-color: var(--color-primary);
+  color: var(--color-white, #fff);
+}

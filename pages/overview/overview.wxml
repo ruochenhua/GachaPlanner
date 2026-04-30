@@ -1,0 +1,103 @@
+<!--pages/overview/overview.wxml-->
+<!-- 总体规划页面 - 所有游戏的达成情况总览 -->
+
+<view class="overview-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 内容区域 -->
+  <view wx:else>
+    <!-- 总览卡片 -->
+    <view class="summary-card">
+      <view class="summary-title">📊 总体规划</view>
+      <view class="summary-grid">
+        <view class="summary-item">
+          <text class="summary-label">总抽数</text>
+          <text class="summary-value">{{totalResources}}抽</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">游戏数量</text>
+          <text class="summary-value">{{games.length}}</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">平均概率</text>
+          <text class="summary-value">{{averageProbability}}%</text>
+        </view>
+        <view class="summary-item highlight">
+          <text class="summary-label">综合概率</text>
+          <text class="summary-value">{{combinedProbability}}%</text>
+        </view>
+      </view>
+
+      <!-- 策略建议 -->
+      <view wx:if="{{strategyAdvice}}" class="strategy-advice">
+        <text class="advice-icon">💡</text>
+        <text class="advice-text">{{strategyAdvice}}</text>
+      </view>
+    </view>
+
+    <!-- 游戏列表 -->
+    <view class="games-section">
+      <view class="section-title">各游戏达成情况</view>
+
+      <view wx:if="{{games.length === 0}}" class="empty-state">
+        <text class="empty-icon">📭</text>
+        <text class="empty-text">暂无游戏数据</text>
+        <text class="empty-hint">请先在首页添加游戏资源</text>
+      </view>
+
+      <view wx:else class="games-list">
+        <view
+          wx:for="{{games}}"
+          wx:key="gameId"
+          class="game-card"
+          data-game-id="{{item.gameId}}"
+          bindtap="onGameTap"
+        >
+          <!-- 游戏头部 -->
+          <view class="game-header">
+            <image class="game-icon" src="{{item.icon}}" mode="aspectFit"></image>
+            <view class="game-info">
+              <text class="game-name">{{item.name}}</text>
+              <text class="game-pulls">{{item.totalPulls}}抽</text>
+            </view>
+            <view class="probability-badge {{item.probability >= 80 ? 'high' : item.probability >= 50 ? 'medium' : 'low'}}">
+              {{item.probability}}%
+            </view>
+          </view>
+
+          <!-- 概率进度条 -->
+          <view class="probability-bar">
+            <view class="probability-fill" style="width: {{item.probability}}%"></view>
+          </view>
+
+          <!-- 达成状态 -->
+          <view class="status-row">
+            <text class="status-label">达成状态</text>
+            <text class="status-value {{item.probability >= 80 ? 'success' : item.probability >= 50 ? 'warning' : 'danger'}}">
+              {{item.probability >= 80 ? '高概率达成' : item.probability >= 50 ? '中等概率' : '低概率'}}
+            </text>
+          </view>
+
+          <!-- 查看详情提示 -->
+          <view class="card-footer">
+            <text class="footer-text">点击查看详情和编辑 ›</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 说明区域 -->
+    <view class="info-section">
+      <view class="info-title">📖 说明</view>
+      <view class="info-list">
+        <text class="info-item">• 综合概率：将所有资源集中到最优游戏时的达成概率</text>
+        <text class="info-item">• 平均概率：各游戏独立达成概率的平均值</text>
+        <text class="info-item">• 点击游戏卡片可跳转到详细规划页面</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+<view class="probability-chart">
+  <canvas
+    type="2d"
+    id="probabilityCanvas"
+    class="chart-canvas"
+    style="width: 100%; height: 220px;"
+  ></canvas>
+</view>

@@ -1,0 +1,121 @@
+/* components/image-generate-btn/image-generate-btn.wxss */
+
+.image-generate-btn {
+  display: inline-block;
+}
+
+.generate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--color-primary);
+  color: var(--color-white, #fff);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--duration-normal);
+}
+
+.generate-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.generate-btn.generating {
+  background-color: var(--color-gray-400);
+}
+
+.btn-icon {
+  font-size: 20px;
+}
+
+.btn-text {
+  line-height: 1;
+}
+
+/* 预览弹窗 */
+.preview-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.preview-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.preview-popup-container {
+  position: relative;
+  width: 100%;
+  height: 80%;
+  z-index: 1001;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-gray-50);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  background-color: var(--color-white, #fff);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.preview-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+}
+
+.preview-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-icon {
+  font-size: 16px;
+}
+
+.preview-image {
+  flex: 1;
+  width: 100%;
+  background-color: var(--color-gray-100);
+}

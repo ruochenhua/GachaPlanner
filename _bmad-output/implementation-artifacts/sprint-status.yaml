@@ -1,0 +1,122 @@
+# generated: 2026-04-04
+# last_updated: 2026-04-05
+# project: GachaPlaner
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: E:\Projects\GachaPlaner\_bmad-output\implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-04-04
+last_updated: 2026-04-19
+project: GachaPlaner
+project_key: NOKEY
+tracking_system: file-system
+story_location: E:\Projects\GachaPlaner\_bmad-output\implementation-artifacts
+
+development_status:
+  # Epic 1: 多游戏管理与资源总览
+  epic-1: done
+  1-1-project-init-and-infrastructure-setup: done
+  1-2-game-config-data-creation: done
+  1-3-local-storage-service: done
+  1-4-game-management-service: done
+  1-5-home-resource-overview-page: done
+  1-6-game-resource-input-and-editing: done
+  1-7-game-data-clear-function: done
+  1-8-game-data-version-view: done
+  epic-1-retrospective: optional
+
+  # Epic 2: 概率计算与抽卡规划
+  epic-2: done
+  2-1-probability-calc-engine-basic: done
+  2-2-hard-pity-strategy: done
+  2-3-soft-pity-strategy: done
+  2-4-calculator-factory: done
+  2-5-single-pool-planning: done
+  2-6-multi-pool-continuous-planning: done
+  2-7-pity-progress-reminder: done
+  2-8-hoarding-suggestion-generation: done
+  2-9-suggested-pull-count-calculation: done
+  2-10-dynamic-probability: done
+  2-11-combined-probability: done
+  epic-2-retrospective: optional
+
+  # Epic 3: 智能建议与数据可视化
+  epic-3: done
+  3-1-probability-display-component: done
+  3-2-probability-distribution-chart: done
+  3-3-smart-suggestion-engine: done
+  3-4-smart-suggestion-card: done
+  3-5-resource-consumption-curve: done
+  3-6-achievement-probability-range-display: done
+  3-7-instant-feedback-interaction-optimization: done
+  3-8-morandi-warm-color-design-system: done
+  3-9-onboarding-flow: done
+  epic-3-retrospective: optional
+
+  # Epic 4: 历史记录与准确度验证
+  epic-4: done
+  4-1-history-record-service: done
+  4-2-gacha-history-record-creation: done
+  4-3-history-record-list-view: done
+  4-4-history-record-edit-and-delete: done
+  4-5-planning-accuracy-calculation: done
+  4-6-accuracy-stats-card-display: done
+  4-7-historical-data-trend-chart: done
+  4-8-planning-timeline-component: done
+  epic-4-retrospective: optional
+
+  # Epic 5: 游戏配置管理与扩展
+  epic-5: done
+  5-1-config-driven-architecture-enhancement: done
+  5-2-custom-game-template-interface: done
+  5-3-no-pity-strategy: done
+  5-4-game-config-update-mechanism: done
+  5-5-game-data-version-label: done
+  5-6-data-expiry-detection-and-alert: done
+  5-7-config-validator-enhancement: done
+  5-8-architecture-extensibility-documentation: done
+  5-9-custom-rule-settings: done
+  epic-5-retrospective: optional
+
+  # Epic 6: 分享功能
+  epic-6: done
+  6-1-planning-result-image-generation: done
+  6-2-wechat-friend-share: done
+  6-3-moments-share: done
+  epic-6-retrospective: optional
+
+  # Epic 7: 推送通知
+  epic-7: done
+  7-1-pool-opening-reminder: done
+  7-2-resource-hoarding-reminder: done
+  7-3-template-message-notification: done
+  epic-7-retrospective: optional

@@ -1,0 +1,84 @@
+/* 版本信息徽章组件样式 */
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 简单模式 */
+.simple-mode {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.version-text {
+  color: #C4A77D;
+  font-weight: 500;
+}
+
+.separator {
+  color: #D4D4D4;
+}
+
+.date-text {
+  color: #6B6B6B;
+}
+
+.date-text.expired {
+  color: #E4C786;
+}
+
+/* 详细模式 */
+.detail-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  border: 1px solid #E5E5E5;
+}
+
+.game-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.version-info,
+.update-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.version-label,
+.update-label {
+  font-size: 12px;
+  color: #9B9B9B;
+}
+
+.version-number {
+  font-size: 14px;
+  color: #C4A77D;
+  font-weight: 500;
+}
+
+.update-date {
+  font-size: 14px;
+  color: #6B6B6B;
+}
+
+.update-date.expired {
+  color: #E4C786;
+}
+
+.expired-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: rgba(228, 199, 134, 0.2);
+  color: #E4C786;
+  border-radius: 4px;
+}

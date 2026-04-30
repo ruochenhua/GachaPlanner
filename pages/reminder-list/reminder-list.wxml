@@ -1,0 +1,121 @@
+<view class="reminder-list-page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-left" bindtap="onBack">
+      <text class="nav-arrow">←</text>
+    </view>
+    <view class="nav-title">提醒管理</view>
+  </view>
+
+  <!-- 标签切换 -->
+  <view class="tab-bar">
+    <view
+      class="tab-item {{activeTab === 'pool' ? 'active' : ''}}"
+      bindtap="onTabChange"
+      data-tab="pool"
+    >
+      卡池提醒
+    </view>
+    <view
+      class="tab-item {{activeTab === 'hoarding' ? 'active' : ''}}"
+      bindtap="onTabChange"
+      data-tab="hoarding"
+    >
+      囤积提醒
+    </view>
+  </view>
+
+  <!-- 卡池提醒列表 -->
+  <view wx:if="{{activeTab === 'pool'}}" class="reminder-content">
+    <view wx:if="{{poolReminders.length === 0}}" class="empty-state">
+      <view class="empty-icon">📭</view>
+      <text class="empty-text">暂无卡池提醒</text>
+      <text class="empty-tip">点击下方添加卡池开启提醒</text>
+    </view>
+
+    <view wx:else class="reminder-cards">
+      <view
+        wx:for="{{poolReminders}}"
+        wx:key="id"
+        class="reminder-card-wrapper"
+      >
+        <view class="reminder-card" bindtap="onEditPoolReminder" data-id="{{item.id}}">
+          <view class="card-header">
+            <text class="card-title">{{item.poolName}}</text>
+            <view class="card-status {{item.status}}">
+              {{item.status === 'active' ? '待触发' : '已触发'}}
+            </view>
+          </view>
+          <view class="card-body">
+            <view class="card-info">
+              <text class="info-label">游戏</text>
+              <text class="info-value">{{item.gameName}}</text>
+            </view>
+            <view class="card-info">
+              <text class="info-label">开启日期</text>
+              <text class="info-value">{{item.openDate}}</text>
+            </view>
+            <view class="card-info">
+              <text class="info-label">提醒时间</text>
+              <text class="info-value">{{item.reminderTime}}</text>
+            </view>
+          </view>
+          <view class="card-delete" catchtap="onDeletePoolReminder" data-id="{{item.id}}">
+            删除
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 添加按钮 -->
+    <view class="add-btn" bindtap="onAddPoolReminder">
+      <text class="add-icon">+</text>
+      <text class="add-text">添加卡池提醒</text>
+    </view>
+  </view>
+
+  <!-- 囤积提醒列表 -->
+  <view wx:if="{{activeTab === 'hoarding'}}" class="reminder-content">
+    <view wx:if="{{hoardingReminders.length === 0}}" class="empty-state">
+      <view class="empty-icon">📊</view>
+      <text class="empty-text">暂无囤积提醒</text>
+      <text class="empty-tip">点击下方添加资源囤积提醒</text>
+    </view>
+
+    <view wx:else class="reminder-cards">
+      <view
+        wx:for="{{hoardingReminders}}"
+        wx:key="id"
+        class="reminder-card-wrapper"
+      >
+        <view class="reminder-card hoarding" bindtap="onEditHoardingReminder" data-id="{{item.id}}">
+          <view class="card-header">
+            <text class="card-title">{{item.gameName}}</text>
+            <view class="card-progress {{item.progressColor}}">
+              {{item.progress}}%
+            </view>
+          </view>
+          <view class="card-body">
+            <view class="progress-bar-mini">
+              <view class="progress-fill {{item.progressColor}}" style="width: {{item.progress}}%;"></view>
+            </view>
+            <view class="card-stats">
+              <text>当前 {{item.currentResource}}</text>
+              <text>目标 {{item.targetResource}}</text>
+              <text>还需 {{item.remaining}}</text>
+            </view>
+          </view>
+          <view class="card-delete" catchtap="onDeleteHoardingReminder" data-id="{{item.id}}">
+            删除
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 添加按钮 -->
+    <view class="add-btn" bindtap="onAddHoardingReminder">
+      <text class="add-icon">+</text>
+      <text class="add-text">添加囤积提醒</text>
+    </view>
+  </view>
+</view>

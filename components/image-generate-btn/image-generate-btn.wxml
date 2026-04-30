@@ -1,0 +1,38 @@
+<view class="image-generate-btn">
+  <button
+    class="generate-btn {{generating ? 'generating' : ''}}"
+    bindtap="onGenerate"
+    disabled="{{generating}}"
+  >
+    <text class="btn-icon">{{generating ? '⏳' : '📷'}}</text>
+    <text class="btn-text">{{generating ? '生成中...' : '生成图片'}}</text>
+  </button>
+
+  <!-- 图片预览弹窗 -->
+  <view wx:if="{{showPreview}}" class="preview-popup">
+    <view class="preview-mask" bindtap="onClosePreview"></view>
+    <view class="preview-popup-container">
+      <view class="preview-container">
+        <view class="preview-header">
+          <text class="preview-title">规划结果图片</text>
+          <view class="preview-actions">
+            <button class="action-btn" bindtap="onSaveToAlbum">
+              <text class="action-icon">💾</text>
+              <text>保存</text>
+            </button>
+            <button class="action-btn" bindtap="onShare">
+              <text class="action-icon">📤</text>
+              <text>分享</text>
+            </button>
+          </view>
+        </view>
+        <image
+          class="preview-image"
+          src="{{imagePath}}"
+          mode="widthFit"
+          show-menu-by-longpress="{{true}}"
+        />
+      </view>
+    </view>
+  </view>
+</view>

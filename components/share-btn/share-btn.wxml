@@ -1,0 +1,77 @@
+<view class="share-btn">
+  <view class="share-buttons">
+    <!-- 微信好友分享 -->
+    <button class="share-button friend" open-type="share" bindtap="onShareFriend">
+      <text class="btn-icon">💬</text>
+      <text class="btn-text">分享好友</text>
+    </button>
+
+    <!-- 朋友圈分享 -->
+    <button class="share-button moments" bindtap="onShareMoments">
+      <text class="btn-icon">🌐</text>
+      <text class="btn-text">朋友圈</text>
+    </button>
+  </view>
+
+  <!-- 自定义分享内容弹窗 -->
+  <view wx:if="{{showCustomize}}" class="customize-popup">
+    <view class="customize-mask" bindtap="onCloseCustomize"></view>
+    <view class="customize-container">
+      <view class="customize-header">
+        <text class="customize-title">自定义分享内容</text>
+        <button class="customize-save" bindtap="onSaveCustomize">保存</button>
+      </view>
+
+      <view class="customize-content">
+        <view class="customize-field">
+          <text class="field-label">分享标题</text>
+          <input
+            class="field-input"
+            value="{{customTitle}}"
+            bindinput="onTitleInput"
+            placeholder="请输入分享标题"
+            maxlength="50"
+          />
+        </view>
+
+        <view class="customize-field">
+          <text class="field-label">分享描述</text>
+          <textarea
+            class="field-textarea"
+            value="{{customDesc}}"
+            bindinput="onDescInput"
+            placeholder="请输入分享描述"
+            maxlength="100"
+          />
+        </view>
+
+        <view class="customize-field">
+          <text class="field-label">缩略图样式</text>
+          <view class="style-options">
+            <view
+              class="style-option {{selectedStyle === 'default' ? 'active' : ''}}"
+              bindtap="onSelectStyle"
+              data-style="default"
+            >
+              默认
+            </view>
+            <view
+              class="style-option {{selectedStyle === 'minimal' ? 'active' : ''}}"
+              bindtap="onSelectStyle"
+              data-style="minimal"
+            >
+              简约
+            </view>
+            <view
+              class="style-option {{selectedStyle === 'colorful' ? 'active' : ''}}"
+              bindtap="onSelectStyle"
+              data-style="colorful"
+            >
+              丰富
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

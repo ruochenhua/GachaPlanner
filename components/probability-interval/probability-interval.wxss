@@ -1,0 +1,154 @@
+/* 概率区间展示组件样式 */
+
+.probability-interval {
+  width: 100%;
+  padding: 16px;
+  background-color: #FAF8F5;  /* Gray 50 */
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* 空数据状态 */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #78716C;  /* Gray 500 */
+}
+
+/* 区间标签 */
+.interval-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.label-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #44403C;  /* Gray 700 */
+}
+
+.confidence-level {
+  font-size: 12px;
+  color: #78716C;  /* Gray 500 */
+  margin-left: 4px;
+}
+
+/* 区间可视化 */
+.interval-visual {
+  position: relative;
+  height: 50px;
+  margin-bottom: 8px;
+}
+
+/* 区间轨道 */
+.interval-track {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-color: #EBE8E4;  /* Gray 200 */
+  border-radius: 4px;
+}
+
+/* 区间范围条 */
+.interval-range {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: #C4A77D;  /* Primary 奶茶棕 */
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+/* 当前概率标记点 */
+.current-marker {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.current-marker.green {
+  background-color: #7FB069;  /* Success Green */
+}
+
+.current-marker.yellow {
+  background-color: #E4C786;  /* Warning Yellow */
+}
+
+.current-marker.red {
+  background-color: #C47070;  /* Danger Red */
+}
+
+/* 区间端点数值 */
+.interval-values {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+}
+
+.lower-value,
+.upper-value {
+  position: absolute;
+  font-size: 11px;
+  color: #57534E;  /* Gray 600 */
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* 不确定性警告 */
+.uncertainty-hint {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #FEF3C7;  /* Warning Light */
+  border-radius: 4px;
+}
+
+.hint-text {
+  font-size: 12px;
+  color: #92400E;
+}
+
+/* 区间摘要（可访问性） */
+.interval-summary {
+  margin-top: 8px;
+  text-align: center;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.summary-text {
+  font-size: 12px;
+  color: #78716C;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 320px) {
+  .probability-interval {
+    padding: 12px;
+  }
+
+  .label-text {
+    font-size: 13px;
+  }
+
+  .lower-value,
+  .upper-value {
+    font-size: 10px;
+  }
+}

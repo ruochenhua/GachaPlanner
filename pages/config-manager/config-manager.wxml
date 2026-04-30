@@ -1,0 +1,104 @@
+<!--pages/config-manager/config-manager.wxml-->
+<!-- 配置管理页面 -->
+
+<view class="config-manager-container">
+  <!-- 游戏信息 -->
+  <view class="game-header">
+    <text class="game-name">{{gameName}}</text>
+    <text class="config-status {{configPreview.isCustom ? 'custom' : 'default'}}">
+      {{configPreview.isCustom ? '自定义配置' : '默认配置'}}
+    </text>
+  </view>
+
+  <!-- 配置预览 -->
+  <view class="config-preview">
+    <view class="preview-title">📋 当前配置</view>
+    <view class="preview-grid">
+      <view class="preview-item">
+        <text class="label">基础概率</text>
+        <text class="value">{{configPreview.baseRate}}</text>
+      </view>
+      <view class="preview-item">
+        <text class="label">硬保底</text>
+        <text class="value">{{configPreview.hardPity}}</text>
+      </view>
+      <view class="preview-item">
+        <text class="label">软保底起始</text>
+        <text class="value">{{configPreview.softPityStart}}</text>
+      </view>
+      <view class="preview-item">
+        <text class="label">软保底提升</text>
+        <text class="value">{{configPreview.softPityIncrement}}</text>
+      </view>
+      <view class="preview-item">
+        <text class="label">小保底UP率</text>
+        <text class="value">{{configPreview.guaranteeRate}}</text>
+      </view>
+    </view>
+    <button class="detail-button" bindtap="onViewConfigDetail">查看完整配置</button>
+  </view>
+
+  <!-- 标签页切换 -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 'export' ? 'active' : ''}}" data-tab="export" bindtap="onTabChange">
+      导出配置
+    </view>
+    <view class="tab {{activeTab === 'import' ? 'active' : ''}}" data-tab="import" bindtap="onTabChange">
+      导入配置
+    </view>
+  </view>
+
+  <!-- 导出面板 -->
+  <view wx:if="{{activeTab === 'export'}}" class="panel">
+    <view class="panel-title">📤 导出配置</view>
+    <view class="panel-desc">将当前配置导出，分享给好友或备份</view>
+
+    <button class="action-button primary" bindtap="onExportToClipboard" disabled="{{loading}}">
+      {{loading ? '处理中...' : '复制到剪贴板'}}
+    </button>
+
+    <button class="action-button" bindtap="onExportToFile">
+      保存为文件
+    </button>
+
+    <view class="tips">
+      <text class="tips-title">💡 使用提示</text>
+      <text class="tips-item">• 复制到剪贴板后，可粘贴发送给好友</text>
+      <text class="tips-item">• 保存为文件可长期备份</text>
+      <text class="tips-item">• 配置包含校验码，确保完整性</text>
+    </view>
+  </view>
+
+  <!-- 导入面板 -->
+  <view wx:if="{{activeTab === 'import'}}" class="panel">
+    <view class="panel-title">📥 导入配置</view>
+    <view class="panel-desc">从剪贴板导入配置</view>
+
+    <button class="action-button primary" bindtap="onImportFromClipboard" disabled="{{loading}}">
+      {{loading ? '处理中...' : '从剪贴板导入'}}
+    </button>
+
+    <!-- 导入预览 -->
+    <view wx:if="{{importPreview}}" class="import-preview">
+      <view class="preview-title">预览导入的配置</view>
+      <view class="preview-game">
+        <text>游戏: {{importPreview.name}}</text>
+        <text>ID: {{importPreview.gameId}}</text>
+      </view>
+    </view>
+
+    <view class="tips warning">
+      <text class="tips-title">⚠️ 注意事项</text>
+      <text class="tips-item">• 导入将覆盖当前自定义配置</text>
+      <text class="tips-item">• 请确保配置来源可信</text>
+      <text class="tips-item">• 导入后可在规则设置页修改</text>
+    </view>
+  </view>
+
+  <!-- 重置按钮 -->
+  <view class="reset-section">
+    <button class="reset-button" bindtap="onResetConfig">
+      重置为默认配置
+    </button>
+  </view>
+</view>

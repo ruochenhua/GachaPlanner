@@ -1,0 +1,190 @@
+/* components/overview-card/overview-card.wxss */
+/* 总览卡片组件样式 */
+
+.overview-card {
+  background-color: var(--color-primary-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* 头部区域 */
+.overview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.overview-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.title-icon {
+  font-size: 48rpx;
+}
+
+.title-text {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+}
+
+.total-resources {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.resources-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+}
+
+.resources-value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+/* 统计数据区域 */
+.overview-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: var(--spacing-md) 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.stat-icon {
+  font-size: 40rpx;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+}
+
+.stat-divider {
+  width: 1px;
+  height: 60rpx;
+  background-color: var(--color-gray-300);
+}
+
+/* 综合概率区域 */
+.combined-probability-section {
+  padding: var(--spacing-md);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.combined-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.combined-icon {
+  font-size: 36rpx;
+}
+
+.combined-title {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+}
+
+.combined-value {
+  margin-left: auto;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.strategy-advice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.advice-icon {
+  font-size: 28rpx;
+}
+
+.advice-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  line-height: 1.4;
+}
+
+/* 资源分配区域 */
+.resource-distribution {
+  margin-top: var(--spacing-md);
+}
+
+.distribution-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  margin-bottom: var(--spacing-sm);
+}
+
+.distribution-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.distribution-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+.distribution-color {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+}
+
+.distribution-name {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+}
+
+.distribution-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}

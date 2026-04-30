@@ -1,0 +1,31 @@
+{
+  "gameId": "genshin",
+  "name": "原神",
+  "version": "1.0.0",
+  "updatedAt": "2026-04-01",
+
+  "pityType": "hard",
+  "hardPity": 90,
+  "softPityStart": 74,
+
+  "baseRate": 0.006,
+  "softPityIncrement": 0.06,
+
+  "resources": {
+    "primogems": {
+      "name": "原石",
+      "icon": "/assets/images/games/primogem.png"
+    },
+    "intertwinedFates": {
+      "name": "纠缠之缘",
+      "icon": "/assets/images/games/intertwined-fate.png"
+    }
+  },
+
+  "conversionRate": {
+    "primogemsToFate": 160
+  },
+
+  "characterProbalityUp": 0.5,
+  "weaponProbalityUp": 0.75
+}

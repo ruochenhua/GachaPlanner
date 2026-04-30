@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "overview-card": "/components/overview-card/overview-card",
+    "game-card": "/components/game-card/game-card"
+  }
+}

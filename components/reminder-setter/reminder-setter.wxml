@@ -1,0 +1,88 @@
+<view class="reminder-setter">
+  <view class="setter-header">
+    <text class="setter-title">设置卡池提醒</text>
+  </view>
+
+  <view class="setter-content">
+    <!-- 卡池选择 -->
+    <view class="setter-field">
+      <text class="field-label">选择卡池</text>
+      <picker
+        mode="selector"
+        range="{{poolList}}"
+        range-key="name"
+        value="{{selectedPoolIndex}}"
+        bindchange="onPoolChange"
+      >
+        <view class="field-picker">
+          <text class="picker-value">{{selectedPoolName || '请选择卡池'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 开启日期 -->
+    <view class="setter-field">
+      <text class="field-label">开启日期</text>
+      <picker
+        mode="date"
+        value="{{openDate}}"
+        start="{{todayDate}}"
+        bindchange="onDateChange"
+      >
+        <view class="field-picker">
+          <text class="picker-value">{{openDate || '请选择日期'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 提前提醒时间 -->
+    <view class="setter-field">
+      <text class="field-label">提前提醒</text>
+      <view class="advance-options">
+        <view
+          class="advance-option {{advanceDays === 1 ? 'active' : ''}}"
+          bindtap="onAdvanceChange"
+          data-days="1"
+        >
+          1天
+        </view>
+        <view
+          class="advance-option {{advanceDays === 3 ? 'active' : ''}}"
+          bindtap="onAdvanceChange"
+          data-days="3"
+        >
+          3天
+        </view>
+        <view
+          class="advance-option {{advanceDays === 7 ? 'active' : ''}}"
+          bindtap="onAdvanceChange"
+          data-days="7"
+        >
+          7天
+        </view>
+      </view>
+    </view>
+
+    <!-- 自定义提醒时间 -->
+    <view class="setter-field">
+      <text class="field-label">自定义提醒时间</text>
+      <picker
+        mode="time"
+        value="{{reminderTime}}"
+        bindchange="onTimeChange"
+      >
+        <view class="field-picker">
+          <text class="picker-value">{{reminderTime || '09:00'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="setter-footer">
+    <button class="setter-btn cancel" bindtap="onCancel">取消</button>
+    <button class="setter-btn confirm" bindtap="onConfirm">保存提醒</button>
+  </view>
+</view>

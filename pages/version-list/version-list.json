@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "数据版本",
+  "usingComponents": {
+    "version-badge": "/components/version-badge/version-badge"
+  }
+}

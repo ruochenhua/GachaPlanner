@@ -1,0 +1,22 @@
+<view class="version-badge" bindtap="onTap">
+  <!-- 简单模式 -->
+  <view class="simple-mode" wx:if="{{mode === 'simple'}}">
+    <text class="version-text">v{{version}}</text>
+    <text class="separator">·</text>
+    <text class="date-text {{isExpired ? 'expired' : ''}}">{{formattedDate}}</text>
+  </view>
+
+  <!-- 详细模式 -->
+  <view class="detail-mode" wx:if="{{mode === 'detail'}}">
+    <view class="game-name">{{gameName}}</view>
+    <view class="version-info">
+      <text class="version-label">数据版本</text>
+      <text class="version-number">v{{version}}</text>
+    </view>
+    <view class="update-info">
+      <text class="update-label">更新日期</text>
+      <text class="update-date {{isExpired ? 'expired' : ''}}">{{formattedDate}}</text>
+      <text class="expired-tag" wx:if="{{isExpired}}">过期</text>
+    </view>
+  </view>
+</view>

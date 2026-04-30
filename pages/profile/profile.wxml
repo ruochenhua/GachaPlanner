@@ -1,0 +1,51 @@
+<!--pages/profile/profile.wxml-->
+<!-- 个人中心页面 -->
+
+<view class="profile-container">
+  <!-- 用户信息区域（预留） -->
+  <view class="user-info-section">
+    <text class="section-title">👤 用户信息</text>
+    <text class="info-text">游客模式</text>
+  </view>
+
+  <!-- 功能设置区域 -->
+  <view class="settings-section">
+    <text class="section-title">⚙️ 设置</text>
+
+    <!-- 规则设置入口 -->
+    <view class="settings-item" bindtap="onRuleSettings">
+      <view class="settings-info">
+        <text class="settings-title">规则设置</text>
+        <text class="settings-desc">自定义概率计算参数 ({{currentGameName}})</text>
+      </view>
+      <view class="settings-arrow">
+        <text>›</text>
+      </view>
+    </view>
+
+    <!-- 配置管理入口 -->
+    <view class="settings-item" bindtap="onConfigManager">
+      <view class="settings-info">
+        <text class="settings-title">配置管理</text>
+        <text class="settings-desc">导出/导入/分享配置</text>
+      </view>
+      <view class="settings-arrow">
+        <text>›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 危险操作区域 -->
+  <view class="danger-section">
+    <text class="section-title">⚠️ 危险操作</text>
+    <view class="danger-item">
+      <view class="danger-info">
+        <text class="danger-title">清除所有数据</text>
+        <text class="danger-desc">清除后数据无法恢复，需重新输入</text>
+      </view>
+      <view class="danger-btn" bindtap="onClearData">
+        <text>清除数据</text>
+      </view>
+    </view>
+  </view>
+</view>

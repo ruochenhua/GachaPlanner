@@ -1,0 +1,37 @@
+<!--components/suggestion-card/suggestion-card.wxml-->
+<!-- 智能建议卡片模板 -->
+
+<view
+  class="suggestion-card {{levelClass}}"
+  style="background-color: {{bgColor}}; border-color: {{borderColor}}"
+  bindtap="onTap"
+  role="article"
+  aria-label="智能建议：{{suggestion.content}}"
+  aria-expanded="{{expanded ? 'true' : 'false'}}"
+>
+  <!-- 概要建议 -->
+  <view class="suggestion-summary">
+    <text class="suggestion-icon">{{displayIcon}}</text>
+    <view class="suggestion-content">
+      <text class="suggestion-text" style="color: {{textColor}}">{{suggestion.content}}</text>
+      <text class="suggestion-confidence">置信度: {{confidencePercent}}%</text>
+    </view>
+    <text class="expand-icon">{{expanded ? '▼' : '▶'}}</text>
+  </view>
+
+  <!-- 详细说明（展开时显示） -->
+  <view class="suggestion-detail {{expanded ? 'show' : 'hide'}}">
+    <view class="detail-section" wx:if="{{suggestion.data && suggestion.data.probability}}">
+      <text class="detail-label">达成概率:</text>
+      <text class="detail-value">{{suggestion.data.probability * 100}}%</text>
+    </view>
+    <view class="detail-section" wx:if="{{suggestion.data && suggestion.data.resources}}">
+      <text class="detail-label">资源数量:</text>
+      <text class="detail-value">{{suggestion.data.resources}}抽</text>
+    </view>
+    <view class="detail-section" wx:if="{{suggestion.data && suggestion.data.days}}">
+      <text class="detail-label">囤积天数:</text>
+      <text class="detail-value">{{suggestion.data.days}}天</text>
+    </view>
+  </view>
+</view>

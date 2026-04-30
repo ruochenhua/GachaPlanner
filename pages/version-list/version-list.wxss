@@ -1,0 +1,155 @@
+/* 版本列表页面样式 */
+
+.version-list-page {
+  min-height: 100vh;
+  background: #FAFAFA;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* 统计概览卡片 */
+.summary-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4A4A4A;
+  margin-bottom: 16px;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #4A4A4A;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #9B9B9B;
+}
+
+.stat-item.normal .stat-value {
+  color: #7FB069;
+}
+
+.stat-item.warning .stat-value {
+  color: #E4C786;
+}
+
+.stat-item.expired .stat-value {
+  color: #C47070;
+}
+
+/* 加载状态 */
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  font-size: 14px;
+  color: #9B9B9B;
+}
+
+/* 游戏列表 */
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-item {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.game-item:active {
+  background: #F5F5F5;
+}
+
+.game-item.expired {
+  border-left: 3px solid #C47070;
+}
+
+.game-item.warning {
+  border-left: 3px solid #E4C786;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.game-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.status-badge {
+  font-size: 16px;
+}
+
+.version-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #9B9B9B;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #4A4A4A;
+}
+
+.info-value.expired {
+  color: #E4C786;
+}
+
+.expiry-message {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #E5E5E5;
+  font-size: 12px;
+  color: #E4C786;
+}
+
+/* 空数据状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: #9B9B9B;
+}

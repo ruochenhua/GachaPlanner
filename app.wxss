@@ -1,0 +1,143 @@
+/* 莫兰迪暖色系设计令牌 - GachaPlaner全局样式 */
+
+/* 导入样式模块 */
+@import './styles/theme.wxss';
+@import './styles/common.wxss';
+
+page {
+  /* ========== 主色系 ========== */
+  --color-primary: #C4A77D;           /* 奶茶暖棕 - Primary */
+  --color-primary-light: #D4BC99;     /* 奶茶棕浅色 */
+  --color-primary-dark: #A68B5B;      /* 奶茶棕深色 */
+
+  /* ========== 辅助色系 ========== */
+  --color-secondary: #D4A5A5;         /* 暖粉灰 - Secondary */
+
+  /* ========== 功能色系 ========== */
+  --color-success: #7FB069;           /* 莫兰迪绿 - 成功状态 */
+  --color-warning: #E4C786;           /* 莫兰迪黄 - 警告状态 */
+  --color-danger: #C47070;            /* 莫兰迪红 - 危险状态 */
+  --color-info: #6B8BA4;              /* 星铁蓝 - 信息状态 */
+
+  /* ========== 中性色系（暖灰色） ========== */
+  --color-gray-50: #FAF9F7;           /* 最浅暖灰 */
+  --color-gray-100: #F5F3F0;          /* 浅暖灰 */
+  --color-gray-200: #E8E4DE;          /* 较浅暖灰 */
+  --color-gray-300: #D4CFC6;          /* 中浅暖灰 */
+  --color-gray-400: #B8B0A3;          /* 中暖灰 */
+  --color-gray-500: #9C9285;          /* 中性暖灰 */
+  --color-gray-600: #7A7168;          /* 中深暖灰 */
+  --color-gray-700: #5C544D;          /* 较深暖灰 */
+  --color-gray-800: #3E3833;          /* 深暖灰 */
+  --color-gray-900: #1F1B18;          /* 最深暖灰 */
+
+  /* ========== 间距系统（8px基准） ========== */
+  --spacing-xs: 4px;                  /* 极小间距 */
+  --spacing-sm: 8px;                  /* 小间距 */
+  --spacing-md: 12px;                 /* 中等间距 */
+  --spacing-lg: 16px;                 /* 大间距 */
+  --spacing-xl: 24px;                 /* 较大间距 */
+  --spacing-2xl: 32px;                /* 很大间距 */
+  --spacing-3xl: 48px;                /* 超大间距 */
+
+  /* ========== 圆角系统 ========== */
+  --radius-sm: 4px;                   /* 小圆角 */
+  --radius-md: 8px;                   /* 中等圆角 */
+  --radius-lg: 12px;                  /* 大圆角 */
+  --radius-xl: 16px;                  /* 超大圆角 */
+  --radius-full: 9999px;              /* 全圆角 */
+
+  /* ========== 字体系统 ========== */
+  --font-size-xs: 12px;               /* 极小字号 - Caption */
+  --font-size-sm: 14px;               /* 小字号 - Body Small */
+  --font-size-base: 16px;             /* 基础字号 - Body */
+  --font-size-lg: 18px;               /* 大字号 - H4 */
+  --font-size-xl: 20px;               /* 较大字号 - H3 */
+  --font-size-2xl: 24px;              /* 很大字号 - H2 */
+  --font-size-3xl: 32px;              /* �3xl字号 - H1 */
+
+  /* ========== 字重系统 ========== */
+  --font-weight-normal: 400;          /* 正常字重 */
+  --font-weight-medium: 500;          /* 中等字重 */
+  --font-weight-semibold: 600;        /* 半粗字重 */
+  --font-weight-bold: 700;            /* 粗字重 */
+
+  /* ========== 行高系统 ========== */
+  --line-height-tight: 1.25;          /* 紧凑行高 */
+  --line-height-normal: 1.5;          /* 正常行高 */
+  --line-height-relaxed: 1.75;        /* 宽松行高 */
+
+  /* ========== 阴影系统 ========== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);              /* 小阴影 */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);            /* 中等阴影 */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);          /* 大阴影 */
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);          /* 超大阴影 */
+
+  /* ========== 动画时长 ========== */
+  --duration-fast: 150ms;             /* 快速动画 */
+  --duration-normal: 300ms;           /* 正常动画 */
+  --duration-slow: 500ms;             /* 慢速动画 */
+
+  /* ========== 层级系统 ========== */
+  --z-index-dropdown: 1000;           /* 下拉菜单层级 */
+  --z-index-sticky: 1020;             /* 粘性定位层级 */
+  --z-index-fixed: 1030;              /* 固定定位层级 */
+  --z-index-modal-backdrop: 1040;     /* 模态框背景层级 */
+  --z-index-modal: 1050;              /* 模态框层级 */
+  --z-index-popover: 1060;            /* 弹出框层级 */
+  --z-index-tooltip: 1070;            /* 提示框层级 */
+}
+
+/* ========== 全局样式重置 ========== */
+
+/* 确保所有元素使用border-box */
+view, text, button, input, textarea, image {
+  box-sizing: border-box;
+}
+
+/* 全局文本颜色 */
+page {
+  color: var(--color-gray-800);
+  background-color: var(--color-gray-50);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+
+/* ========== 工具类 ========== */
+
+/* 文本颜色工具类 */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-danger { color: var(--color-danger); }
+.text-muted { color: var(--color-gray-600); }
+
+/* 背景颜色工具类 */
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-light { background-color: var(--color-primary-light); }
+.bg-success { background-color: var(--color-success); }
+.bg-warning { background-color: var(--color-warning); }
+.bg-danger { background-color: var(--color-danger); }
+
+/* 间距工具类 */
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+
+/* 圆角工具类 */
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* 阴影工具类 */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }

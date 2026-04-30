@@ -1,0 +1,196 @@
+/* pages/rule-settings/rule-settings.wxss */
+/* 规则设置页面样式 */
+
+.rule-settings-container {
+  padding: 24px;
+  background-color: #F5F3F0;
+  min-height: 100vh;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 0;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #E5E0D8;
+  border-top-color: #C4A77D;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #8B8680;
+}
+
+.settings-content {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E5E0D8;
+}
+
+.game-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #3D3833;
+}
+
+.param-source {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.param-source.default {
+  background-color: #E5E0D8;
+  color: #8B8680;
+}
+
+.param-source.custom {
+  background-color: #C4A77D;
+  color: #FFFFFF;
+}
+
+.param-item {
+  margin-bottom: 24px;
+}
+
+.param-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.param-icon {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.param-label {
+  font-size: 16px;
+  color: #3D3833;
+  font-weight: 500;
+}
+
+.param-value {
+  margin-left: auto;
+  font-size: 16px;
+  color: #C4A77D;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Consolas', monospace;
+}
+
+.param-slider {
+  margin: 0 -4px;
+}
+
+.param-range {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #8B8680;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+.reset-button {
+  flex: 1;
+  height: 44px;
+  line-height: 44px;
+  background-color: #E5E0D8;
+  color: #8B8680;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+}
+
+.save-button {
+  flex: 1;
+  height: 44px;
+  line-height: 44px;
+  background-color: #C4A77D;
+  color: #FFFFFF;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+}
+
+.save-button.disabled {
+  background-color: #D4BC99;
+  color: #FFFFFF;
+}
+
+.source-info {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #F5F3F0;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.source-label {
+  font-size: 14px;
+  color: #8B8680;
+}
+
+.source-value {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #3D3833;
+}
+
+.tips-section {
+  padding: 16px;
+  background-color: #F5F3F0;
+  border-radius: 8px;
+}
+
+.tips-title {
+  font-size: 16px;
+  color: #3D3833;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.tips-content {
+  font-size: 14px;
+  color: #8B8680;
+  line-height: 20px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tips-content:last-child {
+  margin-bottom: 0;
+}

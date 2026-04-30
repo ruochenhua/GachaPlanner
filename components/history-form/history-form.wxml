@@ -1,0 +1,117 @@
+<view class="history-form-container" wx:if="{{show}}">
+  <view class="form-overlay" bindtap="onClose"></view>
+
+  <view class="form-content">
+    <view class="form-header">
+      <text class="form-title">添加抽卡记录</text>
+      <view class="close-btn" bindtap="onClose">
+        <text class="close-icon">×</text>
+      </view>
+    </view>
+
+    <scroll-view class="form-body" scroll-y>
+      <!-- 规划关联提示 -->
+      <view class="plan-link-tip" wx:if="{{hasPlanLink}}">
+        <text class="tip-text">已关联规划记录</text>
+        <text class="unlink-btn" bindtap="unlinkPlan">解除关联</text>
+      </view>
+
+      <!-- 游戏选择 -->
+      <view class="form-item">
+        <text class="form-label">游戏</text>
+        <picker mode="selector" range="{{games}}" range-key="name" value="{{selectedGameId}}" bindchange="onGameChange">
+          <view class="picker-value">
+            <text>{{selectedGameName || '请选择游戏'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+        <text class="error-text" wx:if="{{errors.gameId}}">{{errors.gameId}}</text>
+      </view>
+
+      <!-- 卡池名称 -->
+      <view class="form-item">
+        <text class="form-label">卡池名称</text>
+        <input
+          class="form-input"
+          type="text"
+          placeholder="请输入卡池名称"
+          value="{{poolName}}"
+          bindinput="onPoolNameInput"
+        />
+        <text class="error-text" wx:if="{{errors.poolName}}">{{errors.poolName}}</text>
+      </view>
+
+      <!-- 目标 -->
+      <view class="form-item">
+        <text class="form-label">目标</text>
+        <input
+          class="form-input"
+          type="text"
+          placeholder="如：满命、C6、专武"
+          value="{{target}}"
+          bindinput="onTargetInput"
+        />
+      </view>
+
+      <!-- 抽卡结果 -->
+      <view class="form-item">
+        <text class="form-label">抽卡结果</text>
+        <view class="result-buttons">
+          <view
+            class="result-btn success-btn {{actualResult === 'success' ? 'active' : ''}}"
+            data-result="success"
+            bindtap="onResultChange"
+          >
+            <text>成功</text>
+          </view>
+          <view
+            class="result-btn failure-btn {{actualResult === 'failure' ? 'active' : ''}}"
+            data-result="failure"
+            bindtap="onResultChange"
+          >
+            <text>失败</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 抽卡抽数 -->
+      <view class="form-item">
+        <text class="form-label">抽卡抽数</text>
+        <input
+          class="form-input"
+          type="number"
+          placeholder="请输入抽数"
+          value="{{pullsUsed}}"
+          bindinput="onPullsInput"
+        />
+        <text class="error-text" wx:if="{{errors.pullsUsed}}">{{errors.pullsUsed}}</text>
+      </view>
+
+      <!-- 资源消耗 -->
+      <view class="form-item">
+        <text class="form-label">资源消耗</text>
+        <input
+          class="form-input"
+          type="number"
+          placeholder="请输入消耗资源数量"
+          value="{{resourcesUsed}}"
+          bindinput="onResourcesInput"
+        />
+        <text class="error-text" wx:if="{{errors.resourcesUsed}}">{{errors.resourcesUsed}}</text>
+      </view>
+
+      <!-- 预测概率（只读，来自规划关联） -->
+      <view class="form-item" wx:if="{{hasPlanLink && predictedProbability > 0}}">
+        <text class="form-label">预测概率</text>
+        <view class="readonly-value">
+          <text>{{predictedProbability}}%</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="form-footer">
+      <button class="btn btn-secondary" bindtap="onClose">取消</button>
+      <button class="btn btn-primary" loading="{{saving}}" bindtap="onSubmit">保存</button>
+    </view>
+  </view>
+</view>

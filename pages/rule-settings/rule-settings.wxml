@@ -1,0 +1,141 @@
+<!--pages/rule-settings/rule-settings.wxml-->
+<!-- 规则设置页面 - 用户自定义概率计算参数 -->
+
+<view class="rule-settings-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 设置内容 -->
+  <view wx:else class="settings-content">
+    <!-- 游戏名称 -->
+    <view class="game-header">
+      <text class="game-name">{{gameName}}</text>
+      <text class="param-source {{isCustom ? 'custom' : 'default'}}">
+        {{isCustom ? '自定义' : '默认'}}
+      </text>
+    </view>
+
+    <!-- 基础概率 -->
+    <view class="param-item">
+      <view class="param-header">
+        <text class="param-icon">📌</text>
+        <text class="param-label">基础概率</text>
+        <text class="param-value">{{baseRate * 100}}%</text>
+      </view>
+      <slider
+        class="param-slider"
+        min="{{baseRateRange.min * 1000}}"
+        max="{{baseRateRange.max * 1000}}"
+        value="{{baseRate * 1000}}"
+        step="1"
+        show-value="{{false}}"
+        activeColor="#C4A77D"
+        backgroundColor="#E5E0D8"
+        block-size="20"
+        bindchange="onBaseRateChange"
+      />
+      <view class="param-range">
+        <text>范围: {{baseRateRange.min * 100}}% - {{baseRateRange.max * 100}}%</text>
+      </view>
+    </view>
+
+    <!-- 硬保底阈值 -->
+    <view class="param-item">
+      <view class="param-header">
+        <text class="param-icon">📌</text>
+        <text class="param-label">硬保底阈值</text>
+        <text class="param-value">{{hardPity}}抽</text>
+      </view>
+      <slider
+        class="param-slider"
+        min="{{hardPityRange.min}}"
+        max="{{hardPityRange.max}}"
+        value="{{hardPity}}"
+        step="1"
+        show-value="{{false}}"
+        activeColor="#C4A77D"
+        backgroundColor="#E5E0D8"
+        block-size="20"
+        bindchange="onHardPityChange"
+      />
+      <view class="param-range">
+        <text>范围: {{hardPityRange.min}} - {{hardPityRange.max}}抽</text>
+      </view>
+    </view>
+
+    <!-- 软保底起始 -->
+    <view class="param-item">
+      <view class="param-header">
+        <text class="param-icon">📌</text>
+        <text class="param-label">软保底起始</text>
+        <text class="param-value">{{softPityStart}}抽</text>
+      </view>
+      <slider
+        class="param-slider"
+        min="{{softPityStartRange.min}}"
+        max="{{softPityStartRange.max}}"
+        value="{{softPityStart}}"
+        step="1"
+        show-value="{{false}}"
+        activeColor="#C4A77D"
+        backgroundColor="#E5E0D8"
+        block-size="20"
+        bindchange="onSoftPityStartChange"
+      />
+      <view class="param-range">
+        <text>范围: {{softPityStartRange.min}} - {{softPityStartRange.max}}抽</text>
+      </view>
+    </view>
+
+    <!-- 软保底提升率 -->
+    <view class="param-item">
+      <view class="param-header">
+        <text class="param-icon">📌</text>
+        <text class="param-label">软保底提升率</text>
+        <text class="param-value">{{softPityIncrement * 100}}%</text>
+      </view>
+      <slider
+        class="param-slider"
+        min="{{softPityIncrementRange.min * 100}}"
+        max="{{softPityIncrementRange.max * 100}}"
+        value="{{softPityIncrement * 100}}"
+        step="1"
+        show-value="{{false}}"
+        activeColor="#C4A77D"
+        backgroundColor="#E5E0D8"
+        block-size="20"
+        bindchange="onSoftPityIncrementChange"
+      />
+      <view class="param-range">
+        <text>范围: {{softPityIncrementRange.min * 100}}% - {{softPityIncrementRange.max * 100}}%</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="reset-button" bindtap="onReset">重置默认</button>
+      <button class="save-button {{saving ? 'disabled' : ''}}" bindtap="onSave" disabled="{{saving}}">
+        {{saving ? '保存中...' : '保存设置'}}
+      </button>
+    </view>
+
+    <!-- 参数来源信息 -->
+    <view class="source-info">
+      <text class="source-label">参数来源:</text>
+      <text class="source-value">{{isCustom ? '自定义' : '游戏默认'}} (更新于 {{updatedAt}})</text>
+    </view>
+
+    <!-- 说明提示 -->
+    <view class="tips-section">
+      <text class="tips-title">💡 说明</text>
+      <text class="tips-content">• 基础概率：每次抽卡获得五星角色的基础概率</text>
+      <text class="tips-content">• 硬保底：累计抽取该抽数必定获得五星角色</text>
+      <text class="tips-content">• 软保底起始：从该抽数开始概率逐渐提升</text>
+      <text class="tips-content">• 软保底提升率：软保底期间每抽概率的提升值</text>
+      <text class="tips-content">• 修改参数后，首页和规划页的概率计算会立即更新</text>
+    </view>
+  </view>
+</view>

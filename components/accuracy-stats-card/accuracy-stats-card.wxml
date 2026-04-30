@@ -1,0 +1,56 @@
+<view class="stats-card">
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空数据状态 -->
+  <view class="empty-state" wx:if="{{!loading && !hasData}}">
+    <text class="empty-text">暂无统计数据</text>
+  </view>
+
+  <!-- 统计内容 -->
+  <view class="stats-content" wx:if="{{!loading && hasData}}">
+    <!-- 命中率展示 -->
+    <view class="hit-rate-section">
+      <view class="hit-rate-value" style="color: {{rating.color}}">
+        <text class="rate-number">{{hitRate}}</text>
+        <text class="rate-percent">%</text>
+      </view>
+      <view class="hit-rate-label">
+        <text>规划命中率</text>
+        <text class="rating-badge" style="background: {{rating.color}}">{{rating.label}}</text>
+      </view>
+    </view>
+
+    <!-- 成功/失败统计 -->
+    <view class="stats-row">
+      <view class="stat-item success">
+        <text class="stat-icon">✓</text>
+        <text class="stat-value">{{successes}}</text>
+        <text class="stat-label">成功</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item failure">
+        <text class="stat-icon">✗</text>
+        <text class="stat-value">{{failures}}</text>
+        <text class="stat-label">失败</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item total">
+        <text class="stat-icon">Σ</text>
+        <text class="stat-value">{{total}}</text>
+        <text class="stat-label">总计</text>
+      </view>
+    </view>
+
+    <!-- 趋势显示 -->
+    <view class="trend-section" wx:if="{{showTrend && trend.direction !== 'stable'}}">
+      <view class="trend-indicator {{trend.direction}}">
+        <text class="trend-arrow">{{trend.direction === 'up' ? '↑' : '↓'}}</text>
+        <text class="trend-change">{{trend.change > 0 ? '+' : ''}}{{trend.change}}%</text>
+      </view>
+      <text class="trend-label">相比前期</text>
+    </view>
+  </view>
+</view>

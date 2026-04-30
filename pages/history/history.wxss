@@ -1,0 +1,125 @@
+/* 抽卡历史页面样式 */
+
+.history-page {
+  min-height: 100vh;
+  background: #FAFAFA;
+}
+
+/* 统计卡片区域 */
+.stats-section {
+  padding: 16px;
+}
+
+/* 顶部筛选栏 */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E5E5;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.filter-picker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #4A4A4A;
+}
+
+.picker-arrow {
+  font-size: 12px;
+  color: #6B6B6B;
+}
+
+.record-count {
+  flex: 1;
+  text-align: right;
+  font-size: 14px;
+  color: #9B9B9B;
+}
+
+.add-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #C4A77D;
+  border-radius: 50%;
+  margin-left: 12px;
+}
+
+.add-btn:active {
+  background: #A88B5F;
+}
+
+.add-icon {
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 记录列表 */
+.record-list {
+  height: calc(100vh - 60px);
+}
+
+.card-list {
+  padding: 16px;
+}
+
+/* 空数据状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: #9B9B9B;
+  margin-bottom: 24px;
+}
+
+.add-record-btn {
+  background: #C4A77D;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+}
+
+.add-record-btn:active {
+  background: #A88B5F;
+}
+
+/* 加载状态 */
+.loading-state {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #9B9B9B;
+}
+
+/* 没有更多 */
+.no-more {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #9B9B9B;
+}

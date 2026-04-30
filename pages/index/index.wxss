@@ -1,0 +1,64 @@
+/* pages/index/index.wxss */
+/* 首页 - 资源总览页面样式 */
+
+.index-container {
+  padding: var(--spacing-xl);
+  background-color: var(--color-gray-50);
+  min-height: 100vh;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400rpx;
+  gap: var(--spacing-md);
+}
+
+.loading-spinner {
+  width: 48rpx;
+  height: 48rpx;
+  border: 4rpx solid var(--color-gray-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+}
+
+/* 游戏卡片区域 */
+.game-cards-section {
+  margin-top: var(--spacing-xl);
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* 游戏卡片网格布局 */
+.game-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200rpx, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  color: var(--color-gray-600);
+}

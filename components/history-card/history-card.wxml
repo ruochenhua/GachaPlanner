@@ -1,0 +1,27 @@
+<view class="history-card" bindtap="onTap" bindlongpress="onLongPress">
+  <view class="card-header">
+    <text class="game-name">{{record.gameName}}</text>
+    <text class="time-text">{{relativeTime}}</text>
+  </view>
+
+  <view class="card-body">
+    <view class="pool-name">{{record.poolName}}</view>
+    <view class="target-text" wx:if="{{record.target}}">目标：{{record.target}}</view>
+  </view>
+
+  <view class="card-footer">
+    <view class="probability-info">
+      <text class="probability-label">预测概率</text>
+      <text class="probability-value">{{record.predictedProbability}}%</text>
+    </view>
+
+    <view class="result-badge {{resultClass}}">
+      <text>{{resultText}}</text>
+    </view>
+  </view>
+
+  <view class="card-stats" wx:if="{{record.pullsUsed > 0 || record.resourcesUsed > 0}}">
+    <text wx:if="{{record.pullsUsed > 0}}">抽数：{{record.pullsUsed}}</text>
+    <text wx:if="{{record.resourcesUsed > 0}}">消耗：{{record.resourcesUsed}}</text>
+  </view>
+</view>

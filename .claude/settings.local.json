@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(\"E:\\\\Projects\\\\GachaPlaner\\\\_bmad-output\\\\planning-artifacts\\\\ux-design-specification.md\":*)",
+      "Bash(\"E:\\\\Projects\\\\GachaPlaner\\\\_bmad-output\\\\planning-artifacts\\\\architecture.md\":*)",
+      "Bash(\"E:\\\\Projects\\\\GachaPlaner\\\\_bmad-output\\\\planning-artifacts\\\\epics.md\":*)",
+      "Bash(find E:ProjectsGachaPlaner_bmad-outputplanning-artifacts -type d -name *prd* -o -name *architecture* -o -name *epic* -o -name *ux*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(cd /d E:ProjectsGachaPlaner)",
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)",
+      "WebFetch(domain:genshin-impact.fandom.com)",
+      "WebFetch(domain:honkai-star-rail.fandom.com)",
+      "WebFetch(domain:arknights.fandom.com)",
+      "WebFetch(domain:zenless-zone-zero.fandom.com)",
+      "Bash(openspec list *)",
+      "Bash(dir *)",
+      "Bash(node *)"
+    ]
+  }
+}

@@ -1,0 +1,249 @@
+/* 历史记录详情页样式 */
+
+.detail-page {
+  min-height: 100vh;
+  background: #FAFAFA;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* 信息卡片 */
+.info-card,
+.result-card,
+.time-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #9B9B9B;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #4A4A4A;
+}
+
+/* 结果卡片 */
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.result-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.result-badge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.result-badge.success {
+  background: rgba(127, 176, 105, 0.15);
+  color: #7FB069;
+}
+
+.result-badge.failure {
+  background: rgba(196, 112, 112, 0.15);
+  color: #C47070;
+}
+
+.result-badge.pending {
+  background: rgba(228, 199, 134, 0.15);
+  color: #E4C786;
+}
+
+.result-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #9B9B9B;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.stat-value.primary {
+  color: #C4A77D;
+}
+
+/* 时间卡片 */
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.time-label {
+  font-size: 14px;
+  color: #9B9B9B;
+}
+
+.time-value {
+  font-size: 14px;
+  color: #6B6B6B;
+}
+
+/* 表单项 */
+.form-item {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  color: #6B6B6B;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 16px;
+  color: #4A4A4A;
+  background: #F5F5F5;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.picker-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 12px;
+  background: #F5F5F5;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+}
+
+.picker-arrow {
+  font-size: 12px;
+  color: #6B6B6B;
+}
+
+/* 结果按钮 */
+.result-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.result-btn {
+  flex: 1;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.success-btn {
+  background: #FFFFFF;
+  border: 1px solid #7FB069;
+  color: #7FB069;
+}
+
+.success-btn.active {
+  background: #7FB069;
+  color: #FFFFFF;
+}
+
+.failure-btn {
+  background: #FFFFFF;
+  border: 1px solid #C47070;
+  color: #C47070;
+}
+
+.failure-btn.active {
+  background: #C47070;
+  color: #FFFFFF;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn {
+  flex: 1;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+}
+
+.btn-primary {
+  background: #C4A77D;
+  color: #FFFFFF;
+}
+
+.btn-primary:active {
+  background: #A88B5F;
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  color: #6B6B6B;
+}
+
+.btn-secondary:active {
+  background: #F5F5F5;
+}
+
+.btn-danger {
+  background: #FFFFFF;
+  border: 1px solid #C47070;
+  color: #C47070;
+}
+
+.btn-danger:active {
+  background: rgba(196, 112, 112, 0.1);
+}

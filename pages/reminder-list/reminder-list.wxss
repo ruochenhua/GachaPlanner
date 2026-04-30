@@ -1,0 +1,258 @@
+/* pages/reminder-list/reminder-list.wxss */
+
+.reminder-list-page {
+  min-height: 100vh;
+  background-color: var(--color-gray-50);
+}
+
+/* 自定义导航栏 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  background-color: var(--color-primary);
+  padding: 0 var(--spacing-lg);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.nav-arrow {
+  font-size: 20px;
+  color: var(--color-white, #fff);
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white, #fff);
+}
+
+/* 标签栏 */
+.tab-bar {
+  display: flex;
+  background-color: var(--color-white, #fff);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.tab-item {
+  flex: 1;
+  padding: var(--spacing-lg);
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  transition: all var(--duration-fast);
+}
+
+.tab-item.active {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+/* 内容区域 */
+.reminder-content {
+  padding: var(--spacing-lg);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-3xl) 0;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-md);
+}
+
+.empty-text {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-tip {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+}
+
+/* 提醒卡片 */
+.reminder-cards {
+  margin-bottom: var(--spacing-lg);
+}
+
+.reminder-card-wrapper {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.reminder-card {
+  background-color: var(--color-white, #fff);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.card-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+}
+
+.card-status {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+}
+
+.card-status.active {
+  background-color: var(--color-success);
+  color: var(--color-white, #fff);
+}
+
+.card-status.fired {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-600);
+}
+
+.card-body {
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+}
+
+.info-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+}
+
+.info-value {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+}
+
+/* 删除按钮 */
+.card-delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background-color: var(--color-danger);
+  color: var(--color-white, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  transform: translateX(60px);
+  opacity: 0;
+  transition: all var(--duration-fast);
+}
+
+.reminder-card-wrapper:active .card-delete {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* 囤积卡片 */
+.reminder-card.hoarding .card-progress {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.card-progress.success {
+  background-color: var(--color-success);
+  color: var(--color-white, #fff);
+}
+
+.card-progress.warning {
+  background-color: var(--color-warning);
+  color: var(--color-gray-800);
+}
+
+.card-progress.danger {
+  background-color: var(--color-danger);
+  color: var(--color-white, #fff);
+}
+
+.progress-bar-mini {
+  height: 6px;
+  background-color: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--spacing-sm);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--duration-normal);
+}
+
+.progress-fill.success {
+  background-color: var(--color-success);
+}
+
+.progress-fill.warning {
+  background-color: var(--color-warning);
+}
+
+.progress-fill.danger {
+  background-color: var(--color-danger);
+}
+
+.card-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+}
+
+/* 添加按钮 */
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  background-color: var(--color-white, #fff);
+  border: 2px dashed var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  color: var(--color-gray-500);
+}
+
+.add-btn:active {
+  background-color: var(--color-gray-100);
+}
+
+.add-icon {
+  font-size: 24px;
+}
+
+.add-text {
+  font-size: var(--font-size-base);
+}

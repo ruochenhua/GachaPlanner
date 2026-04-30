@@ -1,0 +1,31 @@
+<!--components/game-card/game-card.wxml-->
+<!-- 游戏卡片组件 -->
+
+<view class="game-card" catchtap="onTap">
+  <!-- 游戏图标 -->
+  <view class="game-icon-container">
+    <image
+      class="game-icon"
+      src="{{gameIcon}}"
+      mode="aspectFit"
+      wx:if="{{gameIcon}}"
+    />
+    <view class="game-icon-placeholder" wx:else>
+      <text class="placeholder-text">{{gameName[0]}}</text>
+    </view>
+  </view>
+
+  <!-- 游戏名称 -->
+  <view class="game-name">{{gameName}}</view>
+
+  <!-- 资源数量 -->
+  <view class="game-resources">
+    <text class="resources-value">{{totalPulls}}</text>
+    <text class="resources-unit">抽</text>
+  </view>
+
+  <!-- 达成概率 -->
+  <view class="game-probability {{probabilityColor}}">
+    <text class="probability-value">{{probability}}%</text>
+  </view>
+</view>

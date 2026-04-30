@@ -1,0 +1,96 @@
+<!-- pages/planning-data/planning-data.wxml -->
+<!-- 规划数据管理页面 -->
+
+<view class="container">
+  <!-- 数据列表 -->
+  <view class="data-list" wx:if="{{planningDataList.length > 0}}">
+    <view class="section-title">已保存的规划数据</view>
+
+    <view
+      wx:for="{{planningDataList}}"
+      wx:key="gameId"
+      class="data-item"
+      bindtap="onDataItemTap"
+      data-game-id="{{item.gameId}}"
+    >
+      <view class="data-header">
+        <text class="game-name">{{item.gameName || item.gameId}}</text>
+        <text class="last-saved">最后保存：{{item.lastSavedAt}}</text>
+      </view>
+
+      <view class="data-content">
+        <view class="data-row">
+          <text class="label">资源：</text>
+          <text class="value">{{item.resourcesSummary}}</text>
+        </view>
+        <view class="data-row" wx:if="{{item.hasPoolTime}}">
+          <text class="label">卡池时间：</text>
+          <text class="value">{{item.poolTimeSummary}}</text>
+        </view>
+        <view class="data-row" wx:if="{{item.hasDailyIncome}}">
+          <text class="label">每日收入：</text>
+          <text class="value">{{item.dailyIncomeSummary}}</text>
+        </view>
+      </view>
+
+      <view class="data-actions">
+        <button
+          class="action-btn delete-btn"
+          bindtap="onDeleteData"
+          data-game-id="{{item.gameId}}"
+          size="mini"
+        >
+          删除
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <image class="empty-icon" src="/assets/images/empty.png" mode="aspectFit" />
+    <text class="empty-text">暂无保存的规划数据</text>
+    <text class="empty-hint">在规划页设置资源后会自动保存</text>
+  </view>
+
+  <!-- 底部操作区 -->
+  <view class="bottom-actions" wx:if="{{planningDataList.length > 0}}">
+    <button
+      class="action-btn clear-all-btn"
+      bindtap="onClearAll"
+      type="warn"
+    >
+      清空所有数据
+    </button>
+  </view>
+
+  <!-- 删除确认对话框 -->
+  <view class="modal" wx:if="{{showDeleteModal}}">
+    <view class="modal-mask" bindtap="closeModal"></view>
+    <view class="modal-content">
+      <view class="modal-title">确认删除</view>
+      <view class="modal-body">
+        确定要删除 "{{selectedGameName}}" 的规划数据吗？
+      </view>
+      <view class="modal-buttons">
+        <button class="modal-btn cancel-btn" bindtap="closeModal">取消</button>
+        <button class="modal-btn confirm-btn" bindtap="confirmDelete">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 清空所有确认对话框 -->
+  <view class="modal" wx:if="{{showClearAllModal}}">
+    <view class="modal-mask" bindtap="closeClearAllModal"></view>
+    <view class="modal-content">
+      <view class="modal-title">确认清空</view>
+      <view class="modal-body">
+        确定要清空所有规划数据吗？此操作不可恢复！
+      </view>
+      <view class="modal-buttons">
+        <button class="modal-btn cancel-btn" bindtap="closeClearAllModal">取消</button>
+        <button class="modal-btn confirm-btn" bindtap="confirmClearAll">清空</button>
+      </view>
+    </view>
+  </view>
+</view>

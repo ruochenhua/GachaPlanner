@@ -1,0 +1,126 @@
+<view class="detail-page">
+  <!-- 查看模式 -->
+  <view class="view-mode" wx:if="{{!isEditMode && record}}">
+    <!-- 基本信息 -->
+    <view class="info-card">
+      <view class="info-row">
+        <text class="info-label">游戏</text>
+        <text class="info-value">{{record.gameName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">卡池</text>
+        <text class="info-value">{{record.poolName}}</text>
+      </view>
+      <view class="info-row" wx:if="{{record.target}}">
+        <text class="info-label">目标</text>
+        <text class="info-value">{{record.target}}</text>
+      </view>
+    </view>
+
+    <!-- 结果信息 -->
+    <view class="result-card">
+      <view class="result-header">
+        <text class="result-title">抽卡结果</text>
+        <view class="result-badge {{record.actualResult}}">
+          <text>{{record.actualResult === 'success' ? '成功' : (record.actualResult === 'failure' ? '失败' : '进行中')}}</text>
+        </view>
+      </view>
+
+      <view class="result-stats">
+        <view class="stat-item">
+          <text class="stat-label">预测概率</text>
+          <text class="stat-value primary">{{record.predictedProbability}}%</text>
+        </view>
+        <view class="stat-item" wx:if="{{record.pullsUsed > 0}}">
+          <text class="stat-label">实际抽数</text>
+          <text class="stat-value">{{record.pullsUsed}}</text>
+        </view>
+        <view class="stat-item" wx:if="{{record.resourcesUsed > 0}}">
+          <text class="stat-label">资源消耗</text>
+          <text class="stat-value">{{record.resourcesUsed}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 时间信息 -->
+    <view class="time-card">
+      <view class="time-row">
+        <text class="time-label">创建时间</text>
+        <text class="time-value">{{createdAtText}}</text>
+      </view>
+      <view class="time-row">
+        <text class="time-label">更新时间</text>
+        <text class="time-value">{{updatedAtText}}</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn btn-primary" bindtap="toggleEditMode">编辑</button>
+      <button class="btn btn-danger" bindtap="onDelete">删除</button>
+    </view>
+  </view>
+
+  <!-- 编辑模式 -->
+  <view class="edit-mode" wx:if="{{isEditMode}}">
+    <!-- 游戏选择 -->
+    <view class="form-item">
+      <text class="form-label">游戏</text>
+      <picker mode="selector" range="{{games}}" range-key="name" bindchange="onGameChange">
+        <view class="picker-value">
+          <text>{{formData.gameName || '请选择游戏'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 卡池名称 -->
+    <view class="form-item">
+      <text class="form-label">卡池名称</text>
+      <input class="form-input" type="text" value="{{formData.poolName}}" bindinput="onPoolNameInput" />
+    </view>
+
+    <!-- 目标 -->
+    <view class="form-item">
+      <text class="form-label">目标</text>
+      <input class="form-input" type="text" value="{{formData.target}}" bindinput="onTargetInput" />
+    </view>
+
+    <!-- 抽卡结果 -->
+    <view class="form-item">
+      <text class="form-label">抽卡结果</text>
+      <view class="result-buttons">
+        <view class="result-btn success-btn {{formData.actualResult === 'success' ? 'active' : ''}}" data-result="success" bindtap="onResultChange">
+          <text>成功</text>
+        </view>
+        <view class="result-btn failure-btn {{formData.actualResult === 'failure' ? 'active' : ''}}" data-result="failure" bindtap="onResultChange">
+          <text>失败</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 抽卡抽数 -->
+    <view class="form-item">
+      <text class="form-label">抽卡抽数</text>
+      <input class="form-input" type="number" value="{{formData.pullsUsed}}" bindinput="onPullsInput" />
+    </view>
+
+    <!-- 资源消耗 -->
+    <view class="form-item">
+      <text class="form-label">资源消耗</text>
+      <input class="form-input" type="number" value="{{formData.resourcesUsed}}" bindinput="onResourcesInput" />
+    </view>
+
+    <!-- 预测概率 -->
+    <view class="form-item">
+      <text class="form-label">预测概率</text>
+      <input class="form-input" type="number" value="{{formData.predictedProbability}}" bindinput="onProbabilityInput" />
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn btn-secondary" bindtap="onCancel">取消</button>
+      <button class="btn btn-primary" loading="{{saving}}" bindtap="onSave">保存</button>
+    </view>
+  </view>
+</view>

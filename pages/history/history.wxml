@@ -1,0 +1,75 @@
+<view class="history-page">
+  <!-- 准确度统计卡片 -->
+  <view class="stats-section">
+    <accuracy-stats-card gameId="{{currentGameFilter}}" showTrend="{{true}}" />
+  </view>
+
+  <!-- 顶部筛选栏 -->
+  <view class="filter-bar">
+    <picker
+      mode="selector"
+      range="{{gameFilterList}}"
+      range-key="name"
+      value="{{currentGameFilter}}"
+      bindchange="onGameFilterChange"
+    >
+      <view class="filter-picker">
+        <text>{{gameFilterList[0].name}}</text>
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+
+    <view class="record-count">
+      <text>{{total}}条记录</text>
+    </view>
+
+    <view class="add-btn" bindtap="showAddForm">
+      <text class="add-icon">+</text>
+    </view>
+  </view>
+
+  <!-- 历史记录列表 -->
+  <scroll-view
+    class="record-list"
+    scroll-y
+    enable-back-to-top
+    bindscrolltolower="onReachBottom"
+  >
+    <!-- 空数据状态 -->
+    <view class="empty-state" wx:if="{{records.length === 0 && !loading}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">{{emptyTips}}</text>
+      <button class="add-record-btn" bindtap="showAddForm" wx:if="{{total === 0}}">
+        添加第一条记录
+      </button>
+    </view>
+
+    <!-- 记录卡片列表 -->
+    <view class="card-list" wx:if="{{records.length > 0}}">
+      <block wx:for="{{records}}" wx:key="id">
+        <history-card
+          record="{{item}}"
+          bindtap="onCardTap"
+          bindlongpress="onCardLongPress"
+        />
+      </block>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading-state" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 没有更多 -->
+    <view class="no-more" wx:if="{{!hasMore && records.length > 0}}">
+      <text>没有更多了</text>
+    </view>
+  </scroll-view>
+
+  <!-- 添加记录表单 -->
+  <history-form
+    show="{{showForm}}"
+    bindclose="closeForm"
+    bindsaved="onRecordSaved"
+  />
+</view>

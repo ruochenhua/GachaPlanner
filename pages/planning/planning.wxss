@@ -1,0 +1,374 @@
+/* pages/planning/planning.wxss */
+.planning-container {
+  padding: var(--spacing-xl);
+  background-color: var(--color-gray-50);
+  min-height: 100vh;
+}
+
+.page-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.game-name {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+  display: block;
+  margin-bottom: var(--spacing-xs);
+}
+
+.page-title {
+  font-size: var(--font-size-body);
+  color: var(--color-gray-600);
+}
+
+/* 版本信息区域 */
+.version-info-section {
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.version-info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.version-info-item:last-child {
+  margin-bottom: 0;
+}
+
+.version-label {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+  margin-right: var(--spacing-xs);
+}
+
+.version-value {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-700);
+  font-weight: var(--font-weight-medium);
+}
+
+/* 过期提示 */
+.outdated-warning {
+  display: flex;
+  align-items: center;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-warning);
+  border-radius: var(--radius-md);
+}
+
+.warning-icon {
+  font-size: 16px;
+  margin-right: var(--spacing-xs);
+}
+
+.warning-text {
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-800);
+  font-weight: var(--font-weight-medium);
+}
+
+.resource-input-section {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* 概率展示测试区域 */
+.probability-test-section {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--spacing-xl);
+}
+
+.test-item {
+  margin-bottom: var(--spacing-lg);
+}
+
+.test-item:last-child {
+  margin-bottom: 0;
+}
+
+.test-label {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+/* 概率分布图表测试区域 */
+.probability-chart-test-section {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 卡池时间设置区域 */
+.pool-settings-section {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-icon {
+  font-size: 16px;
+  color: var(--color-gray-500);
+}
+
+.pool-settings-content {
+  margin-top: var(--spacing-lg);
+}
+
+.date-row {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.date-item {
+  flex: 1;
+}
+
+.date-label {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+  margin-bottom: var(--spacing-xs);
+  display: block;
+}
+
+.date-picker {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+  color: var(--color-gray-700);
+}
+
+.pool-info {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-primary-light);
+  border-radius: var(--radius-md);
+}
+
+.pool-info-item {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-700);
+}
+
+.daily-income-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.income-label {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+}
+
+.income-input {
+  width: 80px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+  color: var(--color-gray-700);
+  text-align: center;
+}
+
+.income-unit {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+}
+
+/* 其他资源获取 */
+.other-income-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.other-income-hint {
+  margin-bottom: var(--spacing-lg);
+  padding: 0 var(--spacing-xs);
+}
+
+.hint-text {
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-500);
+}
+
+/* 保底状态设置区域 */
+.pity-status-section {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--spacing-xl);
+}
+
+.pity-status-row {
+  display: flex;
+  gap: var(--spacing-xl);
+}
+
+.pity-status-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.pity-label {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-600);
+}
+
+.pity-input {
+  width: 60px;
+  height: 56rpx;
+  padding: 0 var(--spacing-sm);
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+  color: var(--color-gray-700);
+  text-align: center;
+}
+
+.pity-unit {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-500);
+}
+
+.pity-hint {
+  margin-top: var(--spacing-sm);
+  padding: 0 var(--spacing-xs);
+}
+
+/* 动态概率预测 */
+.dynamic-prediction {
+  padding: var(--spacing-md);
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-md);
+}
+
+.prediction-title {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  margin-bottom: var(--spacing-md);
+}
+
+.timeline-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.timeline-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: white;
+  border-radius: var(--radius-sm);
+}
+
+.timeline-day {
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-600);
+}
+
+.timeline-prob {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.wait-advice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-primary-light);
+  border-radius: var(--radius-md);
+}
+
+.advice-icon {
+  font-size: 16px;
+}
+
+.advice-text {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-gray-700);
+  line-height: 1.4;
+}
+
+/* 图表说明 */
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-md);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.legend-color {
+  width: 24px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.legend-color.current {
+  background-color: #C4A77D;  /* Primary */
+}
+
+.legend-color.final {
+  background-color: #7FB069;  /* Success Green */
+  opacity: 0.7;
+}
+
+.legend-text {
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-600);
+}
