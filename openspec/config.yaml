@@ -1,20 +1,116 @@
 schema: spec-driven
 
-# Project context (optional)
+# Project context
 # This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  ## 项目概述
+  GachaPlanner（抽卡规划师）是一款面向抽卡游戏玩家的微信小程序，帮助玩家计算抽卡概率、规划资源分配、管理抽卡历史。
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+  ## 技术栈
+  - 平台：微信小程序（WeChat Mini Program）
+  - 框架：原生小程序框架（WXML + WXSS + JS）
+  - UI组件库：Vant Weapp (@vant/weapp ^1.11.7)
+  - 测试框架：Jest (^29.7.0)
+  - 数据存储：微信小程序本地存储（wx.getStorageSync / wx.setStorageSync）
+
+  ## 项目结构
+  ```
+  ├── app.js / app.json / app.wxss    # 小程序入口和全局配置
+  ├── pages/                          # 页面（12个页面）
+  │   ├── index/                      # 首页 - 游戏选择和概率计算
+  │   ├── overview/                   # 总览 - 多游戏资源总览
+  │   ├── planning/                   # 规划 - 卡池规划
+  │   ├── planning-data/              # 规划数据管理
+  │   ├── history/                    # 历史记录
+  │   ├── history-detail/             # 历史详情
+  │   ├── profile/                    # 我的 - 个人中心
+  │   ├── reminder-list/              # 提醒列表
+  │   ├── rule-settings/              # 规则设置
+  │   ├── config-manager/             # 配置管理
+  │   └── version-list/               # 版本列表
+  ├── components/                     # 可复用组件（22+个）
+  ├── core/                           # 核心计算逻辑
+  │   ├── calculator/                 # 概率计算器（7种策略）
+  │   ├── analytics/                  # 准确度分析
+  │   ├── suggestion/                 # 策略建议生成
+  │   └── config/                     # 配置验证
+  ├── services/                       # 业务服务层
+  │   ├── game-service.js             # 游戏管理
+  │   ├── storage-service.js          # 本地存储
+  │   ├── history-service.js          # 历史记录
+  │   ├── planning-storage.js         # 规划数据
+  │   ├── reminder-service.js         # 提醒服务
+  │   ├── custom-game-service.js      # 自定义游戏
+  │   ├── preset-library-service.js   # 预设库
+  │   ├── config-export-service.js    # 配置导出
+  │   ├── image-generator.js          # 图片生成
+  │   ├── share-service.js            # 分享服务
+  │   └── notification-service.js     # 通知服务
+  ├── config/                         # 游戏配置
+  │   ├── games/                      # 游戏配置JSON/JS文件
+  │   ├── config-loader.js            # 配置加载器
+  │   ├── config-validator.js         # 配置验证器
+  │   └── config-template-enhanced.js # 增强版配置模板
+  ├── utils/                          # 工具函数
+  └── tests/                          # 测试目录
+  ```
+
+  ## 核心架构模式
+  1. **配置驱动** - 所有游戏参数从配置读取，无硬编码
+  2. **策略模式** - 不同保底机制通过策略模式实现（CalculatorFactory）
+  3. **开放封闭** - 对扩展开放，对修改封闭
+  4. **单一职责** - 每个模块只负责一个功能
+
+  ## 支持的保底机制
+  - `hard` - 硬保底（原神、崩铁）
+  - `soft` - 软保底（明日方舟）
+  - `none` - 无保底（FGO、碧蓝航线）
+  - `guarantee` - 大小保底（米哈游系）
+  - `luck` - 幸运值机制（王者荣耀）
+  - `multi-pool` - 多池联动（阴阳师）
+
+  ## 预设游戏支持
+  - 原神（Genshin Impact）- 米哈游系模板
+  - 崩坏：星穹铁道（Honkai: Star Rail）- 米哈游系模板
+  - 明日方舟（Arknights）- 软保底模板
+  - FGO（Fate/Grand Order）- 无保底模板
+  - 王者荣耀（Honor of Kings）- 幸运值模板
+  - 阴阳师（Onmyoji）- 多池联动模板
+
+  ## 编码规范
+  - 使用 CommonJS 模块系统（require/module.exports）
+  - 返回结果统一使用 Result 对象模式：{ success, data, error }
+  - 使用类（class）封装服务和复杂逻辑
+  - 常量集中管理在 core/constants.js
+  - 组件使用小程序原生 Component 构造器
+  - 页面使用 Page 构造器
+  - 异步操作优先使用 Promise 或 async/await
+  - 数据存储使用 wx.getStorageSync / wx.setStorageSync
+
+  ## 命名约定
+  - 文件：kebab-case（如 game-service.js）
+  - 类：PascalCase（如 GameService）
+  - 函数/变量：camelCase
+  - 常量：UPPER_SNAKE_CASE
+
+  ## 设计原则
+  - 所有计算结果精度要求 > 95%
+  - 配置变更必须向后兼容
+  - 用户数据需要版本迁移机制
+  - 错误处理使用 Result 模式而非抛异常
+  - 缓存策略：游戏数据常驻内存，用户数据按需加载
+
+# Per-artifact rules
+rules:
+  proposal:
+    - 使用中文编写
+    - 包含明确的用户故事和验收标准
+    - 说明目标用户和使用场景
+  design:
+    - 使用中文编写
+    - 包含架构图和数据流说明
+    - 明确模块职责和接口定义
+  tasks:
+    - 使用中文编写
+    - 每个任务粒度控制在 2 小时内
+    - 明确验收标准和依赖关系
