@@ -1,24 +1,41 @@
 <view class="goal-card" style="background-color: {{statusBg}};" bindtap="onTapTitle">
   <view class="goal-header">
-    <image wx:if="{{gameIcon}}" class="game-icon" src="{{gameIcon}}" mode="aspectFit"></image>
-    <text class="game-name">{{gameName}}</text>
+    <view class="goal-header-left">
+      <image wx:if="{{gameIcon}}" class="game-icon" src="{{gameIcon}}" mode="aspectFit"></image>
+      <text class="game-name">{{gameName}}</text>
+    </view>
     <view class="menu-btn" catchtap="onTapMenu">
       <text class="menu-dots">···</text>
     </view>
   </view>
 
-  <view class="target-name" wx:if="{{target && target.name}}">{{target.name}}</view>
-  <view class="target-name empty" wx:else>未设定目标</view>
+  <!-- 目标摘要 -->
+  <view class="target-summary">{{targetSummary}}</view>
 
-  <view class="probability-section">
-    <text class="probability-number" style="color: {{statusColor}};">{{probabilityText}}</text>
-    <text class="probability-label" style="color: {{statusColor}};">达成</text>
-  </view>
+  <!-- 概率和抽数信息 -->
+  <view class="info-row">
+    <view class="probability-section">
+      <text class="probability-number" style="color: {{statusColor}};">{{probabilityText}}</text>
+      <text class="probability-label" style="color: {{statusColor}};">达成</text>
+    </view>
 
-  <view class="info-section">
-    <text class="needed-pulls" wx:if="{{neededPulls > 0}}">还差 {{neededPulls}} 抽</text>
-    <text class="needed-pulls achieved" wx:else>已达成</text>
-    <text class="pool-date" wx:if="{{daysUntilPool > 0}}">{{daysUntilPool}} 天后开池</text>
-    <text class="pool-date" wx:elif="{{poolStartDate}}">卡池已开启</text>
+    <view class="detail-section">
+      <view class="detail-item">
+        <text class="detail-label">当前</text>
+        <text class="detail-value">{{currentPulls}}抽</text>
+      </view>
+      <view class="detail-item" wx:if="{{neededPulls > 0}}">
+        <text class="detail-label">还差</text>
+        <text class="detail-value danger">{{neededPulls}}抽</text>
+      </view>
+      <view class="detail-item" wx:elif="{{neededPulls <= 0}}">
+        <text class="detail-label">状态</text>
+        <text class="detail-value success">已达成</text>
+      </view>
+      <view class="detail-item" wx:if="{{daysUntilPool > 0}}">
+        <text class="detail-label">开池</text>
+        <text class="detail-value">{{daysUntilPool}}天后</text>
+      </view>
+    </view>
   </view>
 </view>

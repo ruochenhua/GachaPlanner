@@ -42,6 +42,18 @@
   font-size: 32rpx;
   font-weight: 600;
   color: #2C2520;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.section-title::before {
+  content: '';
+  width: 8rpx;
+  height: 32rpx;
+  background: #C4A77D;
+  border-radius: 4rpx;
+  display: inline-block;
 }
 
 .add-btn {
@@ -56,29 +68,59 @@
   font-weight: 500;
 }
 
-.goals-scroll {
-  width: 100%;
+.summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx 24rpx;
   margin-bottom: 24rpx;
-  white-space: nowrap;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
 }
 
-.goals-list {
-  display: inline-flex;
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.summary-number {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #C4A77D;
+}
+
+.summary-label {
+  font-size: 24rpx;
+  color: #7A7168;
+}
+
+.summary-divider {
+  width: 2rpx;
+  height: 48rpx;
+  background: #E5E0D8;
+}
+
+.goals-list-vertical {
+  display: flex;
+  flex-direction: column;
   gap: 20rpx;
-  padding-right: 32rpx;
+  margin-bottom: 24rpx;
 }
 
-.add-goal-card {
-  width: 200rpx;
-  min-height: 300rpx;
+.add-goal-card-vertical {
+  width: 100%;
+  min-height: 120rpx;
   border-radius: 16rpx;
   border: 2rpx dashed #C4A77D;
-  display: inline-flex;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 16rpx;
-  flex-shrink: 0;
+  background: white;
 }
 
 .add-icon {

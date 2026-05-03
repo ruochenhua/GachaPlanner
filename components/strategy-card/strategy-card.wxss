@@ -7,11 +7,6 @@
   border: 2rpx solid transparent;
 }
 
-.strategy-card.previewing {
-  border-color: #C4A77D;
-  background: #FFF8E1;
-}
-
 .card-header {
   display: flex;
   align-items: center;
@@ -52,40 +47,83 @@
   line-height: 1.5;
 }
 
-.allocations-list {
+/* 对比区域 */
+.comparison-section {
+  margin-bottom: 16rpx;
+}
+
+.comparison-header {
+  margin-bottom: 12rpx;
+}
+
+.comparison-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #2C2520;
+}
+
+.comparison-list {
   display: flex;
   flex-direction: column;
   gap: 12rpx;
-  margin-bottom: 16rpx;
   padding: 16rpx;
   background: #F5F3F0;
   border-radius: 12rpx;
 }
 
-.allocation-item {
+.comparison-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 16rpx;
 }
 
-.allocation-game {
+.comparison-game {
   font-size: 26rpx;
   color: #2C2520;
+  min-width: 120rpx;
+  flex-shrink: 0;
+}
+
+.comparison-detail {
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
 }
 
-.allocation-pulls {
-  font-size: 26rpx;
+.comparison-current {
+  font-size: 24rpx;
   color: #7A7168;
-  margin-right: 24rpx;
 }
 
-.allocation-probability {
-  font-size: 26rpx;
-  font-weight: 600;
+.comparison-arrow {
+  font-size: 24rpx;
   color: #C4A77D;
+  font-weight: 600;
+}
+
+.comparison-suggested {
+  font-size: 24rpx;
+  color: #C4A77D;
+  font-weight: 600;
+}
+
+.comparison-delta {
   min-width: 80rpx;
   text-align: right;
+}
+
+.delta-pulls {
+  font-size: 24rpx;
+  color: #7A7168;
+}
+
+.delta-pulls.up {
+  color: #4CAF50;
+}
+
+.delta-pulls.down {
+  color: #C47070;
 }
 
 .conclusion {
@@ -114,49 +152,15 @@
   margin-top: 16rpx;
 }
 
-.btn-preview {
-  width: 100%;
-  height: 72rpx;
-  line-height: 72rpx;
-  background: white;
-  color: #C4A77D;
-  border: 2rpx solid #C4A77D;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  text-align: center;
-}
-
-.preview-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-}
-
-.preview-hint {
-  font-size: 24rpx;
-  color: #F5A623;
-  text-align: center;
-}
-
 .btn-apply {
   width: 100%;
-  height: 72rpx;
-  line-height: 72rpx;
+  height: 80rpx;
+  line-height: 80rpx;
   background: #C4A77D;
   color: white;
   border-radius: 12rpx;
   font-size: 28rpx;
+  font-weight: 600;
   text-align: center;
-}
-
-.btn-cancel {
-  width: 100%;
-  height: 72rpx;
-  line-height: 72rpx;
-  background: white;
-  color: #7A7168;
-  border: 2rpx solid #E5E0D8;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  text-align: center;
+  border: none;
 }

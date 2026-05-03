@@ -6,7 +6,8 @@ Component({
   },
   data: {
     visible: false,
-    description: ''
+    description: '',
+    solution: ''
   },
   observers: {
     'conflicts, dismissed': function() {
@@ -33,7 +34,24 @@ Component({
         } else {
           description = '多个游戏目标达成概率不足，资源存在冲突';
         }
-        this.setData({ description });
+
+        // 生成具体解决方案
+        let solution = '';
+        if (conflicts.length > 0) {
+          const sorted = [...conflicts].sort((a, b) => (a.probability || 0) - (b.probability || 0));
+          const lowest = sorted[0];
+          const highest = sorted[sorted.length - 1];
+          if (lowest && highest) {
+            const needed = Math.ceil((0.8 - (lowest.probability || 0)) * 100);
+            if (needed > 0) {
+              solution = `建议补充 ${needed} 抽提升「${lowest.gameName || lowest.targetName}」达成率，或放弃该目标集中资源至「${highest.gameName || highest.targetName}」`;
+            } else {
+              solution = `建议放弃「${lowest.gameName || lowest.targetName}」目标，将资源集中至「${highest.gameName || highest.targetName}」`;
+            }
+          }
+        }
+
+        this.setData({ description, solution });
       }
     },
     onTapHelp() {

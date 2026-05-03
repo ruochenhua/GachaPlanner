@@ -23,7 +23,7 @@
   </view>
 
   <view class="progress-section">
-    <text class="percentage-label">{{percentage}}%</text>
+    <text class="allocation-label">{{currentPulls}}/{{totalPulls}}抽</text>
     <view class="progress-track">
       <view class="progress-fill" style="width: {{percentage}}%;"></view>
     </view>

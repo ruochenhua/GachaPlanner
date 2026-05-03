@@ -71,7 +71,7 @@ describe('PlanningStorage - 规划数据持久化服务', () => {
     test('保存的数据应包含版本号', async () => {
       const result = await PlanningStorage.savePlanningData('genshin', testData);
 
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
     });
 
     test('保存的数据应包含元数据', async () => {
@@ -101,7 +101,7 @@ describe('PlanningStorage - 规划数据持久化服务', () => {
       expect(result.success).toBe(true);
       expect(result.data).toBeDefined();
       expect(result.data.resources).toBeDefined();
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
     });
 
     test('应加载已保存的数据', async () => {
@@ -153,7 +153,7 @@ describe('PlanningStorage - 规划数据持久化服务', () => {
 
       expect(result.success).toBe(false);
       expect(result.data).toBeDefined();
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
     });
   });
 
@@ -257,7 +257,7 @@ describe('PlanningStorage - 规划数据持久化服务', () => {
       const result = PlanningStorage.migrateData(oldData, 'genshin');
 
       expect(result.success).toBe(true);
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
       expect(result.data.resources.primogems).toBe(1500);
       expect(result.data.resources.intertwinedFates).toBe(15);
       expect(result.data.resources.currentPity).toBe(0); // 默认值
@@ -272,7 +272,7 @@ describe('PlanningStorage - 规划数据持久化服务', () => {
       const result = PlanningStorage.migrateData(oldData, 'starrail');
 
       expect(result.success).toBe(true);
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
       expect(result.data.resources.primogems).toBe(2000);
     });
   });

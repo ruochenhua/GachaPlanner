@@ -33,5 +33,11 @@ module.exports = {
     stellarJadeToPass: 160
   },
 
-  characterProbalityUp: 0.5
+  characterProbalityUp: 0.5,
+
+  // 目标类型定义（用于规划页目标设定）
+  targetTypes: {
+    character: { label: '角色', maxRank: 6, hardPity: 90, guaranteeRate: 0.5 },
+    weapon: { label: '光锥', maxRank: 5, hardPity: 80, guaranteeRate: 0.75 }
+  }
 };

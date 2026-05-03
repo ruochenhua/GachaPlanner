@@ -1,4 +1,4 @@
-<view class="strategy-card {{isPreviewing ? 'previewing' : ''}}">
+<view class="strategy-card">
   <view class="card-header">
     <text class="strategy-label">方案{{['A','B','C','D'][index] || '?'}}</text>
     <text class="strategy-name">{{strategy.name}}</text>
@@ -11,11 +11,25 @@
     <text>{{strategy.description}}</text>
   </view>
 
-  <view class="allocations-list">
-    <view class="allocation-item" wx:for="{{strategy.allocations}}" wx:key="gameId">
-      <text class="allocation-game">{{item.gameName}}</text>
-      <text class="allocation-pulls">{{item.pulls}}抽</text>
-      <text class="allocation-probability">{{item.probabilityText}}</text>
+  <!-- 与现状对比 -->
+  <view class="comparison-section">
+    <view class="comparison-header">
+      <text class="comparison-title">📊 与现状对比</text>
+    </view>
+    <view class="comparison-list">
+      <view class="comparison-item" wx:for="{{comparison}}" wx:key="gameId">
+        <text class="comparison-game">{{item.gameName}}</text>
+        <view class="comparison-detail">
+          <text class="comparison-current">{{item.currentPulls}}抽 {{item.currentProbabilityText}}</text>
+          <text class="comparison-arrow">→</text>
+          <text class="comparison-suggested">{{item.suggestedPulls}}抽 {{item.suggestedProbabilityText}}</text>
+        </view>
+        <view class="comparison-delta">
+          <text class="delta-pulls {{item.pullDelta > 0 ? 'up' : item.pullDelta < 0 ? 'down' : ''}}">
+            {{item.pullDelta > 0 ? '+' : ''}}{{item.pullDelta}}抽
+          </text>
+        </view>
+      </view>
     </view>
   </view>
 
@@ -28,13 +42,6 @@
   </view>
 
   <view class="action-section">
-    <view wx:if="{{!isPreviewing}}">
-      <button class="btn-preview" bindtap="onPreview">预览效果</button>
-    </view>
-    <view wx:if="{{isPreviewing}}" class="preview-actions">
-      <text class="preview-hint">当前为预览，点击确认采用或取消</text>
-      <button class="btn-apply" bindtap="onApply">确认采用此方案</button>
-      <button class="btn-cancel" bindtap="onCancel">取消预览</button>
-    </view>
+    <button class="btn-apply" bindtap="onApply">应用此方案</button>
   </view>
 </view>

@@ -142,7 +142,7 @@ describe('PlanningStorage - 集成测试', () => {
       const result = await PlanningStorage.loadPlanningData('test');
 
       expect(result.success).toBe(true);
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
       expect(result.data.resources.primogems).toBe(1500);
       expect(result.data.resources.currentPity).toBe(0); // 新增字段
     });
@@ -159,7 +159,7 @@ describe('PlanningStorage - 集成测试', () => {
       const result = await PlanningStorage.loadPlanningData('test');
 
       expect(result.success).toBe(true);
-      expect(result.data.version).toBe('1.0.0');
+      expect(result.data.version).toBe('2.0.0');
       expect(result.data.resources.primogems).toBe(800);
     });
   });

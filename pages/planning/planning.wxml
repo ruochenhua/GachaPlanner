@@ -1,268 +1,353 @@
-<!--pages/planning/planning.wxml-->
 <view class="planning-container">
+  <!-- 页面标题 -->
   <view class="page-header">
     <text class="game-name">{{gameName}}</text>
-    <text class="page-title">资源管理</text>
+    <text class="page-subtitle">资源管理</text>
   </view>
 
-  <!-- 版本信息区域 -->
-  <view class="version-info-section">
-    <view class="version-info-item">
-      <text class="version-label">📋 数据版本：</text>
-      <text class="version-value">v{{dataVersion}}</text>
-    </view>
-    <view class="version-info-item">
-      <text class="version-label">📅 更新日期：</text>
-      <text class="version-value">{{updatedAt}}</text>
-    </view>
-    <!-- 过期提示 -->
-    <view class="outdated-warning" wx:if="{{isDataOutdated}}">
-      <text class="warning-icon">⚠️</text>
-      <text class="warning-text">数据可能过期，请核对官方公告</text>
-    </view>
-  </view>
+  <!-- 目标设定区域（核心卡片） -->
+  <view class="target-card" id="target-section">
+    <view class="section-title">设定目标</view>
 
-  <!-- 保底状态设置 -->
-  <view class="pity-status-section" wx:if="{{gameConfig.guaranteeRate}}">
-    <view class="section-title">🎯 保底状态</view>
-    <view class="pity-status-row">
-      <view class="pity-status-item">
-        <text class="pity-label">当前抽数</text>
-        <input
-          class="pity-input"
-          type="number"
-          value="{{currentPity}}"
-          placeholder="0"
-          bindinput="onCurrentPityChange"
-        />
-        <text class="pity-unit">抽</text>
-      </view>
-      <view class="pity-status-item">
-        <text class="pity-label">大保底</text>
-        <switch checked="{{isGuaranteed}}" bindchange="onGuaranteedChange" color="#C4A77D" />
-      </view>
-    </view>
-    <view class="pity-hint">
-      <text class="hint-text">开启大保底表示上次5星歪了，下次5星必定是UP角色</text>
-    </view>
-  </view>
-
-  <view class="resource-input-section">
-    <view class="section-title">💰 我的资源</view>
-    <block wx:for="{{resourceTypes}}" wx:key="key">
-      <resource-input
-        resource-key="{{item.key}}"
-        resource-name="{{item.name}}"
-        resource-icon="{{item.icon}}"
-        value="{{resources[item.key] || 0}}"
-        min="{{0}}"
-        max="{{item.max}}"
-        step="{{item.step}}"
-        bind:change="onResourceChange"
-      />
-    </block>
-  </view>
-
-  <!-- 卡池时间设置区域 -->
-  <view class="pool-settings-section">
-    <view class="section-header" bindtap="togglePoolSettings">
-      <text class="section-title">📅 卡池时间设置</text>
-      <text class="toggle-icon">{{showPoolSettings ? '▼' : '▶'}}</text>
-    </view>
-
-    <view class="pool-settings-content" wx:if="{{showPoolSettings}}">
-      <view class="date-row">
-        <view class="date-item">
-          <text class="date-label">开始日期</text>
-          <picker mode="date" value="{{poolStartDate}}" bindchange="onPoolStartDateChange">
-            <view class="date-picker">
-              <text>{{poolStartDate || '请选择'}}</text>
-            </view>
-          </picker>
-        </view>
-        <view class="date-item">
-          <text class="date-label">结束日期</text>
-          <picker mode="date" value="{{poolEndDate}}" bindchange="onPoolEndDateChange">
-            <view class="date-picker">
-              <text>{{poolEndDate || '请选择'}}</text>
-            </view>
-          </picker>
-        </view>
-      </view>
-
-      <view class="pool-info" wx:if="{{poolDays > 0}}">
-        <text class="pool-info-item">卡池时长: {{poolDays}}天</text>
-        <text class="pool-info-item">剩余: {{remainingDays}}天</text>
-      </view>
-
-      <view class="daily-income-row">
-        <text class="income-label">每日收入</text>
-        <input
-          class="income-input"
-          type="number"
-          value="{{dailyIncome}}"
-          placeholder="0"
-          bindinput="onDailyIncomeChange"
-        />
-        <text class="income-unit">原石/天</text>
-      </view>
-
-      <!-- 其他资源获取（活动、探索等一次性收入） -->
-      <view class="other-income-row">
-        <text class="income-label">其他获取</text>
-        <input
-          class="income-input"
-          type="number"
-          value="{{otherIncome}}"
-          placeholder="0"
-          bindinput="onOtherIncomeChange"
-        />
-        <text class="income-unit">原石</text>
-      </view>
-      <view class="other-income-hint">
-        <text class="hint-text">活动奖励、区域探索等一次性资源</text>
-      </view>
-
-      <!-- 动态概率预测 -->
-      <view class="dynamic-prediction" wx:if="{{probabilityTimeline.length > 0}}">
-        <view class="prediction-title">📈 概率预测</view>
-        <view class="timeline-preview">
-          <view class="timeline-item" wx:for="{{probabilityTimeline}}" wx:key="day" wx:if="{{item.day % 5 === 0 || item.day === probabilityTimeline.length - 1}}">
-            <text class="timeline-day">第{{item.day}}天</text>
-            <text class="timeline-prob">{{item.probabilityText}}</text>
-          </view>
-        </view>
-        <view class="wait-advice" wx:if="{{waitAdvice}}">
-          <text class="advice-icon">💡</text>
-          <text class="advice-text">{{waitAdvice}}</text>
+    <!-- 已有目标 Chip 列表 -->
+    <view class="target-chip-list" wx:if="{{targets.length > 0}}">
+      <view
+        class="target-chip"
+        wx:for="{{targets}}"
+        wx:key="id"
+        data-index="{{index}}"
+        bindtap="onEditTarget"
+      >
+        <text class="chip-type">{{item.typeLabel}}</text>
+        <text class="chip-name">{{item.name}}</text>
+        <text class="chip-rank">{{item.desiredRank}}{{item.rankUnit}}</text>
+        <text class="chip-pity {{item.isGuaranteed ? 'big-pity' : 'small-pity'}}">{{item.isGuaranteed ? '大' : '小'}}保{{item.currentPity}}</text>
+        <view class="chip-delete" catchtap="onDeleteTargetChip" data-index="{{index}}">
+          <text class="chip-delete-icon">✕</text>
         </view>
       </view>
     </view>
-  </view>
 
-  <!-- 概率展示区域 -->
-  <view class="probability-section">
-    <view class="section-title">📊 达成概率</view>
-
-    <!-- 主概率显示 -->
-    <view class="main-probability">
-      <probability-display probability="{{calculatedProbability}}" animated="{{true}}" />
+    <!-- 添加目标按钮 -->
+    <view class="add-target-btn" bindtap="onShowTargetForm" wx:if="{{!showTargetForm}}">
+      <text class="add-target-icon">+</text>
+      <text class="add-target-text">添加目标</text>
     </view>
 
-    <!-- 当前抽数提示 -->
-    <view class="pulls-info" wx:if="{{currentPulls > 0}}">
-      <text class="pulls-label">当前可抽：</text>
-      <text class="pulls-value">{{currentPulls}}抽</text>
-    </view>
-  </view>
-
-  <!-- 概率分布图表区域 -->
-  <view class="probability-chart-section">
-    <view class="section-title">📈 概率分布</view>
-
-    <view class="chart-container" wx:if="{{calculatedDistribution.length > 0}}">
-      <probability-chart
-        distribution="{{calculatedDistribution}}"
-        current-pulls="{{currentPulls}}"
-        probability-timeline="{{probabilityTimeline}}"
-        optimal-wait-days="{{optimalWaitDays}}"
-        final-pulls="{{finalPulls}}"
-        game-config="{{gameConfig}}"
-      />
-    </view>
-
-    <!-- 无数据提示 -->
-    <view class="no-data-hint" wx:else>
-      <text class="hint-text">请输入资源数量查看概率分布</text>
-    </view>
-
-    <!-- 图表说明 -->
-    <view class="chart-legend" wx:if="{{calculatedDistribution.length > 0 && finalPulls > 0}}">
-      <view class="legend-item">
-        <view class="legend-color current"></view>
-        <text class="legend-text">当前概率曲线</text>
-      </view>
-      <view class="legend-item">
-        <view class="legend-color final"></view>
-        <text class="legend-text">卡池结束时概率曲线</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 目标设定区域 -->
-  <view class="target-section">
-    <view class="section-header" bindtap="toggleTargetForm">
-      <text class="section-title">🎯 设定目标</text>
-      <text class="toggle-icon">{{showTargetForm ? '▼' : '▶'}}</text>
-    </view>
-
+    <!-- 目标表单 -->
     <view class="target-form" wx:if="{{showTargetForm}}">
-      <view class="form-item">
+      <!-- 目标名称 -->
+      <view class="form-group">
         <text class="form-label">目标名称</text>
         <input
           class="form-input"
           type="text"
           value="{{targetForm.name}}"
-          placeholder="如：胡桃、黄泉"
+          placeholder="如：胡桃、护摩之杖"
           bindinput="onTargetNameChange"
         />
       </view>
 
-      <view class="form-item">
+      <!-- 目标类型 -->
+      <view class="form-group">
         <text class="form-label">目标类型</text>
-        <picker bindchange="onTargetTypeChange" value="{{targetForm.type === 'character' ? 0 : targetForm.type === 'weapon' ? 1 : 2}}" range="{{['角色', '武器', '其他']}}">
-          <view class="form-picker">
-            <text>{{targetForm.type === 'character' ? '角色' : targetForm.type === 'weapon' ? '武器' : '其他'}}</text>
+        <view class="type-selector">
+          <view
+            class="type-option {{targetForm.type === item.key ? 'active' : ''}}"
+            wx:for="{{targetTypeOptions}}"
+            wx:key="key"
+            data-type="{{item.key}}"
+            bindtap="onTargetTypeChange"
+          >
+            <text class="type-option-text">{{item.label}}</text>
           </view>
-        </picker>
+        </view>
       </view>
 
-      <view class="form-item">
-        <text class="form-label">期望命座/精炼</text>
+      <!-- 期望等级 -->
+      <view class="form-group">
+        <text class="form-label">期望{{targetForm.type === 'weapon' ? '精炼' : '命座'}}</text>
+        <view class="rank-selector">
+          <view
+            class="rank-btn {{targetForm.desiredRank === item ? 'active' : ''}}"
+            wx:for="{{rankOptions}}"
+            wx:key="*this"
+            data-rank="{{item}}"
+            bindtap="onTargetRankChange"
+          >
+            <text class="rank-btn-text">{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 当前保底计数 -->
+      <view class="form-group">
+        <text class="form-label">已垫抽数</text>
         <input
-          class="form-input form-input-short"
+          class="form-input"
           type="number"
-          value="{{targetForm.constellations}}"
+          value="{{targetForm.currentPity}}"
           placeholder="0"
-          bindinput="onTargetConstellationsChange"
+          bindinput="onTargetCurrentPityChange"
         />
       </view>
 
-      <view class="form-item">
+      <!-- 大保底 -->
+      <view class="form-group form-group-inline">
         <text class="form-label">大保底</text>
         <switch checked="{{targetForm.isGuaranteed}}" bindchange="onTargetGuaranteedChange" color="#C4A77D" />
       </view>
 
-      <view class="form-item">
-        <text class="form-label">卡池开始</text>
-        <picker mode="date" value="{{targetForm.poolStartDate}}" bindchange="onTargetPoolStartDateChange">
-          <view class="form-picker">
-            <text>{{targetForm.poolStartDate || '请选择'}}</text>
-          </view>
-        </picker>
+      <!-- 卡池时间 -->
+      <view class="form-group">
+        <text class="form-label">卡池时间</text>
+        <view class="date-row">
+          <picker mode="date" value="{{targetForm.poolStartDate}}" bindchange="onTargetPoolStartDateChange">
+            <view class="date-picker">
+              <text>{{targetForm.poolStartDate || '开始日期'}}</text>
+            </view>
+          </picker>
+          <text class="date-separator">~</text>
+          <picker mode="date" value="{{targetForm.poolEndDate}}" bindchange="onTargetPoolEndDateChange">
+            <view class="date-picker">
+              <text>{{targetForm.poolEndDate || '结束日期'}}</text>
+            </view>
+          </picker>
+        </view>
       </view>
 
-      <view class="form-item">
-        <text class="form-label">卡池结束</text>
-        <picker mode="date" value="{{targetForm.poolEndDate}}" bindchange="onTargetPoolEndDateChange">
-          <view class="form-picker">
-            <text>{{targetForm.poolEndDate || '请选择'}}</text>
-          </view>
-        </picker>
-      </view>
-
+      <!-- 表单操作 -->
       <view class="form-actions">
-        <button class="btn-save-target" bindtap="onSaveTarget">
-          <text>{{targetEditMode ? '更新目标' : '设定目标'}}</text>
+        <button class="btn-primary" bindtap="onSaveTarget">
+          {{targetEditMode ? '更新目标' : '保存目标'}}
         </button>
-        <button wx:if="{{targetEditMode}}" class="btn-delete-target" bindtap="onDeleteTarget">
-          <text>删除目标</text>
+        <button class="btn-secondary" bindtap="onCancelTargetForm" wx:if="{{targetEditMode}}">
+          取消
         </button>
       </view>
     </view>
+  </view>
 
-    <view class="target-hint" wx:if="{{!showTargetForm}}">
-      <text class="hint-text">设定抽卡目标后，可在总览页查看达成概率和资源分配建议</text>
+  <!-- 保底状态 -->
+  <view class="section-card">
+    <view class="section-title">保底状态</view>
+    <view class="pity-row">
+      <view class="pity-item">
+        <text class="form-label">当前抽数</text>
+        <view class="pity-input-wrap">
+          <input
+            class="form-input pity-input"
+            type="number"
+            value="{{currentPity}}"
+            placeholder="0"
+            bindinput="onCurrentPityChange"
+          />
+          <text class="pity-unit">抽</text>
+        </view>
+      </view>
+      <view class="pity-item">
+        <text class="form-label">大保底</text>
+        <switch checked="{{isGuaranteed}}" bindchange="onGuaranteedChange" color="#C4A77D" />
+      </view>
     </view>
+    <text class="hint-text" wx:if="{{gameConfig.guaranteeRate}}">
+      开启大保底表示上次5星歪了，下次5星必定是UP
+    </text>
+  </view>
+
+  <!-- 资源输入 -->
+  <view class="section-card">
+    <view class="section-title">我的资源</view>
+    <block wx:for="{{resourceTypes}}" wx:key="key">
+      <view class="resource-row">
+        <view class="resource-label-wrap">
+          <image wx:if="{{item.icon}}" class="resource-icon" src="{{item.icon}}" mode="aspectFit" />
+          <text class="resource-name">{{item.name}}</text>
+        </view>
+        <input
+          class="form-input resource-input"
+          type="number"
+          value="{{resources[item.key] || 0}}"
+          placeholder="0"
+          data-key="{{item.key}}"
+          bindinput="onResourceChange"
+        />
+      </view>
+    </block>
+  </view>
+
+  <!-- 达成概率 -->
+  <view class="section-card probability-card">
+    <view class="section-title">达成概率</view>
+
+    <!-- 目标标签 -->
+    <view class="target-tags" wx:if="{{targetSummary}}">
+      <text class="target-tag" wx:for="{{targetSummary}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <!-- 概率大数字 -->
+    <view class="probability-display">
+      <text class="probability-number">{{probabilityText}}</text>
+      <text class="probability-label">综合达成概率</text>
+    </view>
+
+    <!-- 各目标概率 -->
+    <view class="target-prob-list" wx:if="{{targetProbabilities.length > 0}}">
+      <view class="target-prob-item" wx:for="{{targetProbabilities}}" wx:key="name">
+        <text class="target-prob-name">{{item.name}}</text>
+        <text class="target-prob-guarantee {{item.isGuaranteed ? 'big-pity' : 'small-pity'}}">{{item.isGuaranteed ? '大保底' : '小保底'}}</text>
+        <text class="target-prob-value" style="color: {{item.probability >= 0.8 ? '#7FB069' : item.probability >= 0.5 ? '#F5A623' : '#C47070'}};">{{item.probabilityText}}</text>
+      </view>
+    </view>
+
+    <!-- 抽数信息 -->
+    <view class="pulls-info-row">
+      <view class="pulls-info-item">
+        <text class="pulls-info-label">当前可抽</text>
+        <text class="pulls-info-value">{{currentPulls}}抽</text>
+      </view>
+      <view class="pulls-info-divider"></view>
+      <view class="pulls-info-item">
+        <text class="pulls-info-label">需要抽数</text>
+        <text class="pulls-info-value {{neededPulls > currentPulls ? 'danger' : 'success'}}">{{neededPulls}}抽</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 概率分布（默认折叠） -->
+  <view class="section-card">
+    <view class="collapsible-header" bindtap="toggleProbabilityChart">
+      <view class="section-title">概率分布</view>
+      <text class="toggle-icon">{{showProbabilityChart ? '▼' : '▶'}}</text>
+    </view>
+    <view class="chart-content" wx:if="{{showProbabilityChart}}">
+      <view class="chart-container" wx:if="{{calculatedDistribution.length > 0}}">
+        <probability-chart
+          distribution="{{calculatedDistribution}}"
+          current-pulls="{{currentPulls}}"
+          probability-timeline="{{probabilityTimeline}}"
+          optimal-wait-days="{{optimalWaitDays}}"
+          final-pulls="{{finalPulls}}"
+          game-config="{{gameConfig}}"
+        />
+      </view>
+      <view class="empty-hint" wx:else>
+        <text>请输入资源数量查看概率分布</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 攒抽预测（默认折叠） -->
+  <view class="section-card">
+    <view class="collapsible-header" bindtap="togglePoolSettings">
+      <view class="section-title">攒抽预测</view>
+      <text class="toggle-icon">{{showPoolSettings ? '▼' : '▶'}}</text>
+    </view>
+
+    <!-- 折叠态：指标卡片 -->
+    <view class="prediction-summary" wx:if="{{!showPoolSettings}}">
+      <view class="metric-grid" wx:if="{{poolStartDate && poolEndDate}}">
+        <view class="metric-card">
+          <text class="metric-value">{{probabilityText}}</text>
+          <text class="metric-label">当前概率</text>
+        </view>
+        <view class="metric-card">
+          <text class="metric-value">{{finalProbabilityText}}</text>
+          <text class="metric-label">最终概率</text>
+        </view>
+        <view class="metric-card">
+          <text class="metric-value">{{remainingDays}}天</text>
+          <text class="metric-label">距离卡池结束</text>
+        </view>
+      </view>
+      <view class="pool-date-info" wx:if="{{targetForm.poolStartDate || targetForm.poolEndDate}}">
+        <text class="pool-date-label">目标卡池</text>
+        <text class="pool-date-value">{{targetForm.poolStartDate || '--'}} ~ {{targetForm.poolEndDate || '--'}}</text>
+      </view>
+      <view class="empty-hint" wx:else>
+        <text>请设定目标卡池时间查看攒抽预测</text>
+      </view>
+    </view>
+
+    <!-- 展开态 -->
+    <view class="pool-settings-content" wx:if="{{showPoolSettings}}">
+      <view class="pool-date-info" wx:if="{{targetForm.poolStartDate || targetForm.poolEndDate}}">
+        <text class="pool-date-label">目标卡池</text>
+        <text class="pool-date-value">{{targetForm.poolStartDate || '--'}} ~ {{targetForm.poolEndDate || '--'}}</text>
+      </view>
+      <view class="pool-date-info empty" wx:else>
+        <text class="pool-date-hint">请在目标设定中设置卡池时间</text>
+      </view>
+
+      <view class="pool-meta" wx:if="{{poolDays > 0}}">
+        <text class="pool-meta-item">卡池时长 {{poolDays}}天</text>
+        <text class="pool-meta-item">剩余 {{remainingDays}}天</text>
+      </view>
+
+      <!-- 收入输入 -->
+      <view class="income-section">
+        <view class="income-row">
+          <text class="form-label">每日收入</text>
+          <view class="income-input-wrap">
+            <input
+              class="form-input income-input"
+              type="number"
+              value="{{dailyIncome}}"
+              placeholder="0"
+              bindinput="onDailyIncomeChange"
+            />
+            <text class="income-unit">{{resourceUnit}}/天</text>
+          </view>
+        </view>
+        <view class="income-row">
+          <text class="form-label">其他获取</text>
+          <view class="income-input-wrap">
+            <input
+              class="form-input income-input"
+              type="number"
+              value="{{otherIncome}}"
+              placeholder="0"
+              bindinput="onOtherIncomeChange"
+            />
+            <text class="income-unit">{{resourceUnit}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 时间线 -->
+      <view class="timeline-section" wx:if="{{probabilityTimeline.length > 0}}">
+        <view class="timeline-track">
+          <view class="timeline-fill" style="width: 100%;"></view>
+          <view class="timeline-marker timeline-start" style="left: 0%;">
+            <text class="marker-label">今天</text>
+            <text class="marker-value">{{probabilityText}}</text>
+          </view>
+          <view class="timeline-marker timeline-end" style="left: 100%;">
+            <text class="marker-label">结束</text>
+            <text class="marker-value">{{finalProbabilityText}}</text>
+          </view>
+        </view>
+
+        <view class="timeline-list">
+          <view class="timeline-item" wx:for="{{probabilityTimeline}}" wx:key="day" wx:if="{{item.day % 5 === 0 || item.day === probabilityTimeline.length - 1}}">
+            <text class="timeline-day">第{{item.day}}天</text>
+            <text class="timeline-arrow">→</text>
+            <text class="timeline-prob">{{item.probabilityText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 建议 -->
+      <view class="advice-box" wx:if="{{waitAdvice}}">
+        <text class="advice-icon">💡</text>
+        <text class="advice-text">{{waitAdvice}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息（弱化） -->
+  <view class="version-section">
+    <text class="version-text">数据版本 v{{dataVersion}} · {{updatedAt}}</text>
+    <text class="version-warning" wx:if="{{isDataOutdated}}">数据可能过期，请核对官方公告</text>
   </view>
 </view>

@@ -8,40 +8,53 @@
   <view wx:else>
     <!-- 有目标时的主界面 -->
     <view wx:if="{{goals.length > 0}}">
+      <!-- 资源总量 Summary Bar -->
+      <view class="summary-bar" wx:if="{{summaryBar}}">
+        <view class="summary-item">
+          <text class="summary-number">{{summaryBar.totalPulls}}</text>
+          <text class="summary-label">总抽数</text>
+        </view>
+        <view class="summary-divider"></view>
+        <view class="summary-item">
+          <text class="summary-number">{{summaryBar.totalGoals}}</text>
+          <text class="summary-label">目标数</text>
+        </view>
+        <view class="summary-divider"></view>
+        <view class="summary-item">
+          <text class="summary-number">{{summaryBar.achievableGoals}}</text>
+          <text class="summary-label">预计达成</text>
+        </view>
+      </view>
+
       <!-- 我的目标 -->
       <view class="section-header">
-        <text class="section-title">📍 我的目标</text>
+        <text class="section-title">我的目标</text>
         <view class="add-btn" bindtap="onAddGoal">
           <text class="add-text">+ 目标</text>
         </view>
       </view>
 
-      <!-- 目标卡片横向滚动 -->
-      <scroll-view class="goals-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-        <view class="goals-list">
-          <goal-card
-            wx:for="{{goals}}"
-            wx:key="gameId"
-            gameId="{{item.gameId}}"
-            gameName="{{item.name}}"
-            gameIcon="{{item.icon}}"
-            target="{{item.target}}"
-            currentPulls="{{item.totalPulls}}"
-            probability="{{item.probability}}"
-            probabilityText="{{item.probabilityText}}"
-            neededPulls="{{item.neededPulls}}"
-            poolStartDate="{{item.target.poolStartDate}}"
-            bind:taptitle="onGoalTap"
-            bind:tapmenu="onGoalMenu"
-            bind:delete="onGoalDelete"
-            bind:edit="onGoalEdit"
-          />
-          <view class="add-goal-card" bindtap="onAddGoal">
-            <text class="add-icon">➕</text>
-            <text class="add-label">添加目标</text>
-          </view>
+      <!-- 目标卡片竖向列表 -->
+      <view class="goals-list-vertical">
+        <goal-card
+          wx:for="{{goals}}"
+          wx:key="gameId"
+          gameId="{{item.gameId}}"
+          gameName="{{item.name}}"
+          gameIcon="{{item.icon}}"
+          targets="{{item.targets}}"
+          currentPulls="{{item.totalPulls}}"
+          probability="{{item.probability}}"
+          probabilityText="{{item.probabilityText}}"
+          neededPulls="{{item.neededPulls}}"
+          bind:taptitle="onGoalTap"
+          bind:tapmenu="onGoalMenu"
+        />
+        <view class="add-goal-card-vertical" bindtap="onAddGoal">
+          <text class="add-icon">+</text>
+          <text class="add-label">添加目标</text>
         </view>
-      </scroll-view>
+      </view>
 
       <!-- 冲突提示 -->
       <conflict-alert
@@ -56,7 +69,7 @@
       <!-- 资源分配模拟器 -->
       <view class="simulator-section">
         <view class="simulator-header" bindtap="onToggleSimulator">
-          <text class="simulator-title">📊 资源分配模拟器</text>
+          <text class="simulator-title">资源分配模拟器</text>
           <text class="simulator-toggle">{{simulatorExpanded ? '收起 ▲' : '展开 ▼'}}</text>
         </view>
 
@@ -86,7 +99,7 @@
             totalPulls="{{totalPulls}}"
             probability="{{item.probability}}"
             probabilityText="{{item.probabilityText}}"
-            stepSizes="{{[1, 10]}}"
+            stepSizes="{{[10, 50]}}"
             highlight="{{item.isPreview}}"
             bind:change="onAllocationChange"
             bind:inputtap="onAllocationInput"
@@ -109,26 +122,21 @@
       <!-- 策略建议 -->
       <view class="strategy-section">
         <view class="section-header" wx:if="{{strategies.length > 0}}">
-          <text class="section-title">💡 策略建议</text>
+          <text class="section-title">策略建议</text>
         </view>
         <view class="empty-strategies" wx:if="{{strategies.length === 0}}">
-          <text class="empty-icon">💡</text>
+          <text class="empty-icon">!</text>
           <text class="empty-title">暂无策略建议</text>
           <text class="empty-hint">设定多个游戏目标后，将自动生成资源分配策略</text>
-        </view>
-        <view class="section-header">
-          <text class="section-title">💡 策略建议</text>
         </view>
         <strategy-card
           wx:for="{{strategies}}"
           wx:key="id"
           strategy="{{item}}"
-          isPreviewing="{{previewingStrategyId === item.id}}"
+          currentAllocations="{{allocations}}"
           isRecommended="{{item.isRecommended}}"
           index="{{index}}"
-          bind:preview="onStrategyPreview"
           bind:apply="onStrategyApply"
-          bind:cancel="onStrategyCancel"
         />
       </view>
     </view>
@@ -136,7 +144,7 @@
     <!-- 降级模式：无目标时显示原有总览 -->
     <view class="fallback-overview" wx:if="{{goals.length === 0}}">
       <view class="empty-goals">
-        <text class="empty-icon">🎯</text>
+        <text class="empty-icon">?</text>
         <text class="empty-title">还没有设定目标</text>
         <text class="empty-hint">设定抽卡目标后，可以更好地统筹多游戏资源</text>
         <view class="btn-set-goal" bindtap="onAddGoal">

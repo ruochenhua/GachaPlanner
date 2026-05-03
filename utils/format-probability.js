@@ -14,7 +14,7 @@ function formatProbability(probability) {
     return '100%';
   }
   if (pct < 0.1) {
-    return '<0.1%';
+    return pct.toFixed(2) + '%';
   }
   return pct.toFixed(1) + '%';
 }

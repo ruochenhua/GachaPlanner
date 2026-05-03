@@ -25,7 +25,7 @@ Page({
     conflictDismissed: false,
     simulatorExpanded: false,
     strategies: [],
-    previewingStrategyId: null,
+    // 策略卡片不再需要预览状态
     lastAdjustmentHint: '',
     originalAllocations: null,
     canUndoReset: false
@@ -83,19 +83,21 @@ Page({
         gamesData.push(gameData);
 
         if (targets.length > 0) {
-          const target = targets[0];
-          const neededPulls = this._estimateNeededPulls(target, resources, config);
+          const neededPulls = this._estimateNeededPulls(targets, resources, config);
           goalsData.push({
             ...gameData,
-            target,
+            targets,
+            target: targets[0],
             neededPulls
           });
         }
       }
 
-      const totalPulls = gamesData.reduce((sum, g) => sum + g.totalPulls, 0);
+      // 只统计有目标的游戏
+      const activeGames = gamesData.filter(g => g.target);
+      const totalPulls = activeGames.reduce((sum, g) => sum + g.totalPulls, 0);
 
-      const allocations = gamesData.map(g => ({
+      const allocations = activeGames.map(g => ({
         gameId: g.gameId,
         gameName: g.name,
         currentPulls: g.totalPulls,
@@ -106,10 +108,17 @@ Page({
         isPreview: false
       }));
 
-      const avgProbability = gamesData.length > 0
-        ? gamesData.reduce((s, g) => s + g.probability, 0) / gamesData.length
+      const avgProbability = activeGames.length > 0
+        ? activeGames.reduce((s, g) => s + g.probability, 0) / activeGames.length
         : 0;
       const summaryText = `总资源: ${totalPulls}抽 | 目标: ${goalsData.length}个 | 平均达成率: ${formatProbability(avgProbability)}`;
+
+      const achievableGoals = goalsData.filter(g => g.probability >= 0.8).length;
+      const summaryBar = {
+        totalPulls,
+        totalGoals: goalsData.length,
+        achievableGoals
+      };
 
       const conflictResult = overviewService.detectConflicts(gamesData);
       const conflicts = conflictResult.success ? conflictResult.data : [];
@@ -135,10 +144,10 @@ Page({
         allocations,
         totalPulls,
         summaryText,
+        summaryBar,
         conflicts: conflictsWithText,
         strategies,
         conflictDismissed: false,
-        previewingStrategyId: null,
         lastAdjustmentHint: '',
         originalAllocations: JSON.parse(JSON.stringify(allocations)),
         loading: false,
@@ -186,11 +195,18 @@ Page({
     return 0;
   },
 
-  _estimateNeededPulls(target, resources, config) {
-    const baseRarity = target.rarity || 5;
-    const constellations = target.constellations || 0;
-    const basePulls = baseRarity === 5 ? 90 : 45;
-    const totalNeeded = basePulls * (constellations + 1);
+  _estimateNeededPulls(targets, resources, config) {
+    if (!Array.isArray(targets)) {
+      targets = targets ? [targets] : [];
+    }
+    let totalNeeded = 0;
+    for (const target of targets) {
+      const type = target.type || 'character';
+      const rank = target.desiredRank || target.constellations || 0;
+      // 武器池保底通常比角色池低
+      const basePulls = type === 'weapon' ? 80 : (config.hardPity || 90);
+      totalNeeded += basePulls * (rank + 1);
+    }
     const currentPulls = this._calculateTotalPulls(resources, config);
     return Math.max(0, totalNeeded - currentPulls);
   },
@@ -220,16 +236,37 @@ Page({
     });
   },
 
-  onGoalMenu() {
-    // 菜单在组件内部处理
+  onGoalMenu(e) {
+    const { gameId } = e.detail;
+    wx.showActionSheet({
+      itemList: ['编辑', '删除'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          wx.navigateTo({
+            url: `/pages/planning/planning?gameId=${gameId}&autoFocusTarget=true`
+          });
+        } else if (res.tapIndex === 1) {
+          wx.showModal({
+            title: '确认删除',
+            content: '确定要删除该游戏的所有目标吗？',
+            success: (modalRes) => {
+              if (modalRes.confirm) {
+                this._deleteAllGoals(gameId);
+              }
+            }
+          });
+        }
+      }
+    });
   },
 
-  async onGoalDelete(e) {
-    const { gameId } = e.detail;
-    const targetsResult = await goalService.getGoalsByGame(gameId);
-    if (targetsResult.success && targetsResult.data.length > 0) {
-      await goalService.deleteGoal(gameId, targetsResult.data[0].id);
+  async _deleteAllGoals(gameId) {
+    const result = await goalService.deleteAllGoals(gameId);
+    if (result.success) {
+      wx.showToast({ title: '已删除', icon: 'success' });
       this.loadData();
+    } else {
+      wx.showToast({ title: '删除失败', icon: 'none' });
     }
   },
 
@@ -374,36 +411,6 @@ Page({
     });
   },
 
-  onStrategyPreview(e) {
-    const { strategyId } = e.detail;
-    const { strategies, totalPulls } = this.data;
-
-    const strategy = strategies.find(s => s.id === strategyId);
-    if (!strategy) return;
-
-    const newAllocations = this.data.allocations.map(a => {
-      const alloc = strategy.allocations.find(al => al.gameId === a.gameId);
-      if (alloc) {
-        return {
-          ...a,
-          currentPulls: alloc.pulls,
-          probability: alloc.probability,
-          probabilityText: formatProbability(alloc.probability),
-          percentage: totalPulls > 0 ? Math.round((alloc.pulls / totalPulls) * 100) : 0,
-          isPreview: true
-        };
-      }
-      return a;
-    });
-
-    this.setData({
-      allocations: newAllocations,
-      previewingStrategyId: strategyId,
-      simulatorExpanded: true,
-      lastAdjustmentHint: `正在预览「${strategy.name}」方案`
-    });
-  },
-
   onStrategyApply(e) {
     const { strategyId } = e.detail;
     const { strategies, allocations, totalPulls } = this.data;
@@ -449,7 +456,6 @@ Page({
       this.setData({
         allocations: newOriginal,
         originalAllocations: JSON.parse(JSON.stringify(newOriginal)),
-        previewingStrategyId: null,
         lastAdjustmentHint: ''
       });
 
@@ -459,17 +465,6 @@ Page({
       });
 
       this.loadData();
-    });
-  },
-
-  onStrategyCancel() {
-    const { originalAllocations } = this.data;
-    if (!originalAllocations) return;
-
-    this.setData({
-      allocations: JSON.parse(JSON.stringify(originalAllocations)),
-      previewingStrategyId: null,
-      lastAdjustmentHint: ''
     });
   },
 

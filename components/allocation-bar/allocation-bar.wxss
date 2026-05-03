@@ -82,11 +82,12 @@
   gap: 16rpx;
 }
 
-.percentage-label {
+.allocation-label {
   font-size: 24rpx;
   color: #7A7168;
-  min-width: 60rpx;
+  min-width: 120rpx;
   text-align: right;
+  white-space: nowrap;
 }
 
 .progress-track {

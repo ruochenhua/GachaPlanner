@@ -15,6 +15,11 @@
           <text class="game-probability">{{item.probabilityText}}</text>
         </view>
       </view>
+
+      <view class="solution-box" wx:if="{{solution}}">
+        <text class="solution-icon">💡</text>
+        <text class="solution-text">{{solution}}</text>
+      </view>
     </view>
 
     <view class="alert-actions">

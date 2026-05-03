@@ -13,6 +13,10 @@ class GoalService {
     return PlanningStorage.removeTarget(gameId, targetId);
   }
 
+  async deleteAllGoals(gameId) {
+    return PlanningStorage.deletePlanningData(gameId);
+  }
+
   async getGoals() {
     const gameIdsResult = await PlanningStorage.getAllGameIds();
     if (!gameIdsResult.success) {

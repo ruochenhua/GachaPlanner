@@ -1,37 +1,39 @@
 .goal-card {
-  width: 240rpx;
-  min-height: 300rpx;
-  border-radius: 16rpx;
-  padding: 24rpx;
+  width: 100%;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: relative;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  flex-shrink: 0;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  transition: all 0.2s;
 }
 
 .goal-header {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16rpx;
 }
 
+.goal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
 .game-icon {
-  width: 40rpx;
-  height: 40rpx;
-  border-radius: 8rpx;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 10rpx;
+  flex-shrink: 0;
 }
 
 .game-name {
-  flex: 1;
-  font-size: 24rpx;
-  font-weight: 600;
+  font-size: 28rpx;
+  font-weight: 700;
   color: #2C2520;
-  margin-left: 8rpx;
 }
 
 .menu-btn {
@@ -48,53 +50,68 @@
   font-weight: bold;
 }
 
-.target-name {
+.target-summary {
   font-size: 28rpx;
+  font-weight: 600;
   color: #2C2520;
-  font-weight: 500;
-  margin-bottom: 16rpx;
-  text-align: center;
+  margin-bottom: 20rpx;
+  line-height: 1.4;
 }
 
-.target-name.empty {
-  color: #A8A095;
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .probability-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 16rpx;
+  align-items: flex-start;
 }
 
 .probability-number {
   font-size: 48rpx;
-  font-weight: bold;
-  line-height: 1.2;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 .probability-label {
   font-size: 22rpx;
   margin-top: 4rpx;
+  font-weight: 500;
 }
 
-.info-section {
+.detail-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 8rpx;
 }
 
-.needed-pulls {
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.detail-label {
+  font-size: 22rpx;
+  color: #7A7168;
+}
+
+.detail-value {
   font-size: 26rpx;
+  font-weight: 600;
+  color: #2C2520;
+  min-width: 80rpx;
+  text-align: right;
+}
+
+.detail-value.danger {
   color: #C47070;
 }
 
-.needed-pulls.achieved {
-  color: #7CB342;
-}
-
-.pool-date {
-  font-size: 22rpx;
-  color: #A8A095;
+.detail-value.success {
+  color: #7FB069;
 }
