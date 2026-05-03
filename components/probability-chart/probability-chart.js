@@ -363,6 +363,9 @@ Component({
         if (this.properties.finalPulls > 0) {
           this.drawFinalPosition(raw);
         }
+
+        // 绘制图例
+        this.drawLegend();
       }
     },
 
@@ -426,21 +429,36 @@ Component({
         ctx.fillText(i.toString(), x, y);
       }
 
-      // Y轴标签
+      // Y轴标签 + 水平网格线
       const yLabels = ['0%', '25%', '50%', '75%', '100%'];
       yLabels.forEach((label, index) => {
+        const yLine = canvasHeight - bottom - (index / 4) * chartHeight;
         const x = left - 10;
-        const y = canvasHeight - bottom - (index / 4) * chartHeight + 4;
+        const y = yLine + 4;
+
+        // 绘制水平网格线（虚线，0% 不画）
+        if (index > 0) {
+          ctx.beginPath();
+          ctx.strokeStyle = '#F0EDE9';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+          ctx.moveTo(left, yLine);
+          ctx.lineTo(canvasWidth - right, yLine);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
 
         // 绘制刻度线
         ctx.beginPath();
-        ctx.moveTo(left - 5, canvasHeight - bottom - (index / 4) * chartHeight);
-        ctx.lineTo(left, canvasHeight - bottom - (index / 4) * chartHeight);
+        ctx.strokeStyle = '#EBE8E4';
+        ctx.lineWidth = 1;
+        ctx.moveTo(left - 5, yLine);
+        ctx.lineTo(left, yLine);
         ctx.stroke();
 
         // 绘制刻度标签
         ctx.font = '10px sans-serif';
-        ctx.fillStyle = '#78716C';  // Gray 500
+        ctx.fillStyle = '#78716C';
         ctx.textAlign = 'right';
         ctx.fillText(label, x, y);
       });
@@ -461,11 +479,15 @@ Component({
         this.mapToCanvas(d.pulls, this.normalizeProbability(d.probability), maxPulls)
       );
 
-      ctx.strokeStyle = '#C4A77D';  // Primary
+      ctx.strokeStyle = '#C4A77D';
       ctx.lineWidth = 2;
       this.strokeSmoothCurve(ctx, points);
 
-      ctx.fillStyle = 'rgba(212, 188, 153, 0.3)';  // Primary Light with 0.3 opacity
+      // 渐变填充
+      const gradient = ctx.createLinearGradient(0, top, 0, canvasHeight - bottom);
+      gradient.addColorStop(0, 'rgba(196, 167, 125, 0.35)');
+      gradient.addColorStop(1, 'rgba(196, 167, 125, 0.02)');
+      ctx.fillStyle = gradient;
       this.fillUnderSmoothCurve(ctx, points, canvasHeight - bottom);
     },
 
@@ -492,14 +514,17 @@ Component({
       );
 
       // 使用不同颜色绘制最终曲线
-      ctx.strokeStyle = '#7FB069';  // Success Green
+      ctx.strokeStyle = '#7FB069';
       ctx.lineWidth = 2;
-      ctx.setLineDash([5, 3]);  // 虚线样式
+      ctx.setLineDash([5, 3]);
       this.strokeSmoothCurve(ctx, points);
       ctx.setLineDash([]);
 
-      // 填充区域（更浅的颜色）
-      ctx.fillStyle = 'rgba(127, 176, 105, 0.2)';
+      // 渐变填充
+      const gradient = ctx.createLinearGradient(0, top, 0, canvasHeight - bottom);
+      gradient.addColorStop(0, 'rgba(127, 176, 105, 0.25)');
+      gradient.addColorStop(1, 'rgba(127, 176, 105, 0.02)');
+      ctx.fillStyle = gradient;
       this.fillUnderSmoothCurve(ctx, points, canvasHeight - bottom);
     },
 
@@ -577,10 +602,22 @@ Component({
       ctx.fill();
 
       const probPercent = Math.round(currentPoint.probability * 100);
-      ctx.font = '10px sans-serif';
-      ctx.fillStyle = '#44403C';  // Gray 700
+      const labelText = `${currentPulls}抽 (${probPercent}%)`;
+      ctx.font = 'bold 11px sans-serif';
+      const textMetrics = ctx.measureText(labelText);
+      const textWidth = textMetrics.width;
+      const textHeight = 14;
+      const textX = x - textWidth / 2;
+      const textY = y - 12 - textHeight + 3;
+
+      // 白色背景防重叠
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      this.fillRoundRect(ctx, textX - 4, textY - 2, textWidth + 8, textHeight + 4, 4);
+
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillStyle = '#44403C';
       ctx.textAlign = 'center';
-      ctx.fillText(`${currentPulls}抽 (${probPercent}%)`, x, y - 12);
+      ctx.fillText(labelText, x, y - 12);
     },
 
     /**
@@ -619,10 +656,22 @@ Component({
       ctx.fill();
 
       const probPercent = Math.round(finalPoint.probability * 100);
-      ctx.font = '10px sans-serif';
-      ctx.fillStyle = '#44403C';  // Gray 700
+      const labelText = `${finalPulls}抽 (${probPercent}%)`;
+      ctx.font = 'bold 11px sans-serif';
+      const textMetrics = ctx.measureText(labelText);
+      const textWidth = textMetrics.width;
+      const textHeight = 14;
+      const textX = x - textWidth / 2;
+      const textY = y - 12 - textHeight + 3;
+
+      // 白色背景防重叠
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      this.fillRoundRect(ctx, textX - 4, textY - 2, textWidth + 8, textHeight + 4, 4);
+
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillStyle = '#44403C';
       ctx.textAlign = 'center';
-      ctx.fillText(`${finalPulls}抽 (${probPercent}%)`, x, y - 12);
+      ctx.fillText(labelText, x, y - 12);
     },
 
     /**
@@ -632,6 +681,21 @@ Component({
      * @param {Number} maxPulls - X轴最大抽数
      * @returns {Object} Canvas坐标 {x, y}
      */
+    fillRoundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.arcTo(x + width, y, x + width, y + radius, radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+      ctx.lineTo(x + radius, y + height);
+      ctx.arcTo(x, y + height, x, y + height - radius, radius);
+      ctx.lineTo(x, y + radius);
+      ctx.arcTo(x, y, x + radius, y, radius);
+      ctx.closePath();
+      ctx.fill();
+    },
+
     mapToCanvas(pulls, probability, maxPulls) {
       const { left, right, top, bottom } = this.data.chartMargin;
       const { canvasWidth, canvasHeight } = this.data;
@@ -643,6 +707,52 @@ Component({
       const y = top + (1 - probability) * chartHeight;
 
       return { x, y };
+    },
+
+    /**
+     * 绘制图例
+     */
+    drawLegend() {
+      const ctx = this.ctx;
+      const { canvasWidth } = this.data;
+      const { right, top } = this.data.chartMargin;
+      const hasFinal = this.properties.finalPulls > 0 && (this.properties.probabilityTimeline || []).length > 0;
+
+      const legendX = canvasWidth - right - 8;
+      const legendY = top + 4;
+      const itemHeight = 16;
+      const lineWidth = 20;
+      const fontSize = 10;
+
+      ctx.font = `${fontSize}px sans-serif`;
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+
+      // 实线项 - 当前概率
+      let y = legendY;
+      ctx.beginPath();
+      ctx.strokeStyle = '#C4A77D';
+      ctx.lineWidth = 2;
+      ctx.moveTo(legendX - lineWidth, y);
+      ctx.lineTo(legendX, y);
+      ctx.stroke();
+      ctx.fillStyle = '#78716C';
+      ctx.fillText('当前概率', legendX - lineWidth - 6, y);
+
+      // 虚线项 - 预测概率（如果有）
+      if (hasFinal) {
+        y += itemHeight;
+        ctx.beginPath();
+        ctx.strokeStyle = '#7FB069';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 3]);
+        ctx.moveTo(legendX - lineWidth, y);
+        ctx.lineTo(legendX, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#78716C';
+        ctx.fillText('预测概率', legendX - lineWidth - 6, y);
+      }
     }
   }
 });

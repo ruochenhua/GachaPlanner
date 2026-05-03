@@ -128,33 +128,6 @@
     </view>
   </view>
 
-  <!-- 保底状态 -->
-  <view class="section-card">
-    <view class="section-title">保底状态</view>
-    <view class="pity-row">
-      <view class="pity-item">
-        <text class="form-label">当前抽数</text>
-        <view class="pity-input-wrap">
-          <input
-            class="form-input pity-input"
-            type="number"
-            value="{{currentPity}}"
-            placeholder="0"
-            bindinput="onCurrentPityChange"
-          />
-          <text class="pity-unit">抽</text>
-        </view>
-      </view>
-      <view class="pity-item">
-        <text class="form-label">大保底</text>
-        <switch checked="{{isGuaranteed}}" bindchange="onGuaranteedChange" color="#C4A77D" />
-      </view>
-    </view>
-    <text class="hint-text" wx:if="{{gameConfig.guaranteeRate}}">
-      开启大保底表示上次5星歪了，下次5星必定是UP
-    </text>
-  </view>
-
   <!-- 资源输入 -->
   <view class="section-card">
     <view class="section-title">我的资源</view>

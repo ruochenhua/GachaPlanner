@@ -18,8 +18,6 @@ Page({
     calculatedDistribution: [],
     currentPulls: 0,
     neededPulls: 0,
-    currentPity: 0,
-    isGuaranteed: false,
     gameConfig: null,
     poolStartDate: '',
     poolEndDate: '',
@@ -103,13 +101,13 @@ Page({
       const dailyIncomeData = data.dailyIncome || {};
       let targets = data.targets || [];
 
-      // 兼容旧数据：没有独立 currentPity/isGuaranteed 的目标使用页面级默认值
+      // 兼容旧数据：补充缺失字段
       const getTypeLabel = (type) => targetTypeOptions.find(t => t.key === type)?.label || type;
       targets = targets.map(t => ({
         ...t,
         typeLabel: getTypeLabel(t.type),
         rankUnit: t.type === 'weapon' ? '精' : '命',
-        currentPity: t.currentPity !== undefined ? t.currentPity : (resources.currentPity || 0),
+        currentPity: t.currentPity !== undefined ? t.currentPity : 0,
         isGuaranteed: t.isGuaranteed !== undefined ? t.isGuaranteed : false,
         desiredRank: t.desiredRank !== undefined ? t.desiredRank : (t.constellations || 0)
       }));
@@ -154,8 +152,6 @@ Page({
         targets,
         targetTypeOptions,
         resourceUnit,
-        // 页面级保底状态保留作为新目标默认值
-        currentPity: resources.currentPity || 0
       });
 
       // 同步第一个目标的卡池时间到页面级
@@ -221,10 +217,13 @@ Page({
   /* ========== 目标管理 ========== */
 
   onShowTargetForm() {
-    const { targetTypeOptions, isGuaranteed, currentPity } = this.data;
+    const { targetTypeOptions, targets } = this.data;
     const defaultType = targetTypeOptions[0]?.key || 'character';
     const maxRank = targetTypeOptions.find(t => t.key === defaultType)?.maxRank || 6;
     const rankOptions = Array.from({ length: maxRank + 1 }, (_, i) => i);
+
+    // 新目标默认值：有现有目标时复制首个目标的保底状态，否则默认 0/小保底
+    const firstTarget = targets && targets.length > 0 ? targets[0] : null;
 
     this.setData({
       showTargetForm: true,
@@ -235,8 +234,8 @@ Page({
         name: '',
         type: defaultType,
         desiredRank: 0,
-        isGuaranteed: isGuaranteed || false,
-        currentPity: currentPity || 0,
+        isGuaranteed: firstTarget ? firstTarget.isGuaranteed : false,
+        currentPity: firstTarget ? firstTarget.currentPity : 0,
         poolStartDate: this.data.poolStartDate || '',
         poolEndDate: this.data.poolEndDate || ''
       },
@@ -409,21 +408,6 @@ Page({
     }
   },
 
-  /* ========== 保底状态 ========== */
-
-  onCurrentPityChange(e) {
-    const currentPity = parseInt(e.detail.value) || 0;
-    const maxPity = this.data.gameConfig?.hardPity || 90;
-    const clampedPity = Math.min(currentPity, maxPity);
-    this.setData({ currentPity: clampedPity });
-    this.calculateProbability();
-  },
-
-  onGuaranteedChange(e) {
-    this.setData({ isGuaranteed: e.detail.value });
-    this.calculateProbability();
-  },
-
   /* ========== 资源输入 ========== */
 
   onResourceChange(e) {
@@ -444,7 +428,7 @@ Page({
   /* ========== 概率计算 ========== */
 
   calculateProbability() {
-    const { resources, gameConfig, currentPity, isGuaranteed, targets } = this.data;
+    const { resources, gameConfig, targets } = this.data;
 
     if (!gameConfig) return;
     if (!resources || typeof resources !== 'object') {
@@ -648,13 +632,14 @@ Page({
         probabilityText: formatProbability(item.probability)
       }));
 
-      // 计算最终概率
+      // 计算最终概率（使用首个目标的保底状态）
       let finalProbability = 0;
-      if (finalPulls > 0) {
+      if (finalPulls > 0 && targets.length > 0) {
+        const firstTarget = targets[0];
         const target = {
           pulls: Math.min(finalPulls, gameConfig.hardPity || 90),
-          currentPity: Number(this.data.currentPity) || 0,
-          isGuaranteed: this.data.isGuaranteed || false
+          currentPity: Number(firstTarget.currentPity) || 0,
+          isGuaranteed: firstTarget.isGuaranteed || false
         };
         const calculator = CalculatorFactory.createCalculator(gameConfig);
         const calcResult = calculator.calculate({ resources, target, config: gameConfig });

@@ -343,32 +343,7 @@ page {
   border: none;
 }
 
-/* ---- 保底状态 ---- */
-.pity-row {
-  display: flex;
-  gap: 24rpx;
-}
 
-.pity-item {
-  flex: 1;
-}
-
-.pity-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-  margin-top: 12rpx;
-}
-
-.pity-input {
-  width: 140rpx;
-  text-align: center;
-}
-
-.pity-unit {
-  font-size: 26rpx;
-  color: #7A7168;
-}
 
 .hint-text {
   font-size: 22rpx;
