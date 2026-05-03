@@ -489,7 +489,7 @@ Page({
           };
 
           const calcTarget = {
-            pulls: Math.min(totalPulls, targetHardPity),
+            pulls: totalPulls,
             currentPity: Number(target.currentPity) || 0,
             isGuaranteed: target.isGuaranteed || false
           };
@@ -526,7 +526,7 @@ Page({
           guaranteeRate: firstTypeConfig.guaranteeRate || gameConfig.guaranteeRate || 0.5
         };
         const firstCalcTarget = {
-          pulls: Math.min(totalPulls, firstConfig.hardPity),
+          pulls: totalPulls,
           currentPity: Number(firstTarget.currentPity) || 0,
           isGuaranteed: firstTarget.isGuaranteed || false
         };
@@ -637,7 +637,7 @@ Page({
       if (finalPulls > 0 && targets.length > 0) {
         const firstTarget = targets[0];
         const target = {
-          pulls: Math.min(finalPulls, gameConfig.hardPity || 90),
+          pulls: finalPulls,
           currentPity: Number(firstTarget.currentPity) || 0,
           isGuaranteed: firstTarget.isGuaranteed || false
         };

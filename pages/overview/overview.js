@@ -182,7 +182,7 @@ Page({
     const secondaryValue = secondaryResourceKey ? (Number(resources[secondaryResourceKey]) || 0) : 0;
     const totalPulls = Math.floor(primaryValue / conversionRate) + secondaryValue;
     if (totalPulls === 0) return 0;
-    const target = { pulls: Math.min(totalPulls, config.hardPity || 90), currentPity: 0 };
+    const target = { pulls: totalPulls, currentPity: 0 };
     try {
       const calculator = CalculatorFactory.createCalculator(config);
       const result = calculator.calculate({ resources, target, config });
