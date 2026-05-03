@@ -46,11 +46,8 @@ Component({
      * 卡片点击事件
      */
     onTap() {
-      console.log('游戏卡片点击:', this.data.gameId);
-
       // 防止重复点击
       if (this.data.clicking) {
-        console.log('防止重复点击，忽略');
         return;
       }
 
@@ -98,7 +95,7 @@ Component({
    */
   lifetimes: {
     attached() {
-      console.log('游戏卡片组件attached:', this.data.gameName);
+      // 组件已挂载
     }
   }
 });

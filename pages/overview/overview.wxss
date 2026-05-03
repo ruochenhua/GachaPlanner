@@ -352,3 +352,34 @@
   border-radius: 6rpx;
   transition: width 0.3s;
 }
+
+/* 撤销重置按钮 */
+.btn-reset.undo {
+  color: #7CB342;
+}
+
+/* 空策略提示 */
+.empty-strategies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 32rpx;
+  background: white;
+  border-radius: 16rpx;
+}
+
+.empty-strategies .empty-icon {
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-strategies .empty-title {
+  font-size: 32rpx;
+  color: #4A4A4A;
+  margin-bottom: 8rpx;
+}
+
+.empty-strategies .empty-hint {
+  font-size: 26rpx;
+  color: #999;
+}
