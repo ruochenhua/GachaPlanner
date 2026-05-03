@@ -27,7 +27,8 @@ Page({
     strategies: [],
     previewingStrategyId: null,
     lastAdjustmentHint: '',
-    originalAllocations: null
+    originalAllocations: null,
+    canUndoReset: false
   },
 
   onLoad() {
@@ -285,10 +286,24 @@ Page({
         hint = `从${deductedGame.gameName}挪${Math.abs(deductedGame.delta)}抽到${adjustedGame.gameName} → ${adjustedGame.gameName}: ${adjustedGame.newPulls}抽(${formatProbability(adjustedGame.newProbability)}) | ${deductedGame.gameName}: ${deductedGame.newPulls}抽(${formatProbability(deductedGame.newProbability)})`;
       }
 
+      // 重新检测冲突（基于调整后的概率）
+      const updatedGames = games.map(g => {
+        const alloc = newAllocations.find(a => a.gameId === g.gameId);
+        return { ...g, probability: alloc ? alloc.probability : g.probability };
+      });
+      const conflictResult = overviewService.detectConflicts(updatedGames);
+      const newConflicts = conflictResult.success ? conflictResult.data : [];
+      const conflictsWithText = newConflicts.map(c => ({
+        ...c,
+        probabilityText: formatProbability(c.probability)
+      }));
+
       this.setData({
         allocations: newAllocations,
         lastAdjustmentHint: hint,
-        previewingStrategyId: null
+        previewingStrategyId: null,
+        conflicts: conflictsWithText,
+        conflictDismissed: false
       });
     }
   }, 300),
@@ -307,6 +322,8 @@ Page({
             this.onAllocationChange({
               detail: { gameId, newPulls: newValue, delta, source: 'input' }
             });
+          } else {
+            wx.showToast({ title: '请输入有效数字', icon: 'none' });
           }
         }
       }
@@ -314,20 +331,35 @@ Page({
   },
 
   onResetAllocation() {
-    const { originalAllocations } = this.data;
+    if (this.data.canUndoReset) {
+      // 执行撤销
+      this.setData({
+        allocations: this.data.preResetAllocations,
+        canUndoReset: false,
+        lastAdjustmentHint: '已撤销重置'
+      });
+      if (this.data.undoTimer) {
+        clearTimeout(this.data.undoTimer);
+      }
+      return;
+    }
+
+    const { originalAllocations, allocations } = this.data;
     if (!originalAllocations) return;
 
+    // 保存重置前的状态
     this.setData({
+      preResetAllocations: JSON.parse(JSON.stringify(allocations)),
       allocations: JSON.parse(JSON.stringify(originalAllocations)),
-      lastAdjustmentHint: '',
-      previewingStrategyId: null
+      lastAdjustmentHint: '已重置为原始分配（3秒内可撤销）',
+      previewingStrategyId: null,
+      canUndoReset: true
     });
 
-    wx.showToast({
-      title: '已重置为原始分配',
-      icon: 'none',
-      duration: 2000
-    });
+    const timer = setTimeout(() => {
+      this.setData({ canUndoReset: false });
+    }, 3000);
+    this.setData({ undoTimer: timer });
   },
 
   onConflictHelp() {
@@ -356,7 +388,7 @@ Page({
           ...a,
           currentPulls: alloc.pulls,
           probability: alloc.probability,
-          probabilityText: this._formatProbability(alloc.probability),
+          probabilityText: formatProbability(alloc.probability),
           percentage: totalPulls > 0 ? Math.round((alloc.pulls / totalPulls) * 100) : 0,
           isPreview: true
         };

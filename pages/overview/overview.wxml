@@ -101,13 +101,21 @@
           </view>
 
           <view class="simulator-actions">
-            <text class="btn-reset" bindtap="onResetAllocation">重置为原始分配</text>
+            <text class="btn-reset {{canUndoReset ? 'undo' : ''}}" bindtap="onResetAllocation">{{canUndoReset ? '撤销重置' : '重置为原始分配'}}</text>
           </view>
         </view>
       </view>
 
       <!-- 策略建议 -->
-      <view class="strategy-section" wx:if="{{strategies.length > 0}}">
+      <view class="strategy-section">
+        <view class="section-header" wx:if="{{strategies.length > 0}}">
+          <text class="section-title">💡 策略建议</text>
+        </view>
+        <view class="empty-strategies" wx:if="{{strategies.length === 0}}">
+          <text class="empty-icon">💡</text>
+          <text class="empty-title">暂无策略建议</text>
+          <text class="empty-hint">设定多个游戏目标后，将自动生成资源分配策略</text>
+        </view>
         <view class="section-header">
           <text class="section-title">💡 策略建议</text>
         </view>

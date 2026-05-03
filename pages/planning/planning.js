@@ -41,11 +41,25 @@ Page({
     // 最终抽数（卡池结束时的总抽数）
     finalPulls: 0,
     // 目标设定
-    targets: []
+    targets: [],
+    showTargetForm: false,
+    targetEditMode: false,
+    targetForm: {
+      id: '',
+      name: '',
+      type: 'character',
+      rarity: 5,
+      constellations: 0,
+      isGuaranteed: false,
+      poolStartDate: '',
+      poolEndDate: ''
+    }
   },
 
   onLoad(options) {
-    // 页面加载时不做处理，等待 onShow 中根据 gameId 初始化
+    if (options && options.autoFocusTarget === 'true') {
+      this.setData({ showTargetForm: true });
+    }
   },
 
   onShow() {
@@ -120,6 +134,9 @@ Page({
         // 目标（暂不处理）
         targets: data.targets || []
       });
+
+      // 回显目标到表单
+      this.loadTargetForm(data.targets || []);
 
       // 初始化概率计算
       this.calculateProbability();
@@ -521,6 +538,137 @@ Page({
         optimalWaitDays: 0,
         waitAdvice: '计算失败',
         finalPulls: 0
+      });
+    }
+  },
+
+  /**
+   * 切换目标表单显示
+   */
+  toggleTargetForm() {
+    this.setData({
+      showTargetForm: !this.data.showTargetForm
+    });
+  },
+
+  /**
+   * 加载目标到表单
+   */
+  loadTargetForm(targets) {
+    if (targets.length > 0) {
+      const target = targets[0];
+      this.setData({
+        targetForm: {
+          id: target.id || '',
+          name: target.name || '',
+          type: target.type || 'character',
+          rarity: target.rarity || 5,
+          constellations: target.constellations || 0,
+          isGuaranteed: target.isGuaranteed || false,
+          poolStartDate: target.poolStartDate || '',
+          poolEndDate: target.poolEndDate || ''
+        },
+        targetEditMode: true,
+        showTargetForm: true
+      });
+    } else {
+      this.setData({
+        targetForm: {
+          id: '',
+          name: '',
+          type: 'character',
+          rarity: 5,
+          constellations: 0,
+          isGuaranteed: false,
+          poolStartDate: '',
+          poolEndDate: ''
+        },
+        targetEditMode: false,
+        showTargetForm: false
+      });
+    }
+  },
+
+  onTargetNameChange(e) {
+    this.setData({ 'targetForm.name': e.detail.value });
+  },
+
+  onTargetTypeChange(e) {
+    const types = ['character', 'weapon', 'other'];
+    this.setData({ 'targetForm.type': types[e.detail.value] });
+  },
+
+  onTargetConstellationsChange(e) {
+    const val = parseInt(e.detail.value, 10);
+    this.setData({ 'targetForm.constellations': isNaN(val) ? 0 : val });
+  },
+
+  onTargetGuaranteedChange(e) {
+    this.setData({ 'targetForm.isGuaranteed': e.detail.value });
+  },
+
+  onTargetPoolStartDateChange(e) {
+    this.setData({ 'targetForm.poolStartDate': e.detail.value });
+  },
+
+  onTargetPoolEndDateChange(e) {
+    this.setData({ 'targetForm.poolEndDate': e.detail.value });
+  },
+
+  async onSaveTarget() {
+    const { gameId, targetForm, targets, targetEditMode } = this.data;
+    const target = {
+      ...targetForm,
+      id: targetEditMode && targetForm.id ? targetForm.id : `target_${Date.now()}`
+    };
+
+    let newTargets;
+    if (targetEditMode) {
+      newTargets = targets.map(t => t.id === target.id ? target : t);
+    } else {
+      newTargets = [target];
+    }
+
+    this.setData({ targets: newTargets, targetEditMode: true, showTargetForm: false });
+    await this.savePlanningData();
+
+    wx.showToast({
+      title: targetEditMode ? '目标已更新' : '目标已设定',
+      icon: 'success'
+    });
+  },
+
+  async onDeleteTarget() {
+    const { targetForm } = this.data;
+    if (!targetForm.id) return;
+
+    const res = await wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这个目标吗？',
+      confirmColor: '#C47070'
+    });
+
+    if (res.confirm) {
+      this.setData({
+        targets: [],
+        targetEditMode: false,
+        showTargetForm: false,
+        targetForm: {
+          id: '',
+          name: '',
+          type: 'character',
+          rarity: 5,
+          constellations: 0,
+          isGuaranteed: false,
+          poolStartDate: '',
+          poolEndDate: ''
+        }
+      });
+      await this.savePlanningData();
+
+      wx.showToast({
+        title: '目标已删除',
+        icon: 'success'
       });
     }
   },
