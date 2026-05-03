@@ -486,5 +486,11 @@ Page({
   onPullDownRefresh() {
     this.loadData();
     wx.stopPullDownRefresh();
+  },
+
+  onUnload() {
+    if (this.data.undoTimer) {
+      clearTimeout(this.data.undoTimer);
+    }
   }
 });
