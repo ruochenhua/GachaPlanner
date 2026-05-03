@@ -7,6 +7,7 @@ const { success, error } = require('../utils/result');
 const storageService = require('./storage-service');
 const configLoader = require('../config/config-loader');
 const CalculatorFactory = require('../core/calculator/calculator-factory');
+const PlanningStorage = require('./planning-storage');
 
 /**
  * 游戏管理服务类
@@ -16,6 +17,47 @@ class GameService {
     this.storageService = storageService;
     this.configLoader = configLoader;
     this.currentGameId = null;
+  }
+
+  /**
+   * 从 PlanningStorage 同步读取资源
+   * @param {string} gameId - 游戏ID
+   * @returns {Object|null} 资源对象，不存在时返回 null
+   */
+  _loadPlanningResources(gameId) {
+    try {
+      const key = PlanningStorage.getStorageKey(gameId);
+      const raw = wx.getStorageSync(key);
+      if (!raw) return null;
+      const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (!data || !data.resources) return null;
+      // 判断是否为全默认值（未设置过）
+      const vals = Object.values(data.resources);
+      const isDefault = vals.every(v => v === 0 || v === false || v === '');
+      return isDefault ? null : data.resources;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  /**
+   * 同步更新 PlanningStorage 中的资源
+   * @param {string} gameId - 游戏ID
+   * @param {Object} resources - 资源数据
+   */
+  _savePlanningResources(gameId, resources) {
+    try {
+      const key = PlanningStorage.getStorageKey(gameId);
+      const raw = wx.getStorageSync(key);
+      const data = raw
+        ? (typeof raw === 'string' ? JSON.parse(raw) : raw)
+        : { version: '2.0.0', metadata: { gameId } };
+      data.resources = { ...resources };
+      data.metadata = { ...data.metadata, gameId, lastSavedAt: new Date().toISOString() };
+      wx.setStorageSync(key, JSON.stringify(data));
+    } catch (err) {
+      // PlanningStorage 写入失败不影响主流程
+    }
   }
 
   /**
@@ -41,8 +83,8 @@ class GameService {
     // 3. 更新currentGameId
     this.currentGameId = gameId;
 
-    // 4. 加载新游戏资源数据
-    const resourcesResult = this.storageService.loadCurrentGameResources(gameId);
+    // 4. 加载新游戏资源数据（优先 PlanningStorage）
+    const resourcesResult = this.getGameResources(gameId);
     if (!resourcesResult.success) {
       return resourcesResult;
     }
@@ -87,6 +129,13 @@ class GameService {
       return error(`不支持的游戏：${gameId}`);
     }
 
+    // 优先从 PlanningStorage 读取（与 planning 页统一数据源）
+    const planningResources = this._loadPlanningResources(gameId);
+    if (planningResources) {
+      return success(planningResources);
+    }
+
+    // 回退到旧存储
     return this.storageService.loadCurrentGameResources(gameId);
   }
 
@@ -112,6 +161,10 @@ class GameService {
       return error('资源数据格式错误');
     }
 
+    // 同步到 PlanningStorage（统一数据源）
+    this._savePlanningResources(gameId, resources);
+
+    // 保持向后兼容：同时更新旧存储
     return this.storageService.updateResources(gameId, resources);
   }
 
