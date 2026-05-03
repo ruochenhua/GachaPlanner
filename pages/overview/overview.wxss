@@ -1,12 +1,9 @@
-/* pages/overview/overview.wxss */
-
 .overview-container {
   min-height: 100vh;
   background: #FAF9F7;
   padding: 32rpx;
 }
 
-/* 加载状态 */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -34,100 +31,207 @@
   color: #7A7168;
 }
 
-/* 总览卡片 */
-.summary-card {
-  background: white;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  margin-bottom: 32rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
 }
 
-.summary-title {
+.section-title {
   font-size: 32rpx;
   font-weight: 600;
   color: #2C2520;
-  margin-bottom: 24rpx;
 }
 
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24rpx;
-  margin-bottom: 24rpx;
+.add-btn {
+  padding: 8rpx 20rpx;
+  background: #C4A77D;
+  border-radius: 8rpx;
 }
 
-.summary-item {
+.add-text {
+  font-size: 26rpx;
+  color: white;
+  font-weight: 500;
+}
+
+.goals-scroll {
+  width: 100%;
+  margin-bottom: 24rpx;
+  white-space: nowrap;
+}
+
+.goals-list {
+  display: inline-flex;
+  gap: 20rpx;
+  padding-right: 32rpx;
+}
+
+.add-goal-card {
+  width: 200rpx;
+  min-height: 300rpx;
+  border-radius: 16rpx;
+  border: 2rpx dashed #C4A77D;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  flex-shrink: 0;
+}
+
+.add-icon {
+  font-size: 48rpx;
+}
+
+.add-label {
+  font-size: 26rpx;
+  color: #C4A77D;
+}
+
+.simulator-section {
+  background: white;
+  border-radius: 16rpx;
+  padding: 24rpx 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.simulator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.simulator-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2C2520;
+}
+
+.simulator-toggle {
+  font-size: 26rpx;
+  color: #7A7168;
+}
+
+.simulator-collapsed {
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
-  padding: 16rpx;
-  background: #F5F3F0;
-  border-radius: 12rpx;
+  gap: 16rpx;
 }
 
-.summary-item.highlight {
-  background: #C4A77D;
+.allocation-summary {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
 }
 
-.summary-item.highlight .summary-label,
-.summary-item.highlight .summary-value {
-  color: white;
+.summary-name {
+  font-size: 26rpx;
+  color: #2C2520;
+  min-width: 100rpx;
 }
 
-.summary-label {
+.summary-bar-track {
+  flex: 1;
+  height: 8rpx;
+  background: #E5E0D8;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.summary-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #C4A77D, #D4B896);
+  border-radius: 4rpx;
+}
+
+.summary-pulls {
+  font-size: 24rpx;
+  color: #7A7168;
+  min-width: 80rpx;
+  text-align: right;
+}
+
+.summary-probability {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #C4A77D;
+  min-width: 60rpx;
+  text-align: right;
+}
+
+.simulator-summary-row {
+  padding-top: 16rpx;
+  border-top: 1rpx solid #E5E0D8;
+  margin-top: 8rpx;
+}
+
+.summary-text {
   font-size: 24rpx;
   color: #7A7168;
 }
 
-.summary-value {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #2C2520;
-}
-
-/* 策略建议 */
-.strategy-advice {
+.simulator-expanded {
   display: flex;
-  align-items: center;
-  gap: 16rpx;
-  padding: 24rpx;
-  background: #FFF8E1;
-  border-radius: 12rpx;
-  border-left: 6rpx solid #C4A77D;
+  flex-direction: column;
 }
 
-.advice-icon {
-  font-size: 32rpx;
+.simulator-total {
+  padding: 16rpx 0;
+  text-align: center;
+  border-top: 1rpx solid #E5E0D8;
+  margin-top: 8rpx;
 }
 
-.advice-text {
-  flex: 1;
+.total-label {
   font-size: 26rpx;
-  color: #2C2520;
-  line-height: 1.5;
+  color: #7A7168;
+  font-weight: 500;
 }
 
-/* 游戏列表 */
-.games-section {
-  margin-bottom: 32rpx;
+.simulator-hint {
+  padding: 12rpx 16rpx;
+  background: #E8F5E9;
+  border-radius: 8rpx;
+  margin-bottom: 16rpx;
 }
 
-.section-title {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #2C2520;
+.hint-text {
+  font-size: 24rpx;
+  color: #7CB342;
+}
+
+.simulator-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16rpx;
+}
+
+.btn-reset {
+  font-size: 26rpx;
+  color: #C47070;
+  padding: 8rpx 16rpx;
+}
+
+.strategy-section {
   margin-bottom: 24rpx;
 }
 
-/* 空状态 */
-.empty-state {
+.fallback-overview {
+  margin-top: 24rpx;
+}
+
+.empty-goals {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80rpx 32rpx;
+  padding: 60rpx 32rpx;
   background: white;
   border-radius: 16rpx;
+  margin-bottom: 24rpx;
 }
 
 .empty-icon {
@@ -135,18 +239,40 @@
   margin-bottom: 24rpx;
 }
 
-.empty-text {
+.empty-title {
   font-size: 28rpx;
-  color: #7A7168;
-  margin-bottom: 16rpx;
+  color: #2C2520;
+  font-weight: 600;
+  margin-bottom: 12rpx;
 }
 
 .empty-hint {
   font-size: 24rpx;
-  color: #A8A095;
+  color: #7A7168;
+  margin-bottom: 24rpx;
+  text-align: center;
 }
 
-/* 游戏卡片 */
+.btn-set-goal {
+  padding: 16rpx 40rpx;
+  background: #C4A77D;
+  border-radius: 12rpx;
+}
+
+.btn-set-goal text {
+  font-size: 28rpx;
+  color: white;
+  font-weight: 500;
+}
+
+.games-section {
+  margin-bottom: 24rpx;
+}
+
+.games-section .section-title {
+  margin-bottom: 24rpx;
+}
+
 .games-list {
   display: flex;
   flex-direction: column;
@@ -158,14 +284,8 @@
   border-radius: 16rpx;
   padding: 32rpx;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
 }
 
-.game-card:active {
-  transform: scale(0.98);
-}
-
-/* 游戏头部 */
 .game-header {
   display: flex;
   align-items: center;
@@ -197,7 +317,6 @@
   color: #7A7168;
 }
 
-/* 概率徽章 */
 .probability-badge {
   padding: 8rpx 16rpx;
   border-radius: 8rpx;
@@ -220,13 +339,11 @@
   color: #F44336;
 }
 
-/* 概率进度条 */
 .probability-bar {
   height: 12rpx;
   background: #E5E0D8;
   border-radius: 6rpx;
   overflow: hidden;
-  margin-bottom: 24rpx;
 }
 
 .probability-fill {
@@ -234,72 +351,4 @@
   background: linear-gradient(90deg, #C4A77D, #D4B896);
   border-radius: 6rpx;
   transition: width 0.3s;
-}
-
-/* 状态行 */
-.status-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16rpx;
-}
-
-.status-label {
-  font-size: 24rpx;
-  color: #7A7168;
-}
-
-.status-value {
-  font-size: 24rpx;
-  font-weight: 600;
-}
-
-.status-value.success {
-  color: #4CAF50;
-}
-
-.status-value.warning {
-  color: #FF9800;
-}
-
-.status-value.danger {
-  color: #F44336;
-}
-
-/* 卡片底部 */
-.card-footer {
-  padding-top: 16rpx;
-  border-top: 1rpx solid #E5E0D8;
-}
-
-.footer-text {
-  font-size: 24rpx;
-  color: #C4A77D;
-}
-
-/* 说明区域 */
-.info-section {
-  background: white;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-}
-
-.info-title {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #2C2520;
-  margin-bottom: 24rpx;
-}
-
-.info-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-}
-
-.info-item {
-  font-size: 24rpx;
-  color: #7A7168;
-  line-height: 1.6;
 }

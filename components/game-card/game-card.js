@@ -1,5 +1,6 @@
 // components/game-card/game-card.js
 // 游戏卡片组件
+const { formatProbability } = require('../../utils/format-probability');
 
 Component({
   /**
@@ -33,6 +34,7 @@ Component({
    */
   data: {
     probabilityColor: '',
+    probabilityText: '',
     clicking: false // 防止重复点击
   },
 
@@ -68,8 +70,10 @@ Component({
      * 获取概率颜色类名
      */
     getProbabilityColorClass(prob) {
-      if (prob >= 80) return 'success';
-      if (prob >= 50) return 'warning';
+      // 兼容传入的是 0-1 小数或 0-100 整数
+      const pct = prob >= 1 ? prob : prob * 100;
+      if (pct >= 80) return 'success';
+      if (pct >= 50) return 'warning';
       return 'error';
     }
   },
@@ -80,8 +84,11 @@ Component({
   observers: {
     'probability': function(prob) {
       const colorClass = this.getProbabilityColorClass(prob);
+      // 兼容传入的是 0-1 小数或 0-100 整数
+      const normalizedProb = prob >= 1 ? prob / 100 : prob;
       this.setData({
-        probabilityColor: colorClass
+        probabilityColor: colorClass,
+        probabilityText: formatProbability(normalizedProb)
       });
     }
   },

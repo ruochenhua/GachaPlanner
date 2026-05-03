@@ -24,3 +24,12 @@ npm-debug.log*
 
 # Local config
 project.private.config.json
+
+# Editor/AI assistant configs
+.claude/
+.opencode/
+.cursor/
+.trae/
+
+# BMad output
+_bmad-output/

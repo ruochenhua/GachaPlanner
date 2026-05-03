@@ -59,6 +59,11 @@
 
 **扣除优先级策略**: 优先从「达成概率最高的游戏」扣除，保证整体损失最小。例如用户给崩铁加 30 抽，从原神扣（原神概率 75% → 仍有 45%），而非从已经很低的游戏扣。
 
+**边界情况处理**:
+- 多游戏概率相同时：从**当前抽数最多**的游戏扣除（资源充裕的游戏更经得起削减）
+- 单游戏用户：守恒逻辑不触发（只有一个游戏，资源无法转移），隐藏模拟器调整按钮
+- 某游戏被扣至 `minPulls`（默认 0）时：顺延至下一个概率最高的游戏继续扣除
+
 **Alternative considered**: 允许总资源变化（模拟「假如我多攒了 X 抽」）。Rejected：独立开发阶段保持简单，此功能可在 Phase 2 作为「预算模拟」扩展。
 
 ### Decision 3: 策略方案由前端实时生成，不预计算存储
@@ -72,7 +77,13 @@
 方案A（现状）: 保持当前资源分配
 方案B（集中）: 将所有资源集中到达成概率提升最大的单一游戏
 方案C（均衡）: 当总资源足够时，均分使各游戏概率 ≥60%
+方案D（补充预算）: 当总资源不足使所有游戏达成概率 ≥80% 时，计算所需额外抽数（向上取整到 10 的倍数），展示「补充 X 抽后的效果」
 ```
+
+**动态生成规则**:
+- 单游戏用户：只生成方案 A、B（方案 C/D 无意义）
+- 多游戏 + 总资源充足：生成方案 A、B、C
+- 多游戏 + 总资源不足：生成方案 A、B、D（用「补充预算」替代不可行的「均衡」）
 
 **Alternative considered**: 服务端预计算（无服务端，不可行）。Rejected by constraint。
 
@@ -289,6 +300,233 @@
 
 ## Open Questions
 
-1. **目标设定的入口位置**: 在总览页点击「+ 目标」后，是弹出游戏选择器（在当前页完成），还是跳转到 planning 页设定？建议先实现弹出选择器在当前页完成，减少页面跳转。
-2. **策略方案数量**: 固定 3 个还是动态生成（如资源充足时显示「均衡」方案，不足时隐藏）？建议动态生成，避免展示不可行的方案。
-3. **是否保留现有 overview-card 组件**: 完全替换还是复用其样式结构？建议复用其统计展示部分作为 summary-card 的基础，减少重复开发。
+### Q1: 目标设定的入口位置
+
+**决策**: 点击「+ 目标」→ 弹出**游戏选择器**（轻量，仅选择游戏）→ 选择后**跳转到对应游戏的 planning 页**并自动展开目标设定区域。
+
+**Rationale**:
+- 目标设定涉及字段较多（目标名称、类型、期望命座/精炼、卡池时间），在当前页弹出复杂表单会严重挤占首屏空间
+- planning 页已有完整的游戏资源上下文（当前抽数、保底进度等），用户设定目标时需要参考这些数据
+- 小程序用户习惯「选择一个东西 → 去专门页面配置」的流程（类似微信设置中的层级导航）
+- 游戏选择器用 `wx.showActionSheet` 即可实现，轻量无跳转负担；选择后跳转到 planning 页携带 `gameId` 参数和 `autoFocusTarget=true` 标记
+
+### Q2: 策略方案数量
+
+**决策**: **动态生成**，规则如下：
+
+| 用户场景 | 生成方案 | 说明 |
+|----------|----------|------|
+| 单游戏用户 | 现状、集中 | 只有两种有意义 |
+| 多游戏 + 总资源充足（能使各游戏≥60%）| 现状、集中、均衡 | 三种全展示 |
+| 多游戏 + 总资源不足 | 现状、集中、补充预算 | 「均衡」不可行，替换为预算建议 |
+
+- 「均衡」方案仅在总资源足够时生成，避免展示无意义的方案
+- 「补充预算」方案计算使所有游戏达成概率≥80% 所需的额外抽数，向上取整到 10 的倍数
+- 最多 3 个，最少 2 个，保证卡片区域不空且不冗长
+
+### Q3: 是否保留现有 overview-card 组件
+
+**决策**: **复用并降级为模拟器内的 summary 行**，而非独立卡片。
+
+**Rationale**:
+- redesign 后首屏核心信息是「目标卡片 + 冲突提示 + 折叠模拟器」，旧 overview-card 的「总抽数/平均概率/综合概率」作为独立卡片价值降低且占用首屏空间
+- 但用户仍需要快速感知「我总共多少抽」，所以将统计信息压缩为模拟器折叠态内的一行 summary：`总资源: 180抽 | 目标: 2个 | 平均达成率: 60%`
+- 对于**无目标用户**（降级模式），保留原有 overview-card 完整展示，作为 fallback
+- 复用现有样式结构，减少重复开发
+
+## 组件接口定义
+
+### `goal-card` 组件
+
+**文件**: `components/goal-card/goal-card`
+
+**Properties**:
+
+| 属性名 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `gameId` | String | - | 游戏ID，必填 |
+| `gameName` | String | - | 游戏显示名称 |
+| `gameIcon` | String | '' | 游戏图标URL |
+| `target` | Object | null | 目标对象 `{ name, type, rarity, constellations, poolStartDate, poolEndDate }` |
+| `currentPulls` | Number | 0 | 当前分配抽数 |
+| `probability` | Number | 0 | 达成概率 (0-1)，用于状态色判断 |
+| `neededPulls` | Number | 0 | 还差抽数，≤0 时显示「已达成」 |
+| `poolStartDate` | String | '' | 卡池开始日期（ISO格式），用于显示「X天后开池」 |
+| `status` | String | 'auto' | 状态色控制：`auto`（自动按概率分档）、`safe`/`warning`/`danger`（强制指定） |
+
+**Events**:
+
+| 事件名 | detail | 触发时机 |
+|--------|--------|----------|
+| `taptitle` | `{ gameId }` | 点击卡片标题区域（跳转到 planning 页） |
+| `tapmenu` | `{ gameId }` | 点击右上角 `···` 菜单按钮 |
+| `delete` | `{ gameId }` | 从 ActionSheet 选择「删除」后 |
+| `edit` | `{ gameId }` | 从 ActionSheet 选择「编辑」后 |
+
+**Behaviors**: 纯展示组件，无对外方法。
+
+**状态色逻辑**（内部实现）：
+```js
+if (status !== 'auto') return status;
+if (probability >= 0.8) return 'safe';      // 绿色 #7CB342
+if (probability >= 0.5) return 'warning';   // 黄色 #F5A623
+return 'danger';                             // 红色 #C47070
+```
+
+---
+
+### `allocation-bar` 组件
+
+**文件**: `components/allocation-bar/allocation-bar`
+
+**Properties**:
+
+| 属性名 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `gameId` | String | - | 游戏ID，必填 |
+| `gameName` | String | - | 游戏显示名称 |
+| `currentPulls` | Number | 0 | 当前分配抽数 |
+| `totalPulls` | Number | 0 | 总资源抽数，用于计算占比百分比 |
+| `probability` | Number | 0 | 当前达成概率 (0-1) |
+| `stepSizes` | Array | `[1, 10]` | 步进按钮的步长数组，如 `[1, 10]` 生成 `[−10] [−1] [+1] [+10]` |
+| `minPulls` | Number | 0 | 最小抽数限制 |
+| `isEditing` | Boolean | true | 是否允许编辑（false 时隐藏按钮，只展示进度条） |
+| `highlight` | Boolean | false | 是否高亮显示（用于策略预览态） |
+
+**Events**:
+
+| 事件名 | detail | 触发时机 |
+|--------|--------|----------|
+| `change` | `{ gameId, newPulls, delta, source: 'step' \| 'input' }` | 抽数发生变化时（按钮点击或输入确认） |
+| `inputtap` | `{ gameId, currentPulls }` | 点击中间数字区域，父组件应唤起数字输入键盘 |
+| `decrement` | `{ gameId, step }` | 点击减号按钮（可在外部做 throttle） |
+| `increment` | `{ gameId, step }` | 点击加号按钮（可在外部做 throttle） |
+
+**内部方法**:
+- `updateDisplay(pulls, probability)` - 父组件调用以更新展示（绕过事件循环，用于预览态快速切换）
+
+**样式说明**:
+- 静态进度条高度 8rpx，使用 CSS `transition: width 300ms ease`
+- 数字输入区域使用 `font-size: 32rpx`，点击后父组件通过 `wx.showModal` 或自定义弹窗唤起数字键盘
+- 按钮尺寸 56rpx × 48rpx，边框使用 `--border-color`
+
+---
+
+### `strategy-card` 组件
+
+**文件**: `components/strategy-card/strategy-card`
+
+**Properties**:
+
+| 属性名 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `strategy` | Object | - | 策略对象，必填。结构见下方 |
+| `isPreviewing` | Boolean | false | 当前是否处于此方案的预览态 |
+| `isRecommended` | Boolean | false | 是否标记为「推荐」方案（显示 🔥 推荐标签） |
+| `index` | Number | 0 | 方案序号（A/B/C），用于展示「方案A」「方案B」 |
+
+**Strategy 对象结构**:
+```js
+{
+  id: 'status-quo',           // 唯一标识
+  name: '保持现状',            // 方案名称
+  description: '...',         // 一句话描述
+  allocations: [              // 各游戏分配
+    { gameId, gameName, pulls, probability }
+  ],
+  conclusion: '...',          // 结论文案，如「两个目标都较稳」
+  topUpAmount: 0              // 补充预算抽数（仅补充预算方案有值）
+}
+```
+
+**Events**:
+
+| 事件名 | detail | 触发时机 |
+|--------|--------|----------|
+| `preview` | `{ strategyId }` | 点击「预览效果」按钮 |
+| `apply` | `{ strategyId }` | 点击「确认采用此方案」按钮 |
+| `cancel` | `{ strategyId }` | 预览态下点击「取消预览」按钮 |
+
+**状态流转**:
+```
+默认态 → [点击预览效果] → 预览态（高亮、显示「确认采用」「取消预览」）
+预览态 → [点击确认采用] → 应用方案并持久化 → 恢复默认态
+预览态 → [点击取消预览] → 恢复原始分配 → 恢复默认态
+```
+
+---
+
+### `conflict-alert` 组件
+
+**文件**: `components/conflict-alert/conflict-alert`
+
+**Properties**:
+
+| 属性名 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `conflicts` | Array | [] | 冲突列表，每项 `{ gameId, gameName, targetName, probability }` |
+| `threshold` | Number | 0.8 | 冲突判定阈值 |
+| `dismissed` | Boolean | false | 是否已被用户关闭（当前会话） |
+
+**Events**:
+
+| 事件名 | detail | 触发时机 |
+|--------|--------|----------|
+| `taphelp` | `{ conflicts, threshold }` | 点击「帮我算一下怎么分配」主按钮 |
+| `tapdismiss` | `{ conflicts }` | 点击「暂不处理」文字链接 |
+
+**内部逻辑**:
+- 当 `conflicts.length >= 2 && !dismissed` 时展示，否则隐藏
+- 冲突描述文案自动拼接：`你想抽${targetName}和${targetName}，但资源不够稳`
+- 卡片使用 `danger` 状态色背景（浅红 `#FDE8E8`）+ 左侧 4rpx 红色边框
+
+---
+
+### 组件间数据流
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    pages/overview/overview                    │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
+│  │  goal-card  │    │  goal-card  │    │  goal-card  │       │
+│  │  (横向滚动)  │    │             │    │             │       │
+│  └──────┬──────┘    └──────┬──────┘    └──────┬──────┘       │
+│         │                  │                   │              │
+│         └──────────────────┼───────────────────┘              │
+│                            ▼                                  │
+│                    ┌───────────────┐                          │
+│                    │ conflict-alert│◄── conflicts[]           │
+│                    │               │───► taphelp → 展开模拟器   │
+│                    └───────┬───────┘                          │
+│                            │                                  │
+│              ┌─────────────┴─────────────┐                    │
+│              ▼                           ▼                    │
+│    ┌──────────────────┐      ┌──────────────────┐            │
+│    │   allocation-bar  │      │   allocation-bar  │            │
+│    │   (gameId: genshin)│     │   (gameId: hsr)   │            │
+│    │   change ──────────┼─────┼──► 守恒计算 + 重算概率        │
+│    └──────────────────┘      └──────────────────┘            │
+│              │                           │                    │
+│              └─────────────┬─────────────┘                    │
+│                            ▼                                  │
+│              ┌─────────────────────────┐                      │
+│              │      strategy-card       │                      │
+│              │  preview ──► 临时应用到  │                      │
+│              │  allocation-bar          │                      │
+│              │  apply ────► 持久化保存  │                      │
+│              └─────────────────────────┘                      │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+```
+
+**数据流向**:
+1. `overview.js` 从 `PlanningStorage` / `GameService` 加载数据，生成 `goals[]`、`allocations[]`、`conflicts[]`
+2. `goals[]` 绑定到 `goal-card` 列表
+3. `conflicts[]` 绑定到 `conflict-alert`
+4. `allocations[]` 绑定到 `allocation-bar` 列表
+5. 用户调整 `allocation-bar` → 触发 `change` → `overview.js` 调用守恒计算 → 更新所有 `allocation-bar` 的 `currentPulls` / `probability`
+6. `overview.js` 根据最新 allocations 重新生成 `strategies[]` → 绑定到 `strategy-card` 列表
+7. 用户点击 `strategy-card` 的「预览」→ `overview.js` 将临时 allocations 写入 `allocation-bar`（通过数据绑定），并设置 `isPreviewing=true`
+8. 用户点击「确认采用」→ `overview.js` 保存到 `PlanningStorage` → 刷新全页数据

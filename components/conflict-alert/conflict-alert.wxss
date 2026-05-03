@@ -1,0 +1,90 @@
+.conflict-alert {
+  background: #FDE8E8;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin-bottom: 24rpx;
+  display: flex;
+}
+
+.alert-border {
+  width: 4rpx;
+  background: #C47070;
+  flex-shrink: 0;
+}
+
+.alert-content {
+  flex: 1;
+  padding: 24rpx 32rpx;
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.alert-icon {
+  font-size: 28rpx;
+}
+
+.alert-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #C47070;
+}
+
+.alert-description {
+  font-size: 26rpx;
+  color: #2C2520;
+  line-height: 1.5;
+  margin-bottom: 16rpx;
+}
+
+.conflict-games {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+}
+
+.conflict-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-name {
+  font-size: 26rpx;
+  color: #7A7168;
+}
+
+.game-probability {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #C47070;
+}
+
+.alert-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.btn-help {
+  width: 100%;
+  height: 72rpx;
+  line-height: 72rpx;
+  background: #C47070;
+  color: white;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.link-dismiss {
+  font-size: 26rpx;
+  color: #A8A095;
+  text-decoration: underline;
+}

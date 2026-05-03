@@ -1,0 +1,40 @@
+<view class="strategy-card {{isPreviewing ? 'previewing' : ''}}">
+  <view class="card-header">
+    <text class="strategy-label">方案{{['A','B','C','D'][index] || '?'}}</text>
+    <text class="strategy-name">{{strategy.name}}</text>
+    <view class="recommend-badge" wx:if="{{isRecommended}}">
+      <text class="recommend-text">🔥 推荐</text>
+    </view>
+  </view>
+
+  <view class="strategy-description" wx:if="{{strategy.description}}">
+    <text>{{strategy.description}}</text>
+  </view>
+
+  <view class="allocations-list">
+    <view class="allocation-item" wx:for="{{strategy.allocations}}" wx:key="gameId">
+      <text class="allocation-game">{{item.gameName}}</text>
+      <text class="allocation-pulls">{{item.pulls}}抽</text>
+      <text class="allocation-probability">{{item.probabilityText}}</text>
+    </view>
+  </view>
+
+  <view class="conclusion" wx:if="{{strategy.conclusion}}">
+    <text class="conclusion-text">{{strategy.conclusion}}</text>
+  </view>
+
+  <view class="top-up-info" wx:if="{{strategy.topUpAmount > 0}}">
+    <text class="top-up-text">建议补充 {{strategy.topUpAmount}} 抽</text>
+  </view>
+
+  <view class="action-section">
+    <view wx:if="{{!isPreviewing}}">
+      <button class="btn-preview" bindtap="onPreview">预览效果</button>
+    </view>
+    <view wx:if="{{isPreviewing}}" class="preview-actions">
+      <text class="preview-hint">当前为预览，点击确认采用或取消</text>
+      <button class="btn-apply" bindtap="onApply">确认采用此方案</button>
+      <button class="btn-cancel" bindtap="onCancel">取消预览</button>
+    </view>
+  </view>
+</view>

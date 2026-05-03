@@ -129,7 +129,7 @@
         <view class="timeline-preview">
           <view class="timeline-item" wx:for="{{probabilityTimeline}}" wx:key="day" wx:if="{{item.day % 5 === 0 || item.day === probabilityTimeline.length - 1}}">
             <text class="timeline-day">第{{item.day}}天</text>
-            <text class="timeline-prob">{{item.probability * 100}}%</text>
+            <text class="timeline-prob">{{item.probabilityText}}</text>
           </view>
         </view>
         <view class="wait-advice" wx:if="{{waitAdvice}}">
@@ -186,6 +186,83 @@
         <view class="legend-color final"></view>
         <text class="legend-text">卡池结束时概率曲线</text>
       </view>
+    </view>
+  </view>
+
+  <!-- 目标设定区域 -->
+  <view class="target-section">
+    <view class="section-header" bindtap="toggleTargetForm">
+      <text class="section-title">🎯 设定目标</text>
+      <text class="toggle-icon">{{showTargetForm ? '▼' : '▶'}}</text>
+    </view>
+
+    <view class="target-form" wx:if="{{showTargetForm}}">
+      <view class="form-item">
+        <text class="form-label">目标名称</text>
+        <input
+          class="form-input"
+          type="text"
+          value="{{targetForm.name}}"
+          placeholder="如：胡桃、黄泉"
+          bindinput="onTargetNameChange"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">目标类型</text>
+        <picker bindchange="onTargetTypeChange" value="{{targetForm.type === 'character' ? 0 : targetForm.type === 'weapon' ? 1 : 2}}" range="{{['角色', '武器', '其他']}}">
+          <view class="form-picker">
+            <text>{{targetForm.type === 'character' ? '角色' : targetForm.type === 'weapon' ? '武器' : '其他'}}</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">期望命座/精炼</text>
+        <input
+          class="form-input form-input-short"
+          type="number"
+          value="{{targetForm.constellations}}"
+          placeholder="0"
+          bindinput="onTargetConstellationsChange"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">大保底</text>
+        <switch checked="{{targetForm.isGuaranteed}}" bindchange="onTargetGuaranteedChange" color="#C4A77D" />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">卡池开始</text>
+        <picker mode="date" value="{{targetForm.poolStartDate}}" bindchange="onTargetPoolStartDateChange">
+          <view class="form-picker">
+            <text>{{targetForm.poolStartDate || '请选择'}}</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">卡池结束</text>
+        <picker mode="date" value="{{targetForm.poolEndDate}}" bindchange="onTargetPoolEndDateChange">
+          <view class="form-picker">
+            <text>{{targetForm.poolEndDate || '请选择'}}</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-actions">
+        <button class="btn-save-target" bindtap="onSaveTarget">
+          <text>{{targetEditMode ? '更新目标' : '设定目标'}}</text>
+        </button>
+        <button wx:if="{{targetEditMode}}" class="btn-delete-target" bindtap="onDeleteTarget">
+          <text>删除目标</text>
+        </button>
+      </view>
+    </view>
+
+    <view class="target-hint" wx:if="{{!showTargetForm}}">
+      <text class="hint-text">设定抽卡目标后，可在总览页查看达成概率和资源分配建议</text>
     </view>
   </view>
 </view>

@@ -1,0 +1,100 @@
+.goal-card {
+  width: 240rpx;
+  min-height: 300rpx;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.goal-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.game-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 8rpx;
+}
+
+.game-name {
+  flex: 1;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #2C2520;
+  margin-left: 8rpx;
+}
+
+.menu-btn {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-dots {
+  font-size: 32rpx;
+  color: #7A7168;
+  font-weight: bold;
+}
+
+.target-name {
+  font-size: 28rpx;
+  color: #2C2520;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+  text-align: center;
+}
+
+.target-name.empty {
+  color: #A8A095;
+}
+
+.probability-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.probability-number {
+  font-size: 48rpx;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.probability-label {
+  font-size: 22rpx;
+  margin-top: 4rpx;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.needed-pulls {
+  font-size: 26rpx;
+  color: #C47070;
+}
+
+.needed-pulls.achieved {
+  color: #7CB342;
+}
+
+.pool-date {
+  font-size: 22rpx;
+  color: #A8A095;
+}

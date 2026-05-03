@@ -1,0 +1,24 @@
+<view class="goal-card" style="background-color: {{statusBg}};" bindtap="onTapTitle">
+  <view class="goal-header">
+    <image wx:if="{{gameIcon}}" class="game-icon" src="{{gameIcon}}" mode="aspectFit"></image>
+    <text class="game-name">{{gameName}}</text>
+    <view class="menu-btn" catchtap="onTapMenu">
+      <text class="menu-dots">···</text>
+    </view>
+  </view>
+
+  <view class="target-name" wx:if="{{target && target.name}}">{{target.name}}</view>
+  <view class="target-name empty" wx:else>未设定目标</view>
+
+  <view class="probability-section">
+    <text class="probability-number" style="color: {{statusColor}};">{{probabilityText}}</text>
+    <text class="probability-label" style="color: {{statusColor}};">达成</text>
+  </view>
+
+  <view class="info-section">
+    <text class="needed-pulls" wx:if="{{neededPulls > 0}}">还差 {{neededPulls}} 抽</text>
+    <text class="needed-pulls achieved" wx:else>已达成</text>
+    <text class="pool-date" wx:if="{{daysUntilPool > 0}}">{{daysUntilPool}} 天后开池</text>
+    <text class="pool-date" wx:elif="{{poolStartDate}}">卡池已开启</text>
+  </view>
+</view>

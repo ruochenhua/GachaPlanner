@@ -26,6 +26,6 @@
 
   <!-- 达成概率 -->
   <view class="game-probability {{probabilityColor}}">
-    <text class="probability-value">{{probability}}%</text>
+    <text class="probability-value">{{probabilityText}}</text>
   </view>
 </view>

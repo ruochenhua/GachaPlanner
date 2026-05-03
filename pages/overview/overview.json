@@ -1,5 +1,10 @@
 {
-  "navigationBarTitleText": "总体规划",
+  "navigationBarTitleText": "总览",
   "enablePullDownRefresh": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "goal-card": "../../components/goal-card/goal-card",
+    "allocation-bar": "../../components/allocation-bar/allocation-bar",
+    "strategy-card": "../../components/strategy-card/strategy-card",
+    "conflict-alert": "../../components/conflict-alert/conflict-alert"
+  }
 }

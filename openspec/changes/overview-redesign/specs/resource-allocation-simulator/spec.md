@@ -10,15 +10,23 @@ The system SHALL provide an interactive simulator on the overview page that allo
 - **AND** the probability for all affected games is recalculated within 300ms
 - **AND** the UI updates to show the new allocation and probabilities
 
-#### Scenario: Fine-tuning with slider
-- **WHEN** user drags the allocation slider for a game
-- **THEN** the game's allocated pulls update in real time
-- **AND** the system deducts/adds to other games to maintain the total
+#### Scenario: Fine-tuning with step buttons
+- **WHEN** user taps the `[+1]` or `[+10]` button on a game's allocation bar
+- **THEN** the game's allocated pulls increase by the step size
+- **AND** the system deducts from the game with the highest current probability to maintain the total
 - **AND** probabilities update with a 300ms throttle
 
+#### Scenario: Direct input for large adjustments
+- **WHEN** user taps the numeric display on an allocation bar
+- **THEN** a numeric input keyboard appears
+- **AND** the user enters a new pull count
+- **AND** the system adjusts other games to maintain the total
+- **AND** probabilities are recalculated
+
 #### Scenario: Resetting to original allocation
-- **WHEN** user taps the "Reset" button in the simulator
+- **WHEN** user taps the "重置为原始分配" button at the bottom of the simulator
 - **THEN** all games revert to their original resource allocation
+- **AND** a toast "已重置为原始分配" is shown with a 3-second undo option
 - **AND** probabilities are recalculated to match the original state
 
 #### Scenario: Total resource conservation

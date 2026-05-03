@@ -1,0 +1,25 @@
+<view class="conflict-alert" wx:if="{{visible}}">
+  <view class="alert-border"></view>
+  <view class="alert-content">
+    <view class="alert-header">
+      <text class="alert-icon">⚠️</text>
+      <text class="alert-title">资源冲突</text>
+    </view>
+
+    <view class="alert-body">
+      <text class="alert-description">{{description}}</text>
+
+      <view class="conflict-games">
+        <view class="conflict-item" wx:for="{{conflicts}}" wx:key="gameId">
+          <text class="game-name">{{item.gameName}}</text>
+          <text class="game-probability">{{item.probabilityText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="alert-actions">
+      <button class="btn-help" bindtap="onTapHelp">帮我算一下怎么分配</button>
+      <text class="link-dismiss" bindtap="onTapDismiss">暂不处理</text>
+    </view>
+  </view>
+</view>

@@ -25,7 +25,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log('=== 首页加载 ===');
     this.loadData();
   },
 
@@ -33,12 +32,10 @@ Page({
    * 加载页面数据
    */
   loadData() {
-    console.log('=== 首页加载数据 ===');
 
     try {
       // 1. 获取支持的游戏列表
       const supportedGames = gameService.getSupportedGames();
-      console.log('✓ 支持的游戏:', supportedGames);
 
       // 2. 遍历游戏获取资源数据
       const gamesData = [];
@@ -80,11 +77,10 @@ Page({
               icon: `/assets/images/games/${gameId}.png`,
               resources: gameResources,
               totalPulls,  // 添加总抽数字段
-              probability: Math.round(probability * 100) // 转为百分比整数
+              probability: probability // 保持 0-1 小数，由组件格式化
             };
 
             gamesData.push(gameData);
-            console.log(`✓ ${config.name}数据加载成功，概率: ${Math.round(probability * 100)}%，抽数: ${totalPulls}`);
           }
         } catch (gameError) {
           // 单个游戏加载出错，跳过继续处理其他游戏
@@ -92,9 +88,6 @@ Page({
         }
       });
 
-      console.log('✓ 测试7.2通过: 游戏卡片网格数据准备完成');
-      console.log('  - 游戏数量:', gamesData.length);
-      console.log('  - 网格布局: 2-3列响应式');
 
       // 3. 计算总抽数（正确转换）
       let totalPulls = 0;
@@ -117,8 +110,6 @@ Page({
           }
         }
       });
-      console.log('✓ 总抽数:', totalPulls);
-      console.log('✓ 测试7.3通过: 数据从本地存储自动加载');
 
       // 4. 计算资源分配比例（基于抽数）
       const resourceDistribution = [];
@@ -130,7 +121,6 @@ Page({
           percentage
         });
       });
-      console.log('✓ 资源分配数据:', resourceDistribution);
 
       // 5. 计算总体平均概率
       const averageProbability = probabilities.length > 0
@@ -161,27 +151,8 @@ Page({
         loading: false
       });
 
-      console.log('✓ 测试7.4通过: 首次使用显示默认数据');
-      console.log('  - 总资源:', totalResources, '抽');
-      console.log('  - 本月规划:', 3);
-      console.log('  - 游戏数量:', gamesData.length);
-      console.log('  - 平均概率:', averageProbability, '%');
 
-      console.log('✓ 测试7.5通过: 莫兰迪暖色系视觉风格已应用');
-      console.log('  - Primary: #C4A77D (奶茶暖棕)');
-      console.log('  - Primary Light: #D4BC99');
-      console.log('  - Success: #7FB069');
-      console.log('  - Warning: #E4C786');
-      console.log('  - Error: #C47070');
 
-      console.log('=== 首页加载测试完成 ===');
-      console.log('测试结果汇总:');
-      console.log('  ✓ 7.1 首页加载显示总览卡片');
-      console.log('  ✓ 7.2 游戏卡片网格正确显示');
-      console.log('  ✓ 7.3 数据从本地存储自动加载');
-      console.log('  ✓ 7.4 首次使用显示默认数据');
-      console.log('  ✓ 7.5 莫兰迪暖色系视觉风格正确应用');
-      console.log('  ✓ 7.6 Console输出测试结果');
     } catch (error) {
       console.error('✗ 首页数据加载出错:', error);
       console.error('✗ 错误详情:', error.message, error.stack);
@@ -261,8 +232,6 @@ Page({
    */
   onGameCardTap(e) {
     const { gameId } = e.detail;
-    console.log('=== 点击游戏卡片 ===');
-    console.log('游戏ID:', gameId);
 
     // 保存选中的游戏ID到全局数据
     const app = getApp();
@@ -271,13 +240,11 @@ Page({
     // 【修复】同步更新 gameService 的 currentGameId，确保数据一致
     gameService.currentGameId = gameId;
 
-    console.log('已保存到全局数据:', app.globalData.selectedGameId);
 
     // 【修复】使用 navigateTo 跳转到规划页（普通页面，可返回）
     wx.navigateTo({
       url: `/pages/planning/planning?gameId=${gameId}`,
       success: () => {
-        console.log('✓ 跳转成功');
       },
       fail: (err) => {
         console.error('✗ 跳转失败:', err);

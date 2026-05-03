@@ -9,13 +9,26 @@ The system SHALL automatically generate 2-3 strategy options based on the curren
 - **THEN** the system generates strategy options
 - **AND** displays them in the strategy section
 
-#### Scenario: Applying a strategy
+#### Scenario: Previewing a strategy
 - **GIVEN** the user is viewing strategy options
-- **WHEN** user taps "Apply" on a strategy card
-- **AND** confirms in the dialog
-- **THEN** the system updates each game's resource allocation to match the strategy
-- **AND** saves the new allocation to storage
-- **AND** refreshes the overview page with updated data
+- **WHEN** user taps "预览效果" on a strategy card
+- **THEN** the simulator temporarily applies the strategy's resource allocation
+- **AND** the allocation bars highlight to indicate preview mode
+- **AND** a banner shows "当前为预览，点击确认采用或取消"
+- **AND** the user can see the effect before committing
+
+#### Scenario: Confirming a strategy after preview
+- **GIVEN** the user is previewing a strategy
+- **WHEN** user taps "确认采用此方案"
+- **THEN** the system saves the strategy's resource allocation to storage
+- **AND** the simulator exits preview mode
+- **AND** the overview page refreshes with the new data
+
+#### Scenario: Canceling a strategy preview
+- **GIVEN** the user is previewing a strategy
+- **WHEN** user taps "取消预览"
+- **THEN** the simulator reverts to the original resource allocation
+- **AND** the overview page returns to the pre-preview state
 
 #### Scenario: Strategy with budget recommendation
 - **GIVEN** no strategy can achieve acceptable probability with current resources

@@ -17,7 +17,8 @@ The system SHALL allow the user to set one active gacha goal per supported game.
 - **AND** each card shows the target name, current probability, and needed pulls
 
 #### Scenario: Deleting a goal
-- **WHEN** user long-presses a goal card
+- **WHEN** user taps the `···` menu button on a goal card
+- **AND** selects "删除目标" from the ActionSheet
 - **AND** confirms deletion in the dialog
 - **THEN** the goal is removed from PlanningStorage
 - **AND** the overview page removes the card and recalculates summaries

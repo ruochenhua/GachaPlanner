@@ -1,0 +1,31 @@
+<view class="allocation-bar {{highlight ? 'highlight' : ''}}">
+  <view class="bar-header">
+    <text class="game-name">{{gameName}}</text>
+    <text class="probability">{{probabilityText}}</text>
+  </view>
+
+  <view class="controls" wx:if="{{isEditing}}">
+    <view class="step-btn-group">
+      <view class="step-btn" wx:for="{{stepSizes}}" wx:key="*this" data-step="{{item}}" catchtap="onDecrement">
+        <text class="step-text">-{{item}}</text>
+      </view>
+    </view>
+
+    <view class="value-display" catchtap="onInputTap">
+      <text class="value-text">{{currentPulls}}</text>
+    </view>
+
+    <view class="step-btn-group">
+      <view class="step-btn" wx:for="{{stepSizes}}" wx:key="*this" data-step="{{item}}" catchtap="onIncrement">
+        <text class="step-text">+{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="progress-section">
+    <text class="percentage-label">{{percentage}}%</text>
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{percentage}}%;"></view>
+    </view>
+  </view>
+</view>

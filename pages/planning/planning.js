@@ -5,6 +5,7 @@ const gameService = require('../../services/game-service');
 const CalculatorFactory = require('../../core/calculator/calculator-factory');
 const DynamicProbabilityCalculator = require('../../core/calculator/dynamic-probability-calculator');
 const PlanningStorage = require('../../services/planning-storage');
+const { formatProbability } = require('../../utils/format-probability');
 
 Page({
   data: {
@@ -120,13 +121,6 @@ Page({
         targets: data.targets || []
       });
 
-      console.log('规划数据加载完成:', {
-        gameId,
-        hasResources: Object.keys(resources).length > 0,
-        hasPoolTime: !!poolTimeRange.startDate,
-        hasDailyIncome: dailyIncomeData.primogems > 0
-      });
-
       // 初始化概率计算
       this.calculateProbability();
     } catch (err) {
@@ -215,7 +209,7 @@ Page({
       const result = await PlanningStorage.savePlanningData(gameId, dataToSave);
 
       if (result.success) {
-        console.log('✓ 规划数据已自动保存');
+        // 保存成功
       } else {
         console.warn('规划数据保存失败:', result.error);
       }
@@ -226,14 +220,9 @@ Page({
 
   onResourceChange(e) {
     const { key, value } = e.detail;
-    console.log('=== onResourceChange ===');
-    console.log('key:', key, 'value:', value);
-
     const resources = { ...this.data.resources };
     resources[key] = value;
     this.setData({ resources });
-
-    console.log('更新后的 resources:', resources);
 
     // 实时计算概率
     this.calculateProbability();
@@ -244,14 +233,11 @@ Page({
       // 保存到 gameService（兼容旧数据）
       const result = gameService.updateResources(this.data.gameId, this.data.resources);
       if (result.success) {
-        console.log('✓ 资源已自动保存（gameService）');
-
         // 通知首页刷新数据
         const pages = getCurrentPages();
         const indexPage = pages.find(p => p.route === 'pages/index/index');
         if (indexPage && indexPage.loadData) {
           indexPage.loadData();
-          console.log('✓ 已通知首页刷新数据');
         }
       }
 
@@ -286,12 +272,7 @@ Page({
    * 根据当前资源和游戏配置计算达成概率
    */
   calculateProbability() {
-    console.log('=== calculateProbability ===');
     const { resources, gameConfig, currentPity, isGuaranteed } = this.data;
-
-    console.log('resources:', resources);
-    console.log('gameConfig:', gameConfig ? '已加载' : '未加载');
-    console.log('currentPity:', currentPity, 'isGuaranteed:', isGuaranteed);
 
     // 验证游戏配置
     if (!gameConfig) {
@@ -332,17 +313,7 @@ Page({
 
       const totalPulls = Math.floor(primaryValue / conversionRate) + secondaryValue;
 
-      console.log('计算参数:', {
-        primaryResourceKey,
-        secondaryResourceKey,
-        primaryValue,
-        secondaryValue,
-        conversionRate,
-        totalPulls
-      });
-
       if (totalPulls === 0) {
-        console.log('总抽数为 0，设置默认值');
         this.setData({
           calculatedProbability: 0,
           calculatedDistribution: [],
@@ -366,8 +337,6 @@ Page({
         config: gameConfig
       });
 
-      console.log('计算器结果:', result.success ? '成功' : '失败', result.data ? `data.length=${result.data.length}` : 'no data');
-
       if (result.success && result.data && result.data.length > 0) {
         const distribution = result.data;
         const finalProbability = distribution[distribution.length - 1].cumulativeProbability;
@@ -380,25 +349,11 @@ Page({
             probability: item.cumulativeProbability
           }));
 
-        console.log('=== 设置概率数据 ===');
-        console.log('finalProbability:', finalProbability, '转为百分比:', Math.round(finalProbability * 100) + '%');
-        console.log('currentPulls:', totalPulls);
-        console.log('chartDistribution.length:', chartDistribution.length);
-
-        // 立即执行 setData 并打印结果
+        // 立即执行 setData
         this.setData({
           calculatedProbability: finalProbability,
           calculatedDistribution: chartDistribution,
           currentPulls: totalPulls
-        });
-
-        // 验证 setData 后的值
-        console.log('setData 完成，验证当前 data.calculatedProbability:', this.data.calculatedProbability);
-
-        console.log('概率计算完成:', {
-          totalPulls,
-          finalProbability: Math.round(finalProbability * 100) + '%',
-          distributionPoints: distribution.length
         });
 
         // 如果设置了卡池时间，计算动态概率
@@ -545,19 +500,13 @@ Page({
       const otherPulls = Math.floor(otherIncome / conversionRate);
       const finalPulls = currentPulls + dailyPulls + otherPulls;
 
-      console.log('动态概率计算 - finalPulls:', {
-        currentPulls,
-        dailyIncome,
-        otherIncome,
-        poolDays: result.poolDays,
-        conversionRate,
-        dailyPulls,
-        otherPulls,
-        finalPulls
-      });
+      const timelineWithText = (result.timeline || []).map(item => ({
+        ...item,
+        probabilityText: formatProbability(item.probability)
+      }));
 
       this.setData({
-        probabilityTimeline: result.timeline,
+        probabilityTimeline: timelineWithText,
         optimalWaitDays: result.optimalWaitDays,
         waitAdvice: result.waitAdvice,
         poolDays: result.poolDays,
@@ -565,12 +514,6 @@ Page({
         finalPulls: finalPulls
       });
 
-      console.log('动态概率计算完成:', {
-        poolDays: result.poolDays,
-        optimalWaitDays: result.optimalWaitDays,
-        waitAdvice: result.waitAdvice,
-        finalPulls: finalPulls
-      });
     } catch (err) {
       console.error('动态概率计算异常:', err);
       this.setData({

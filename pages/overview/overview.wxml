@@ -1,6 +1,3 @@
-<!--pages/overview/overview.wxml-->
-<!-- 总体规划页面 - 所有游戏的达成情况总览 -->
-
 <view class="overview-container">
   <!-- 加载状态 -->
   <view wx:if="{{loading}}" class="loading-container">
@@ -8,95 +5,163 @@
     <text class="loading-text">加载中...</text>
   </view>
 
-  <!-- 内容区域 -->
   <view wx:else>
-    <!-- 总览卡片 -->
-    <view class="summary-card">
-      <view class="summary-title">📊 总体规划</view>
-      <view class="summary-grid">
-        <view class="summary-item">
-          <text class="summary-label">总抽数</text>
-          <text class="summary-value">{{totalResources}}抽</text>
+    <!-- 有目标时的主界面 -->
+    <view wx:if="{{goals.length > 0}}">
+      <!-- 我的目标 -->
+      <view class="section-header">
+        <text class="section-title">📍 我的目标</text>
+        <view class="add-btn" bindtap="onAddGoal">
+          <text class="add-text">+ 目标</text>
         </view>
-        <view class="summary-item">
-          <text class="summary-label">游戏数量</text>
-          <text class="summary-value">{{games.length}}</text>
+      </view>
+
+      <!-- 目标卡片横向滚动 -->
+      <scroll-view class="goals-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+        <view class="goals-list">
+          <goal-card
+            wx:for="{{goals}}"
+            wx:key="gameId"
+            gameId="{{item.gameId}}"
+            gameName="{{item.name}}"
+            gameIcon="{{item.icon}}"
+            target="{{item.target}}"
+            currentPulls="{{item.totalPulls}}"
+            probability="{{item.probability}}"
+            probabilityText="{{item.probabilityText}}"
+            neededPulls="{{item.neededPulls}}"
+            poolStartDate="{{item.target.poolStartDate}}"
+            bind:taptitle="onGoalTap"
+            bind:tapmenu="onGoalMenu"
+            bind:delete="onGoalDelete"
+            bind:edit="onGoalEdit"
+          />
+          <view class="add-goal-card" bindtap="onAddGoal">
+            <text class="add-icon">➕</text>
+            <text class="add-label">添加目标</text>
+          </view>
         </view>
-        <view class="summary-item">
-          <text class="summary-label">平均概率</text>
-          <text class="summary-value">{{averageProbability}}%</text>
+      </scroll-view>
+
+      <!-- 冲突提示 -->
+      <conflict-alert
+        wx:if="{{conflicts.length >= 2}}"
+        conflicts="{{conflicts}}"
+        threshold="{{conflictThreshold}}"
+        dismissed="{{conflictDismissed}}"
+        bind:taphelp="onConflictHelp"
+        bind:tapdismiss="onConflictDismiss"
+      />
+
+      <!-- 资源分配模拟器 -->
+      <view class="simulator-section">
+        <view class="simulator-header" bindtap="onToggleSimulator">
+          <text class="simulator-title">📊 资源分配模拟器</text>
+          <text class="simulator-toggle">{{simulatorExpanded ? '收起 ▲' : '展开 ▼'}}</text>
         </view>
-        <view class="summary-item highlight">
-          <text class="summary-label">综合概率</text>
-          <text class="summary-value">{{combinedProbability}}%</text>
+
+        <!-- 折叠态 -->
+        <view wx:if="{{!simulatorExpanded}}" class="simulator-collapsed">
+          <view class="allocation-summary" wx:for="{{allocations}}" wx:key="gameId">
+            <text class="summary-name">{{item.gameName}}</text>
+            <view class="summary-bar-track">
+              <view class="summary-bar-fill" style="width: {{item.percentage}}%;"></view>
+            </view>
+            <text class="summary-pulls">{{item.currentPulls}}抽</text>
+            <text class="summary-probability">{{item.probabilityText}}</text>
+          </view>
+          <view class="simulator-summary-row" wx:if="{{summaryText}}">
+            <text class="summary-text">{{summaryText}}</text>
+          </view>
+        </view>
+
+        <!-- 展开态 -->
+        <view wx:if="{{simulatorExpanded}}" class="simulator-expanded">
+          <allocation-bar
+            wx:for="{{allocations}}"
+            wx:key="gameId"
+            gameId="{{item.gameId}}"
+            gameName="{{item.gameName}}"
+            currentPulls="{{item.currentPulls}}"
+            totalPulls="{{totalPulls}}"
+            probability="{{item.probability}}"
+            probabilityText="{{item.probabilityText}}"
+            stepSizes="{{[1, 10]}}"
+            highlight="{{item.isPreview}}"
+            bind:change="onAllocationChange"
+            bind:inputtap="onAllocationInput"
+          />
+
+          <view class="simulator-total">
+            <text class="total-label">总资源: {{totalPulls}}抽（固定）</text>
+          </view>
+
+          <view class="simulator-hint" wx:if="{{lastAdjustmentHint}}">
+            <text class="hint-text">{{lastAdjustmentHint}}</text>
+          </view>
+
+          <view class="simulator-actions">
+            <text class="btn-reset" bindtap="onResetAllocation">重置为原始分配</text>
+          </view>
         </view>
       </view>
 
       <!-- 策略建议 -->
-      <view wx:if="{{strategyAdvice}}" class="strategy-advice">
-        <text class="advice-icon">💡</text>
-        <text class="advice-text">{{strategyAdvice}}</text>
+      <view class="strategy-section" wx:if="{{strategies.length > 0}}">
+        <view class="section-header">
+          <text class="section-title">💡 策略建议</text>
+        </view>
+        <strategy-card
+          wx:for="{{strategies}}"
+          wx:key="id"
+          strategy="{{item}}"
+          isPreviewing="{{previewingStrategyId === item.id}}"
+          isRecommended="{{item.isRecommended}}"
+          index="{{index}}"
+          bind:preview="onStrategyPreview"
+          bind:apply="onStrategyApply"
+          bind:cancel="onStrategyCancel"
+        />
       </view>
     </view>
 
-    <!-- 游戏列表 -->
-    <view class="games-section">
-      <view class="section-title">各游戏达成情况</view>
-
-      <view wx:if="{{games.length === 0}}" class="empty-state">
-        <text class="empty-icon">📭</text>
-        <text class="empty-text">暂无游戏数据</text>
-        <text class="empty-hint">请先在首页添加游戏资源</text>
-      </view>
-
-      <view wx:else class="games-list">
-        <view
-          wx:for="{{games}}"
-          wx:key="gameId"
-          class="game-card"
-          data-game-id="{{item.gameId}}"
-          bindtap="onGameTap"
-        >
-          <!-- 游戏头部 -->
-          <view class="game-header">
-            <image class="game-icon" src="{{item.icon}}" mode="aspectFit"></image>
-            <view class="game-info">
-              <text class="game-name">{{item.name}}</text>
-              <text class="game-pulls">{{item.totalPulls}}抽</text>
-            </view>
-            <view class="probability-badge {{item.probability >= 80 ? 'high' : item.probability >= 50 ? 'medium' : 'low'}}">
-              {{item.probability}}%
-            </view>
-          </view>
-
-          <!-- 概率进度条 -->
-          <view class="probability-bar">
-            <view class="probability-fill" style="width: {{item.probability}}%"></view>
-          </view>
-
-          <!-- 达成状态 -->
-          <view class="status-row">
-            <text class="status-label">达成状态</text>
-            <text class="status-value {{item.probability >= 80 ? 'success' : item.probability >= 50 ? 'warning' : 'danger'}}">
-              {{item.probability >= 80 ? '高概率达成' : item.probability >= 50 ? '中等概率' : '低概率'}}
-            </text>
-          </view>
-
-          <!-- 查看详情提示 -->
-          <view class="card-footer">
-            <text class="footer-text">点击查看详情和编辑 ›</text>
-          </view>
+    <!-- 降级模式：无目标时显示原有总览 -->
+    <view class="fallback-overview" wx:if="{{goals.length === 0}}">
+      <view class="empty-goals">
+        <text class="empty-icon">🎯</text>
+        <text class="empty-title">还没有设定目标</text>
+        <text class="empty-hint">设定抽卡目标后，可以更好地统筹多游戏资源</text>
+        <view class="btn-set-goal" bindtap="onAddGoal">
+          <text>去设定目标</text>
         </view>
       </view>
-    </view>
 
-    <!-- 说明区域 -->
-    <view class="info-section">
-      <view class="info-title">📖 说明</view>
-      <view class="info-list">
-        <text class="info-item">• 综合概率：将所有资源集中到最优游戏时的达成概率</text>
-        <text class="info-item">• 平均概率：各游戏独立达成概率的平均值</text>
-        <text class="info-item">• 点击游戏卡片可跳转到详细规划页面</text>
+      <!-- 保留原有游戏列表作为 fallback -->
+      <view class="games-section" wx:if="{{games.length > 0}}">
+        <view class="section-title">各游戏资源概况</view>
+        <view class="games-list">
+          <view
+            wx:for="{{games}}"
+            wx:key="gameId"
+            class="game-card"
+            data-game-id="{{item.gameId}}"
+            bindtap="onGameTap"
+          >
+            <view class="game-header">
+              <image class="game-icon" src="{{item.icon}}" mode="aspectFit"></image>
+              <view class="game-info">
+                <text class="game-name">{{item.name}}</text>
+                <text class="game-pulls">{{item.totalPulls}}抽</text>
+              </view>
+              <view class="probability-badge {{item.probability >= 0.8 ? 'high' : item.probability >= 0.5 ? 'medium' : 'low'}}">
+                {{item.probabilityText}}
+              </view>
+            </view>
+            <view class="probability-bar">
+              <view class="probability-fill" style="width: {{item.probability === undefined ? 0 : item.probability * 100}}%"></view>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
   </view>

@@ -17,9 +17,14 @@ The system SHALL automatically detect when multiple game goals have an achieveme
 - **THEN** the conflict alert is automatically hidden
 
 #### Scenario: Dismissing conflict alert
-- **WHEN** user taps "Got it" on the conflict alert
+- **WHEN** user taps "暂不处理" text link on the conflict alert
 - **THEN** the alert is hidden for the current session
 - **AND** will reappear on next page load if the conflict persists
+
+#### Scenario: Taking action on conflict alert
+- **WHEN** user taps "帮我算一下怎么分配" primary button on the conflict alert
+- **THEN** the resource allocation simulator expands automatically
+- **AND** the user can adjust allocations to resolve the conflict
 
 #### Scenario: No conflict exists
 - **GIVEN** the user has goals for multiple games

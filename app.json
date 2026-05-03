@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/overview/overview",
     "pages/index/index",
     "pages/planning/planning",
-    "pages/overview/overview",
     "pages/history/history",
     "pages/history-detail/history-detail",
     "pages/profile/profile",
@@ -26,12 +26,12 @@
     "borderStyle": "white",
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
         "pagePath": "pages/overview/overview",
         "text": "总览"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
       },
       {
         "pagePath": "pages/history/history",

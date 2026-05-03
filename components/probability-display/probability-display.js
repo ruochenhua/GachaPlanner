@@ -2,6 +2,7 @@
 // 概率展示组件（带数字滚动动画）
 
 const ANIMATION_DURATION = 300; // 动画持续时间（ms）
+const { formatProbability } = require('../../utils/format-probability');
 
 Component({
   /**
@@ -45,7 +46,6 @@ Component({
       // 跳过初始值为undefined的情况
       if (newVal === undefined && oldVal === undefined) return;
 
-      console.log('probability-display observers: newVal=', newVal, 'oldVal=', oldVal);
       this.handleProbabilityChange(newVal);
     }
   },
@@ -55,19 +55,12 @@ Component({
    */
   lifetimes: {
     attached() {
-      console.log('probability-display attached: properties.probability=', this.properties.probability);
-      console.log('probability-display attached: data.probability=', this.data.probability);
-
-      // 使用 properties 中的值初始化显示
       const initVal = this.properties.probability || 0;
       this.handleProbabilityChange(initVal);
     },
     ready() {
-      console.log('probability-display ready: properties.probability=', this.properties.probability);
-      // 再次确认显示正确
       const readyVal = this.properties.probability || 0;
-      if (this.data.displayValue !== Math.round(readyVal * 100)) {
-        console.log('probability-display ready: 需要重新更新显示');
+      if (Math.abs(this.data.displayValue - readyVal * 100) > 0.1) {
         this.handleProbabilityChange(readyVal);
       }
     },
@@ -103,12 +96,6 @@ Component({
       const oldNormalized = this.normalizeProbability(oldVal);
       const newNormalized = this.normalizeProbability(newVal);
 
-      console.log('probability-display handleProbabilityChange:', {
-        input: newVal,
-        normalized: newNormalized,
-        percentage: Math.round(newNormalized * 100) + '%'
-      });
-
       // 保存当前值
       this._lastProbability = newVal;
 
@@ -121,14 +108,13 @@ Component({
      * @param {Number} normalized - 已规范化的概率值
      */
     updateDisplayImmediate(normalized) {
-      const percentage = Math.round(normalized * 100);
+      const displayText = formatProbability(normalized);
+      const percentage = normalized * 100;
       const riskInfo = this.getRiskLevel(normalized);
-
-      console.log('probability-display updateDisplayImmediate:', percentage + '%');
 
       this.setData({
         displayValue: percentage,
-        displayProbability: `${percentage}%`,
+        displayProbability: displayText,
         riskLevel: riskInfo.level,
         riskColor: riskInfo.color,
         riskText: riskInfo.text,
@@ -156,11 +142,11 @@ Component({
 
         // 使用easeOutQuad缓动函数
         const easedProgress = 1 - (1 - progress) * (1 - progress);
-        const currentValue = Math.round(oldValue + diff * easedProgress);
+        const currentValue = oldValue + diff * easedProgress;
 
         this.setData({
           displayValue: currentValue,
-          displayProbability: `${currentValue}%`
+          displayProbability: formatProbability(currentValue / 100)
         });
 
         if (progress < 1) {

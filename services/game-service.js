@@ -6,6 +6,7 @@
 const { success, error } = require('../utils/result');
 const storageService = require('./storage-service');
 const configLoader = require('../config/config-loader');
+const CalculatorFactory = require('../core/calculator/calculator-factory');
 
 /**
  * 游戏管理服务类
@@ -23,7 +24,6 @@ class GameService {
    * @returns {Object} Result对象 {success, data, error}
    */
   switchGame(gameId) {
-    console.log(`切换游戏: ${gameId}`);
 
     // 1. 验证目标游戏存在
     if (!this.isGameSupported(gameId)) {
@@ -32,7 +32,6 @@ class GameService {
 
     // 2. 保存当前游戏数据（如有）
     if (this.currentGameId && this.currentGameId !== gameId) {
-      console.log(`保存当前游戏数据: ${this.currentGameId}`);
       const currentResources = this.storageService.loadCurrentGameResources(this.currentGameId);
       if (currentResources.success) {
         this.storageService.updateResources(this.currentGameId, currentResources.data);
@@ -55,7 +54,6 @@ class GameService {
       this.storageService.save(userDataResult.data);
     }
 
-    console.log(`✓ 切换游戏成功: ${gameId}`);
     return success({
       gameId,
       resources: resourcesResult.data
@@ -156,6 +154,56 @@ class GameService {
    */
   getGameConfig(gameId) {
     return this.configLoader.loadGameConfig(gameId);
+  }
+
+  /**
+   * 批量计算各游戏的达成概率
+   * @param {Array} gamesData - 游戏数据数组 [{ gameId, resources, config }]
+   * @returns {Object} Result对象 {success, data: {gameId: probability}}
+   */
+  batchCalculateProbabilities(gamesData) {
+    if (!Array.isArray(gamesData)) {
+      return error('参数必须是数组');
+    }
+
+    const result = {};
+    for (const gameData of gamesData) {
+      const { gameId, resources, config } = gameData;
+      const probability = this._calculateGameProbability(resources, config);
+      result[gameId] = probability;
+    }
+
+    return success(result);
+  }
+
+  /**
+   * 计算单个游戏的达成概率（内部辅助）
+   * @param {Object} resources - 资源数据
+   * @param {Object} config - 游戏配置
+   * @returns {number} 达成概率 (0-1)
+   */
+  _calculateGameProbability(resources, config) {
+    if (!resources || !config) return 0;
+    const conversionRate = config.conversionRate?.primogemsToFate || 160;
+    const resourceKeys = Object.keys(config.resources || {});
+    if (resourceKeys.length === 0) return 0;
+    const primaryResourceKey = resourceKeys[0];
+    const secondaryResourceKey = resourceKeys[1] || null;
+    const primaryValue = Number(resources[primaryResourceKey]) || 0;
+    const secondaryValue = secondaryResourceKey ? (Number(resources[secondaryResourceKey]) || 0) : 0;
+    const totalPulls = Math.floor(primaryValue / conversionRate) + secondaryValue;
+    if (totalPulls === 0) return 0;
+    const target = { pulls: Math.min(totalPulls, config.hardPity || 90), currentPity: 0 };
+    try {
+      const calculator = CalculatorFactory.createCalculator(config);
+      const calcResult = calculator.calculate({ resources, target, config });
+      if (calcResult.success && calcResult.data && calcResult.data.length > 0) {
+        return calcResult.data[calcResult.data.length - 1].cumulativeProbability;
+      }
+    } catch (err) {
+      console.error('概率计算异常:', err);
+    }
+    return 0;
   }
 
   /**

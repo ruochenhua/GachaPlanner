@@ -4,7 +4,24 @@
  */
 
 const STORAGE_KEY_PREFIX = 'gacha_planning_';
-const DATA_VERSION = '1.0.0';
+const DATA_VERSION = '2.0.0';
+
+/**
+ * 默认目标数据结构
+ */
+function getDefaultTarget() {
+  return {
+    id: '',
+    type: 'character',      // character | weapon | other
+    name: '',
+    rarity: 5,              // 4 或 5 星
+    constellations: 0,      // 期望命座/精炼等级
+    isGuaranteed: false,    // 是否大保底
+    poolStartDate: '',      // 卡池开始日期 ISO 格式
+    poolEndDate: '',        // 卡池结束日期 ISO 格式
+    isActive: true          // 是否激活
+  };
+}
 
 /**
  * 默认规划数据结构
@@ -68,7 +85,6 @@ class PlanningStorage {
 
     try {
       wx.setStorageSync(storageKey, JSON.stringify(dataToSave));
-      console.log('规划数据保存成功:', gameId);
       return { success: true, data: dataToSave };
     } catch (error) {
       console.error('规划数据保存失败:', error);
@@ -117,7 +133,6 @@ class PlanningStorage {
 
       // 版本兼容性处理
       if (parsed.version !== DATA_VERSION) {
-        console.log('检测到旧版本数据，进行迁移:', parsed.version);
         return this.migrateData(parsed, gameId);
       }
 
@@ -142,7 +157,6 @@ class PlanningStorage {
 
     try {
       wx.removeStorageSync(storageKey);
-      console.log('规划数据删除成功:', gameId);
       return { success: true };
     } catch (error) {
       console.error('规划数据删除失败:', error);
@@ -239,32 +253,54 @@ class PlanningStorage {
   static migrateData(oldData, gameId) {
     const oldVersion = oldData.version || '0.0.0';
 
-    console.log('数据版本迁移:', oldVersion, '->', DATA_VERSION);
 
-    // 从 0.x 或无版本 迁移到 1.0.0
-    const migratedData = {
-      version: DATA_VERSION,
-      resources: {
-        primogems: oldData.resources?.primogems || 0,
-        intertwinedFates: oldData.resources?.intertwinedFates || 0,
-        acquaintFates: oldData.resources?.acquaintFates || 0,
-        currentPity: oldData.resources?.currentPity || 0,
-        guaranteeAvailable: oldData.resources?.guaranteeAvailable || false
-      },
-      totalPulls: oldData.totalPulls || 0,
-      poolTimeRange: oldData.poolTimeRange || null,
-      dailyIncome: {
-        primogems: oldData.dailyIncome?.primogems || 0,
-        commissions: oldData.dailyIncome?.commissions || false,
-        events: oldData.dailyIncome?.events || 0
-      },
-      targets: oldData.targets || [],
-      metadata: {
+    let migratedData = { ...oldData };
+
+    // 0.x → 2.0.0：完整迁移
+    if (oldVersion.startsWith('0.') || oldVersion === '0.0.0') {
+      migratedData = {
+        version: DATA_VERSION,
+        resources: {
+          primogems: oldData.resources?.primogems || 0,
+          intertwinedFates: oldData.resources?.intertwinedFates || 0,
+          acquaintFates: oldData.resources?.acquaintFates || 0,
+          currentPity: oldData.resources?.currentPity || 0,
+          guaranteeAvailable: oldData.resources?.guaranteeAvailable || false
+        },
+        totalPulls: oldData.totalPulls || 0,
+        poolTimeRange: oldData.poolTimeRange || null,
+        dailyIncome: {
+          primogems: oldData.dailyIncome?.primogems || 0,
+          commissions: oldData.dailyIncome?.commissions || false,
+          events: oldData.dailyIncome?.events || 0
+        },
+        targets: [],
+        metadata: {
+          gameId,
+          createdAt: oldData.metadata?.createdAt || new Date().toISOString(),
+          lastSavedAt: new Date().toISOString()
+        }
+      };
+    }
+
+    // 1.0.0 → 2.0.0：补充 target 字段默认值
+    if (oldVersion === '1.0.0') {
+      migratedData.version = DATA_VERSION;
+      migratedData.targets = (oldData.targets || []).map(target => ({
+        ...getDefaultTarget(),
+        ...target
+      }));
+    }
+
+    // 确保 metadata 存在
+    if (!migratedData.metadata) {
+      migratedData.metadata = {
         gameId,
-        createdAt: oldData.metadata?.createdAt || new Date().toISOString(),
+        createdAt: new Date().toISOString(),
         lastSavedAt: new Date().toISOString()
-      }
-    };
+      };
+    }
+    migratedData.metadata.lastSavedAt = new Date().toISOString();
 
     // 自动保存迁移后的数据
     this.savePlanningData(gameId, migratedData);
@@ -277,6 +313,118 @@ class PlanningStorage {
    * @param {Object} data - 待验证数据
    * @returns {Object} 验证结果
    */
+  /**
+   * 保存目标
+   * @param {string} gameId - 游戏 ID
+   * @param {Object} target - 目标数据
+   * @returns {Promise<Object>} 保存结果
+   */
+  static async saveTarget(gameId, target) {
+    const loadResult = await this.loadPlanningData(gameId);
+    if (!loadResult.success) {
+      return loadResult;
+    }
+
+    const data = loadResult.data;
+    const targets = data.targets || [];
+
+    // 生成 id（新目标）
+    if (!target.id) {
+      target.id = `target_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+
+    // 合并默认值
+    const mergedTarget = {
+      ...getDefaultTarget(),
+      ...target
+    };
+
+    // 如果已存在同 id 目标则替换，否则追加
+    const existingIndex = targets.findIndex(t => t.id === mergedTarget.id);
+    if (existingIndex >= 0) {
+      targets[existingIndex] = mergedTarget;
+    } else {
+      targets.push(mergedTarget);
+    }
+
+    data.targets = targets;
+    data.version = DATA_VERSION;
+
+    return this.savePlanningData(gameId, data);
+  }
+
+  /**
+   * 更新目标
+   * @param {string} gameId - 游戏 ID
+   * @param {string} targetId - 目标 ID
+   * @param {Object} target - 目标数据
+   * @returns {Promise<Object>} 更新结果
+   */
+  static async updateTarget(gameId, targetId, target) {
+    const loadResult = await this.loadPlanningData(gameId);
+    if (!loadResult.success) {
+      return loadResult;
+    }
+
+    const data = loadResult.data;
+    const targets = data.targets || [];
+    const index = targets.findIndex(t => t.id === targetId);
+
+    if (index < 0) {
+      return { success: false, error: '目标不存在', data: null };
+    }
+
+    targets[index] = {
+      ...targets[index],
+      ...target,
+      id: targetId // 确保 id 不被覆盖
+    };
+
+    data.targets = targets;
+    return this.savePlanningData(gameId, data);
+  }
+
+  /**
+   * 删除目标
+   * @param {string} gameId - 游戏 ID
+   * @param {string} targetId - 目标 ID
+   * @returns {Promise<Object>} 删除结果
+   */
+  static async removeTarget(gameId, targetId) {
+    const loadResult = await this.loadPlanningData(gameId);
+    if (!loadResult.success) {
+      return loadResult;
+    }
+
+    const data = loadResult.data;
+    const targets = data.targets || [];
+    const newTargets = targets.filter(t => t.id !== targetId);
+
+    if (newTargets.length === targets.length) {
+      return { success: false, error: '目标不存在', data: null };
+    }
+
+    data.targets = newTargets;
+    return this.savePlanningData(gameId, data);
+  }
+
+  /**
+   * 获取目标列表
+   * @param {string} gameId - 游戏 ID
+   * @returns {Promise<Object>} 目标列表
+   */
+  static async getTargets(gameId) {
+    const loadResult = await this.loadPlanningData(gameId);
+    if (!loadResult.success) {
+      return loadResult;
+    }
+
+    return {
+      success: true,
+      data: loadResult.data.targets || []
+    };
+  }
+
   static validateData(data) {
     const errors = [];
 
