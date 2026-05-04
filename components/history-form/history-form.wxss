@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-bg-overlay);
 }
 
 .form-content {
@@ -26,7 +26,7 @@
   width: 90%;
   max-width: 400px;
   max-height: 80vh;
-  background: #FAFAFA;
+  background: var(--color-bg-page);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -39,13 +39,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid var(--color-border-divider);
 }
 
 .form-title {
   font-size: 18px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .close-btn {
@@ -58,12 +58,12 @@
 }
 
 .close-btn:active {
-  background: #E5E5E5;
+  background: var(--color-border-divider);
 }
 
 .close-icon {
   font-size: 24px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 /* 表单主体 */
@@ -80,18 +80,18 @@
   justify-content: space-between;
   padding: 12px;
   margin-bottom: 16px;
-  background: #F5F0E6;
+  background: var(--color-gray-100);
   border-radius: 8px;
 }
 
 .tip-text {
   font-size: 14px;
-  color: #C4A77D;
+  color: var(--color-primary);
 }
 
 .unlink-btn {
   font-size: 14px;
-  color: #C47070;
+  color: var(--color-danger);
   text-decoration: underline;
 }
 
@@ -103,7 +103,7 @@
 .form-label {
   display: block;
   font-size: 14px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
   margin-bottom: 8px;
 }
 
@@ -112,15 +112,15 @@
   height: 40px;
   padding: 0 12px;
   font-size: 16px;
-  color: #4A4A4A;
-  background: #FFFFFF;
-  border: 1px solid #D4D4D4;
+  color: var(--color-text-primary);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-divider);
   border-radius: 8px;
   box-sizing: border-box;
 }
 
 .form-input:focus {
-  border-color: #C4A77D;
+  border-color: var(--color-primary);
 }
 
 /* 选择器 */
@@ -130,14 +130,14 @@
   justify-content: space-between;
   height: 40px;
   padding: 0 12px;
-  background: #FFFFFF;
-  border: 1px solid #D4D4D4;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-divider);
   border-radius: 8px;
 }
 
 .picker-arrow {
   font-size: 12px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 /* 结果按钮 */
@@ -158,25 +158,25 @@
 }
 
 .success-btn {
-  background: #FFFFFF;
-  border: 1px solid #7FB069;
-  color: #7FB069;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
 }
 
 .success-btn.active {
-  background: #7FB069;
-  color: #FFFFFF;
+  background: var(--color-success);
+  color: var(--color-text-inverse);
 }
 
 .failure-btn {
-  background: #FFFFFF;
-  border: 1px solid #C47070;
-  color: #C47070;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
 }
 
 .failure-btn.active {
-  background: #C47070;
-  color: #FFFFFF;
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
 }
 
 /* 只读值 */
@@ -185,17 +185,17 @@
   display: flex;
   align-items: center;
   padding: 0 12px;
-  background: #F5F5F5;
+  background: var(--color-gray-100);
   border-radius: 8px;
   font-size: 16px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 /* 错误提示 */
 .error-text {
   display: block;
   font-size: 12px;
-  color: #C47070;
+  color: var(--color-danger);
   margin-top: 4px;
 }
 
@@ -204,7 +204,7 @@
   display: flex;
   gap: 12px;
   padding: 16px;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid var(--color-border-divider);
 }
 
 .btn {
@@ -219,20 +219,20 @@
 }
 
 .btn-primary {
-  background: #C4A77D;
-  color: #FFFFFF;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .btn-primary:active {
-  background: #A88B5F;
+  background: var(--color-primary-dark);
 }
 
 .btn-secondary {
-  background: #FFFFFF;
-  border: 1px solid #D4D4D4;
-  color: #6B6B6B;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-divider);
+  color: var(--color-text-secondary);
 }
 
 .btn-secondary:active {
-  background: #F5F5F5;
+  background: var(--color-gray-100);
 }

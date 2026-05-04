@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-lg);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border-bottom: 1px solid var(--color-gray-200);
 }
 
@@ -76,7 +76,7 @@
   align-items: center;
   justify-content: space-around;
   padding: var(--spacing-md);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border-radius: var(--radius-md);
   margin-bottom: var(--spacing-lg);
 }
@@ -131,7 +131,7 @@
 .setting-input {
   flex: 1;
   padding: var(--spacing-sm) var(--spacing-md);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-base);
@@ -150,7 +150,7 @@
 
 .option {
   padding: var(--spacing-sm) var(--spacing-md);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
@@ -161,7 +161,7 @@
 .option.active {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }
 
 /* 底部按钮 */
@@ -191,5 +191,5 @@
 
 .reminder-btn.save {
   background-color: var(--color-primary);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }

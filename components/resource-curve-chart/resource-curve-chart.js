@@ -4,6 +4,29 @@
 const MAX_CHART_POINTS = 100;
 const DRAW_THROTTLE_MS = 100;
 
+const themeService = require('../../services/theme-service');
+
+const CHART_COLORS = {
+  light: {
+    consumption: '#C4A77D',
+    remaining: '#7FB069',
+    axis: '#EBE8E4',
+    grid: '#EBE8E4',
+    text: '#57534E',
+    node: '#D4AF37',
+    labelBg: '#FFFFFF'
+  },
+  dark: {
+    consumption: '#D4BC99',
+    remaining: '#8BC476',
+    axis: '#3E3833',
+    grid: '#3E3833',
+    text: '#D4CFC6',
+    node: '#E8C86A',
+    labelBg: '#292524'
+  }
+};
+
 Component({
   /**
    * 组件属性
@@ -43,12 +66,12 @@ Component({
     // 图表配置
     chartConfig: {
       colors: {
-        consumption: '#C4A77D',   // Primary 奶茶棕
-        remaining: '#7FB069',     // Success Green
-        axis: '#EBE8E4',          // Gray 200
-        grid: '#EBE8E4',
-        text: '#57534E',          // Gray 600
-        node: '#D4AF37'           // 原神金（节点默认色）
+        get consumption() { return (CHART_COLORS[themeService.resolve()] || CHART_COLORS.light).consumption; },
+        get remaining() { return (CHART_COLORS[themeService.resolve()] || CHART_COLORS.light).remaining; },
+        get axis() { return (CHART_COLORS[themeService.resolve()] || CHART_COLORS.light).axis; },
+        get grid() { return (CHART_COLORS[themeService.resolve()] || CHART_COLORS.light).grid; },
+        get text() { return (CHART_COLORS[themeService.resolve()] || CHART_COLORS.light).text; },
+        get node() { return (CHART_COLORS[themeService.resolve()] || CHART_COLORS.light).node; }
       }
     },
     // 处理后的图表数据
@@ -76,12 +99,19 @@ Component({
     attached() {
       this.setData({ canvasHeight: this.data.height });
       this.initCanvas();
+      this._themeCb = (theme) => {
+        if (this.ctx) {
+          this.scheduleRedraw();
+        }
+      };
+      themeService.onChange(this._themeCb);
     },
     detached() {
       if (this._drawThrottleTimer) {
         clearTimeout(this._drawThrottleTimer);
         this._drawThrottleTimer = null;
       }
+      themeService.offChange(this._themeCb);
     }
   },
 
@@ -659,7 +689,7 @@ Component({
         ctx.fill();
 
         // 绘制节点边框
-        ctx.strokeStyle = '#FFFFFF';
+        ctx.strokeStyle = (CHART_COLORS[this.theme] || CHART_COLORS.light).labelBg;
         ctx.lineWidth = 1;
         ctx.stroke();
 

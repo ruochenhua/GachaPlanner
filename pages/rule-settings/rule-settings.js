@@ -4,12 +4,14 @@
 const configLoader = require('../../config/config-loader');
 const storageService = require('../../services/storage-service');
 const gameService = require('../../services/game-service');
+const themeService = require('../../services/theme-service');
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    themeClass: '',
     gameId: '',
     gameName: '',
     isCustom: false,
@@ -39,6 +41,10 @@ Page({
     const gameId = options.gameId || gameService.getCurrentGameId();
     this.setData({ gameId });
     this.loadSettings();
+  },
+
+  onShow() {
+    themeService.apply();
   },
 
   /**

@@ -1,6 +1,6 @@
 .overview-container {
   min-height: 100vh;
-  background: #FAF9F7;
+  background: var(--color-bg-page);
   padding: 32rpx;
 }
 
@@ -15,8 +15,8 @@
 .loading-spinner {
   width: 80rpx;
   height: 80rpx;
-  border: 6rpx solid #E5E0D8;
-  border-top-color: #C4A77D;
+  border: 6rpx solid var(--color-border-divider);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -28,7 +28,7 @@
 .loading-text {
   margin-top: 24rpx;
   font-size: 28rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
 }
 
 .section-header {
@@ -41,7 +41,7 @@
 .section-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #2C2520;
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   gap: 12rpx;
@@ -51,20 +51,20 @@
   content: '';
   width: 8rpx;
   height: 32rpx;
-  background: #C4A77D;
+  background: var(--color-primary);
   border-radius: 4rpx;
   display: inline-block;
 }
 
 .add-btn {
   padding: 8rpx 20rpx;
-  background: #C4A77D;
+  background: var(--color-primary);
   border-radius: 8rpx;
 }
 
 .add-text {
   font-size: 26rpx;
-  color: white;
+  color: var(--color-text-inverse);
   font-weight: 500;
 }
 
@@ -72,11 +72,11 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 16rpx;
   padding: 32rpx 24rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2rpx 8rpx var(--color-shadow);
 }
 
 .summary-item {
@@ -89,18 +89,18 @@
 .summary-number {
   font-size: 40rpx;
   font-weight: 700;
-  color: #C4A77D;
+  color: var(--color-primary);
 }
 
 .summary-label {
   font-size: 24rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
 }
 
 .summary-divider {
   width: 2rpx;
   height: 48rpx;
-  background: #E5E0D8;
+  background: var(--color-border-divider);
 }
 
 .goals-list-vertical {
@@ -114,13 +114,13 @@
   width: 100%;
   min-height: 120rpx;
   border-radius: 16rpx;
-  border: 2rpx dashed #C4A77D;
+  border: 2rpx dashed var(--color-primary);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 16rpx;
-  background: white;
+  background: var(--color-bg-card);
 }
 
 .add-icon {
@@ -129,15 +129,15 @@
 
 .add-label {
   font-size: 26rpx;
-  color: #C4A77D;
+  color: var(--color-primary);
 }
 
 .simulator-section {
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 16rpx;
   padding: 24rpx 32rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2rpx 8rpx var(--color-shadow);
 }
 
 .simulator-header {
@@ -150,12 +150,12 @@
 .simulator-title {
   font-size: 28rpx;
   font-weight: 600;
-  color: #2C2520;
+  color: var(--color-text-primary);
 }
 
 .simulator-toggle {
   font-size: 26rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
 }
 
 .simulator-collapsed {
@@ -172,14 +172,14 @@
 
 .summary-name {
   font-size: 26rpx;
-  color: #2C2520;
+  color: var(--color-text-primary);
   min-width: 100rpx;
 }
 
 .summary-bar-track {
   flex: 1;
   height: 8rpx;
-  background: #E5E0D8;
+  background: var(--color-border-divider);
   border-radius: 4rpx;
   overflow: hidden;
 }
@@ -192,7 +192,7 @@
 
 .summary-pulls {
   font-size: 24rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
   min-width: 80rpx;
   text-align: right;
 }
@@ -200,20 +200,20 @@
 .summary-probability {
   font-size: 24rpx;
   font-weight: 600;
-  color: #C4A77D;
+  color: var(--color-primary);
   min-width: 60rpx;
   text-align: right;
 }
 
 .simulator-summary-row {
   padding-top: 16rpx;
-  border-top: 1rpx solid #E5E0D8;
+  border-top: 1rpx solid var(--color-border-divider);
   margin-top: 8rpx;
 }
 
 .summary-text {
   font-size: 24rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
 }
 
 .simulator-expanded {
@@ -224,26 +224,26 @@
 .simulator-total {
   padding: 16rpx 0;
   text-align: center;
-  border-top: 1rpx solid #E5E0D8;
+  border-top: 1rpx solid var(--color-border-divider);
   margin-top: 8rpx;
 }
 
 .total-label {
   font-size: 26rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
 .simulator-hint {
   padding: 12rpx 16rpx;
-  background: #E8F5E9;
+  background: var(--color-state-success-bg);
   border-radius: 8rpx;
   margin-bottom: 16rpx;
 }
 
 .hint-text {
   font-size: 24rpx;
-  color: #7CB342;
+  color: var(--color-success);
 }
 
 .simulator-actions {
@@ -254,7 +254,7 @@
 
 .btn-reset {
   font-size: 26rpx;
-  color: #C47070;
+  color: var(--color-danger);
   padding: 8rpx 16rpx;
 }
 
@@ -271,7 +271,7 @@
   flex-direction: column;
   align-items: center;
   padding: 60rpx 32rpx;
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 16rpx;
   margin-bottom: 24rpx;
 }
@@ -283,27 +283,27 @@
 
 .empty-title {
   font-size: 28rpx;
-  color: #2C2520;
+  color: var(--color-text-primary);
   font-weight: 600;
   margin-bottom: 12rpx;
 }
 
 .empty-hint {
   font-size: 24rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
   margin-bottom: 24rpx;
   text-align: center;
 }
 
 .btn-set-goal {
   padding: 16rpx 40rpx;
-  background: #C4A77D;
+  background: var(--color-primary);
   border-radius: 12rpx;
 }
 
 .btn-set-goal text {
   font-size: 28rpx;
-  color: white;
+  color: var(--color-text-inverse);
   font-weight: 500;
 }
 
@@ -322,10 +322,10 @@
 }
 
 .game-card {
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 16rpx;
   padding: 32rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2rpx 8rpx var(--color-shadow);
 }
 
 .game-header {
@@ -351,12 +351,12 @@
 .game-name {
   font-size: 28rpx;
   font-weight: 600;
-  color: #2C2520;
+  color: var(--color-text-primary);
 }
 
 .game-pulls {
   font-size: 24rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
 }
 
 .probability-badge {
@@ -367,23 +367,23 @@
 }
 
 .probability-badge.high {
-  background: #E8F5E9;
-  color: #4CAF50;
+  background: var(--color-state-success-bg);
+  color: var(--color-success);
 }
 
 .probability-badge.medium {
-  background: #FFF3E0;
-  color: #FF9800;
+  background: var(--color-state-warning-bg);
+  color: var(--color-warning);
 }
 
 .probability-badge.low {
-  background: #FFEBEE;
-  color: #F44336;
+  background: var(--color-state-error-bg);
+  color: var(--color-danger);
 }
 
 .probability-bar {
   height: 12rpx;
-  background: #E5E0D8;
+  background: var(--color-border-divider);
   border-radius: 6rpx;
   overflow: hidden;
 }
@@ -397,7 +397,7 @@
 
 /* 撤销重置按钮 */
 .btn-reset.undo {
-  color: #7CB342;
+  color: var(--color-success);
 }
 
 /* 空策略提示 */
@@ -406,7 +406,7 @@
   flex-direction: column;
   align-items: center;
   padding: 60rpx 32rpx;
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 16rpx;
 }
 
@@ -417,11 +417,11 @@
 
 .empty-strategies .empty-title {
   font-size: 32rpx;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
   margin-bottom: 8rpx;
 }
 
 .empty-strategies .empty-hint {
   font-size: 26rpx;
-  color: #999;
+  color: var(--color-text-muted);
 }

@@ -1,11 +1,11 @@
 /* 历史数据趋势图表组件样式 */
 
 .trend-chart-container {
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 /* 图表标题 */
@@ -19,12 +19,12 @@
 .chart-title {
   font-size: 16px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .chart-range {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 加载状态 */
@@ -32,7 +32,7 @@
   text-align: center;
   padding: 60px 0;
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 空数据状态 */
@@ -43,7 +43,7 @@
 
 .empty-text {
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* Canvas图表 */
@@ -63,7 +63,7 @@
   gap: 16px;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid var(--color-border-divider);
 }
 
 .legend-item {
@@ -71,7 +71,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 .legend-line {
@@ -81,7 +81,7 @@
 }
 
 .legend-line.primary {
-  background: #C4A77D;
+  background: var(--color-primary);
 }
 
 .legend-bar {
@@ -91,12 +91,12 @@
 }
 
 .legend-bar.success {
-  background: rgba(127, 176, 105, 0.3);
+  background: var(--color-state-success-bg);
 }
 
 .legend-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #C4A77D;
+  background: var(--color-primary);
 }

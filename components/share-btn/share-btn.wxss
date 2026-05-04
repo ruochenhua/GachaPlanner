@@ -33,7 +33,7 @@
 
 .share-button.friend {
   background-color: var(--color-primary);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }
 
 .share-button.moments {
@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-lg);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border-bottom: 1px solid var(--color-gray-200);
 }
 
@@ -75,10 +75,13 @@
 .customize-save {
   padding: var(--spacing-sm) var(--spacing-md);
   background-color: var(--color-primary);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
   border: none;
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .customize-save::after {
@@ -107,7 +110,7 @@
 .field-textarea {
   width: 100%;
   padding: var(--spacing-md);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-md);
   font-size: var(--font-size-base);
@@ -126,7 +129,7 @@
 .style-option {
   flex: 1;
   padding: var(--spacing-md);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border: 2px solid var(--color-gray-200);
   border-radius: var(--radius-md);
   text-align: center;

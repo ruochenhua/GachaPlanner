@@ -3,9 +3,11 @@
 
 const configExportService = require('../../services/config-export-service');
 const gameService = require('../../services/game-service');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
+    themeClass: '',
     gameId: '',
     gameName: '',
     configPreview: null,
@@ -18,6 +20,10 @@ Page({
     const gameId = options.gameId || gameService.getCurrentGameId();
     this.setData({ gameId });
     this.loadConfigPreview();
+  },
+
+  onShow() {
+    themeService.apply();
   },
 
   /**

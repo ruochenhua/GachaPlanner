@@ -2,12 +2,14 @@
 // 提醒列表页面
 
 const reminderService = require('../../services/reminder-service');
+const themeService = require('../../services/theme-service');
 
 Page({
   /**
    * 页面数据
    */
   data: {
+    themeClass: '',
     activeTab: 'pool',
     poolReminders: [],
     hoardingReminders: []
@@ -21,6 +23,7 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     this.loadReminders();
   },
 

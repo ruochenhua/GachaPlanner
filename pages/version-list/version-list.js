@@ -5,9 +5,11 @@
 
 const gameService = require('../../services/game-service');
 const dataExpiryChecker = require('../../utils/data-expiry-checker');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
+    themeClass: '',
     // 游戏版本列表
     gameVersions: [],
     // 是否正在加载
@@ -26,6 +28,7 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     this.loadGameVersions();
   },
 

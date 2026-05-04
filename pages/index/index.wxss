@@ -2,6 +2,7 @@
 /* 首页 - 资源总览页面样式 */
 
 .index-container {
+  background: var(--color-bg-page);
   padding: var(--spacing-xl);
   background-color: var(--color-gray-50);
   min-height: 100vh;

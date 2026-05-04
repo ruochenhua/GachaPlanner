@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2rpx 8rpx var(--color-shadow);
   transition: all 0.2s;
 }
 
@@ -33,7 +33,7 @@
 .game-name {
   font-size: 28rpx;
   font-weight: 700;
-  color: #2C2520;
+  color: var(--color-text-primary);
 }
 
 .menu-btn {
@@ -46,14 +46,14 @@
 
 .menu-dots {
   font-size: 32rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
   font-weight: bold;
 }
 
 .target-summary {
   font-size: 28rpx;
   font-weight: 600;
-  color: #2C2520;
+  color: var(--color-text-primary);
   margin-bottom: 20rpx;
   line-height: 1.4;
 }
@@ -97,21 +97,49 @@
 
 .detail-label {
   font-size: 22rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
 }
 
 .detail-value {
   font-size: 26rpx;
   font-weight: 600;
-  color: #2C2520;
+  color: var(--color-text-primary);
   min-width: 80rpx;
   text-align: right;
 }
 
 .detail-value.danger {
-  color: #C47070;
+  color: var(--color-danger);
 }
 
 .detail-value.success {
-  color: #7FB069;
+  color: var(--color-success);
+}
+
+/* 状态类 - 由 JS 组件动态绑定 */
+.goal-card.status-success {
+  background-color: var(--color-state-success-bg);
+}
+
+.goal-card.status-success .probability-number,
+.goal-card.status-success .probability-label {
+  color: var(--color-state-success-text);
+}
+
+.goal-card.status-warning {
+  background-color: var(--color-state-warning-bg);
+}
+
+.goal-card.status-warning .probability-number,
+.goal-card.status-warning .probability-label {
+  color: var(--color-state-warning-text);
+}
+
+.goal-card.status-danger {
+  background-color: var(--color-state-error-bg);
+}
+
+.goal-card.status-danger .probability-number,
+.goal-card.status-danger .probability-label {
+  color: var(--color-state-error-text);
 }

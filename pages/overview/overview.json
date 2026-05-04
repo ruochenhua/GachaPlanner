@@ -1,7 +1,8 @@
 {
-  "navigationBarTitleText": "总览",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "usingComponents": {
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar",
     "goal-card": "../../components/goal-card/goal-card",
     "allocation-bar": "../../components/allocation-bar/allocation-bar",
     "strategy-card": "../../components/strategy-card/strategy-card",

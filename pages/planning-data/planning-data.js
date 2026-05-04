@@ -3,9 +3,11 @@
 
 const PlanningStorage = require('../../services/planning-storage');
 const gameService = require('../../services/game-service');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
+    themeClass: '',
     planningDataList: [],
     showDeleteModal: false,
     showClearAllModal: false,
@@ -14,6 +16,7 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     this.loadPlanningDataList();
   },
 

@@ -1,4 +1,4 @@
-<view class="goal-card" style="background-color: {{statusBg}};" bindtap="onTapTitle">
+<view class="goal-card {{statusClass}}" bindtap="onTapTitle">
   <view class="goal-header">
     <view class="goal-header-left">
       <image wx:if="{{gameIcon}}" class="game-icon" src="{{gameIcon}}" mode="aspectFit"></image>
@@ -15,8 +15,8 @@
   <!-- 概率和抽数信息 -->
   <view class="info-row">
     <view class="probability-section">
-      <text class="probability-number" style="color: {{statusColor}};">{{probabilityText}}</text>
-      <text class="probability-label" style="color: {{statusColor}};">达成</text>
+      <text class="probability-number">{{probabilityText}}</text>
+      <text class="probability-label">达成</text>
     </view>
 
     <view class="detail-section">

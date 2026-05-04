@@ -1,7 +1,8 @@
 <!--pages/config-manager/config-manager.wxml-->
 <!-- 配置管理页面 -->
 
-<view class="config-manager-container">
+<custom-nav-bar title="配置管理" />
+<view class="{{themeClass}} config-manager-container">
   <!-- 游戏信息 -->
   <view class="game-header">
     <text class="game-name">{{gameName}}</text>

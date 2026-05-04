@@ -2,7 +2,7 @@
 // 多池联动计算器单元测试
 
 const MultiPoolCalculator = require('../../../core/calculator/multi-pool-calculator');
-const onmyojiConfig = require('../../../config/games/onmyoji-multi-pool');
+const onmyojiConfig = require('../../../config/games/onmyoji');
 
 describe('MultiPoolCalculator - 多池联动计算器', () => {
   let calculator;

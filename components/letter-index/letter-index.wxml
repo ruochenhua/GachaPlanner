@@ -1,0 +1,11 @@
+<view class="letter-index {{themeClass}}" wx:if="{{letters.length > 0}}">
+  <view
+    wx:for="{{letters}}"
+    wx:key="*this"
+    class="letter-item"
+    data-letter="{{item}}"
+    bindtap="onTap"
+  >
+    <text class="letter-text">{{item}}</text>
+  </view>
+</view>

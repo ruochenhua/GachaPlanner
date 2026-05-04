@@ -13,13 +13,13 @@
   <view class="stats-content" wx:if="{{!loading && hasData}}">
     <!-- 命中率展示 -->
     <view class="hit-rate-section">
-      <view class="hit-rate-value" style="color: {{rating.color}}">
+      <view class="hit-rate-value {{ratingClass}}">
         <text class="rate-number">{{hitRate}}</text>
         <text class="rate-percent">%</text>
       </view>
       <view class="hit-rate-label">
         <text>规划命中率</text>
-        <text class="rating-badge" style="background: {{rating.color}}">{{rating.label}}</text>
+        <text class="rating-badge {{ratingClass}}">{{rating.label}}</text>
       </view>
     </view>
 

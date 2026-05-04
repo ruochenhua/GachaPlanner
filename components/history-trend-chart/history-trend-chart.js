@@ -5,6 +5,30 @@
 
 const historyService = require('../../services/history-service');
 const { formatDate } = require('../../utils/time');
+const themeService = require('../../services/theme-service');
+
+const CHART_COLORS = {
+  light: {
+    bg: '#FAFAFA',
+    grid: '#D4D4D4',
+    text: '#6B6B6B',
+    primary: '#C4A77D',
+    primaryFill: 'rgba(196, 167, 125, 0.1)',
+    successFill: 'rgba(127, 176, 105, 0.3)',
+    successMarker: '#7FB069',
+    primaryMarker: '#C4A77D'
+  },
+  dark: {
+    bg: '#1C1917',
+    grid: '#3E3833',
+    text: '#A8A29E',
+    primary: '#D4BC99',
+    primaryFill: 'rgba(212, 188, 153, 0.1)',
+    successFill: 'rgba(139, 196, 118, 0.25)',
+    successMarker: '#8BC476',
+    primaryMarker: '#D4BC99'
+  }
+};
 
 Component({
   properties: {
@@ -37,6 +61,12 @@ Component({
 
   lifetimes: {
     attached() {
+      this.theme = themeService.resolve();
+      this._onThemeChange = (theme) => {
+        this.theme = theme;
+        this.loadData();
+      };
+      themeService.onChange(this._onThemeChange);
       this.initCanvas();
     }
   },
@@ -78,6 +108,10 @@ Component({
     /**
      * 加载并处理数据
      */
+    colors() {
+      return CHART_COLORS[this.theme] || CHART_COLORS.light;
+    },
+
     loadData() {
       this.setData({ loading: true });
 
@@ -216,7 +250,7 @@ Component({
       ctx.clearRect(0, 0, width, height);
 
       // 绘制背景
-      ctx.fillStyle = '#FAFAFA';
+      ctx.fillStyle = this.colors().bg;
       ctx.fillRect(0, 0, width, height);
 
       const data = this.data.timeSeriesData;
@@ -256,7 +290,7 @@ Component({
       const chartWidth = width - padding.left - padding.right;
       const chartHeight = height - padding.top - padding.bottom;
 
-      ctx.strokeStyle = '#D4D4D4';
+      ctx.strokeStyle = this.colors().grid;
       ctx.lineWidth = 1;
 
       // 横向网格线
@@ -278,7 +312,7 @@ Component({
       const chartWidth = width - padding.left - padding.right;
       const chartHeight = height - padding.top - padding.bottom;
 
-      ctx.strokeStyle = '#C4A77D';
+      ctx.strokeStyle = this.colors().primary;
       ctx.lineWidth = 2;
       ctx.beginPath();
 
@@ -296,7 +330,7 @@ Component({
       ctx.stroke();
 
       // 绘制填充区域
-      ctx.fillStyle = 'rgba(196, 167, 125, 0.1)';
+      ctx.fillStyle = this.colors().primaryFill;
       ctx.beginPath();
 
       data.forEach((d, i) => {
@@ -327,7 +361,7 @@ Component({
       const chartHeight = height - padding.top - padding.bottom;
       const barWidth = Math.max(2, chartWidth / data.length - 2);
 
-      ctx.fillStyle = 'rgba(127, 176, 105, 0.3)';
+      ctx.fillStyle = this.colors().successFill;
 
       data.forEach((d, i) => {
         if (d.count === 0) return;
@@ -359,7 +393,7 @@ Component({
         // 绘制标记点
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = marker.type === 'success' ? '#7FB069' : '#C4A77D';
+        ctx.fillStyle = marker.type === 'success' ? this.colors().successMarker : this.colors().primaryMarker;
         ctx.fill();
       });
     },
@@ -368,7 +402,7 @@ Component({
      * 绘制坐标轴标签
      */
     drawAxisLabels(ctx, width, height, padding, maxValue, data) {
-      ctx.fillStyle = '#6B6B6B';
+      ctx.fillStyle = this.colors().text;
       ctx.font = '12px sans-serif';
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';

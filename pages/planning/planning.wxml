@@ -1,4 +1,5 @@
-<view class="planning-container">
+<custom-nav-bar title="规划" />
+<view class="{{themeClass}} planning-container">
   <!-- 页面标题 -->
   <view class="page-header">
     <text class="game-name">{{gameName}}</text>

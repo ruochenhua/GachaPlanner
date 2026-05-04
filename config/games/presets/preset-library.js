@@ -3,7 +3,7 @@
  * 包含 10+ 热门游戏的完整配置模板
  */
 
-const { createGameConfig, GAME_TEMPLATES } = require('../../config-template-enhanced');
+const { createGameConfig, GAME_TEMPLATES } = require('../_template');
 
 // 添加 'hard' 模板类型支持（用于 NIKKE、鸣潮等简单硬保底游戏）
 GAME_TEMPLATES.hard = {

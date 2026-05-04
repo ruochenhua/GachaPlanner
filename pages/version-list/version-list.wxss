@@ -2,24 +2,24 @@
 
 .version-list-page {
   min-height: 100vh;
-  background: #FAFAFA;
+  background: var(--color-bg-page);
   padding: 16px;
   box-sizing: border-box;
 }
 
 /* 统计概览卡片 */
 .summary-card {
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .summary-title {
   font-size: 16px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
   margin-bottom: 16px;
 }
 
@@ -38,24 +38,24 @@
 .stat-value {
   font-size: 24px;
   font-weight: 600;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .stat-label {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 .stat-item.normal .stat-value {
-  color: #7FB069;
+  color: var(--color-success);
 }
 
 .stat-item.warning .stat-value {
-  color: #E4C786;
+  color: var(--color-warning);
 }
 
 .stat-item.expired .stat-value {
-  color: #C47070;
+  color: var(--color-danger);
 }
 
 /* 加载状态 */
@@ -63,7 +63,7 @@
   text-align: center;
   padding: 40px;
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 游戏列表 */
@@ -74,22 +74,22 @@
 }
 
 .game-item {
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .game-item:active {
-  background: #F5F5F5;
+  background: var(--color-gray-100);
 }
 
 .game-item.expired {
-  border-left: 3px solid #C47070;
+  border-left: 3px solid var(--color-danger);
 }
 
 .game-item.warning {
-  border-left: 3px solid #E4C786;
+  border-left: 3px solid var(--color-warning);
 }
 
 .game-header {
@@ -102,7 +102,7 @@
 .game-name {
   font-size: 16px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .status-badge {
@@ -123,24 +123,24 @@
 
 .info-label {
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 .info-value {
   font-size: 14px;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .info-value.expired {
-  color: #E4C786;
+  color: var(--color-warning);
 }
 
 .expiry-message {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid var(--color-border-divider);
   font-size: 12px;
-  color: #E4C786;
+  color: var(--color-warning);
 }
 
 /* 空数据状态 */
@@ -151,5 +151,5 @@
 
 .empty-text {
   font-size: 16px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }

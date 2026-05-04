@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "规划数据管理",
-  "usingComponents": {}
+  "usingComponents": {
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar"
+  },
+  "navigationStyle": "custom"
 }

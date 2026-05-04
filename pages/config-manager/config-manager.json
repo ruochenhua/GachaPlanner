@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "配置管理",
-  "usingComponents": {}
+  "usingComponents": {
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar"
+  },
+  "navigationStyle": "custom"
 }

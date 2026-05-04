@@ -3,6 +3,8 @@
   "usingComponents": {
     "resource-input": "/components/resource-input/resource-input",
     "probability-display": "/components/probability-display/probability-display",
-    "probability-chart": "/components/probability-chart/probability-chart"
-  }
+    "probability-chart": "/components/probability-chart/probability-chart",
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar"
+  },
+  "navigationStyle": "custom"
 }

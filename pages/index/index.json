@@ -1,6 +1,8 @@
 {
   "usingComponents": {
     "overview-card": "/components/overview-card/overview-card",
-    "game-card": "/components/game-card/game-card"
-  }
+    "game-card": "/components/game-card/game-card",
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar"
+  },
+  "navigationStyle": "custom"
 }

@@ -2,7 +2,7 @@
 // 多池联动计算器集成测试
 
 const CalculatorFactory = require('../../core/calculator/calculator-factory');
-const onmyojiConfig = require('../../config/games/onmyoji-multi-pool');
+const onmyojiConfig = require('../../config/games/onmyoji');
 
 describe('MultiPoolCalculator - 集成测试', () => {
   describe('工厂集成', () => {

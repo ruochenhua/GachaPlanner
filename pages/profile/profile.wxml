@@ -1,7 +1,8 @@
 <!--pages/profile/profile.wxml-->
 <!-- 个人中心页面 -->
 
-<view class="profile-container">
+<custom-nav-bar title="我的" />
+<view class="{{themeClass}} profile-container">
   <!-- 用户信息区域（预留） -->
   <view class="user-info-section">
     <text class="section-title">👤 用户信息</text>
@@ -11,6 +12,26 @@
   <!-- 功能设置区域 -->
   <view class="settings-section">
     <text class="section-title">⚙️ 设置</text>
+
+    <!-- 主题切换 -->
+    <view class="settings-item theme-selector">
+      <view class="settings-info">
+        <text class="settings-title">主题外观</text>
+        <text class="settings-desc">选择喜欢的界面风格</text>
+      </view>
+      <view class="theme-options">
+        <view
+          wx:for="{{themeOptions}}"
+          wx:key="value"
+          class="theme-option {{themePreference === item.value ? 'active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onThemeChange"
+        >
+          <text class="theme-icon">{{item.icon}}</text>
+          <text class="theme-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
 
     <!-- 规则设置入口 -->
     <view class="settings-item" bindtap="onRuleSettings">

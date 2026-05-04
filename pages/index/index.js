@@ -4,12 +4,14 @@
 const gameService = require('../../services/game-service');
 const CalculatorFactory = require('../../core/calculator/calculator-factory');
 const CombinedProbabilityCalculator = require('../../core/calculator/combined-probability-calculator');
+const themeService = require('../../services/theme-service');
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    themeClass: '',
     totalResources: 0,           // 总抽数（正确的抽数统计）
     monthlyPlans: 0,             // 本月规划数量
     resourceDistribution: [],    // 资源分配数据
@@ -260,6 +262,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    themeService.apply();
     // 页面显示时重新加载数据
     this.loadData();
   },

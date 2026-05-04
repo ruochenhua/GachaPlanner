@@ -3,17 +3,17 @@
 
 /* 主容器 */
 .probability-display {
-  background: #F5F3F0;           /* Gray 100 - 莫兰迪暖灰背景 */
+  background: var(--color-gray-100);           /* Gray 100 - 莫兰迪暖灰背景 */
   border-radius: 12px;           /* 圆角12px */
   padding: 24px;                 /* 内边距24px */
   text-align: center;            /* 文字居中 */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+  box-shadow: 0 2px 8px var(--color-shadow); /* 轻微阴影 */
 }
 
 /* 概率标签 */
 .probability-label {
   font-size: 14px;               /* 小字体 */
-  color: #78716C;                /* Gray 500 - 次要文本色 */
+  color: var(--color-text-secondary);                /* Gray 500 - 次要文本色 */
   margin-bottom: 8px;            /* 底部间距 */
   font-weight: 400;              /* Regular字重 */
 }
@@ -48,21 +48,21 @@
 /* 风险文字 */
 .risk-text {
   font-size: 14px;               /* 小字体 */
-  color: #78716C;                /* Gray 500 */
+  color: var(--color-text-secondary);                /* Gray 500 */
   font-weight: 500;              /* Medium字重 */
 }
 
 /* 颜色类 - 高概率 */
-.probability-value.high {
-  color: #7FB069;                /* Success Green - 莫兰迪绿 */
+.probability-value.risk-high {
+  color: var(--color-success);
 }
 
 /* 颜色类 - 中等概率 */
-.probability-value.medium {
-  color: #E4C786;                /* Warning Yellow - 莫兰迪黄 */
+.probability-value.risk-medium {
+  color: var(--color-warning);
 }
 
 /* 颜色类 - 低概率 */
-.probability-value.low {
-  color: #C47070;                /* Error Red - 莫兰迪红 */
+.probability-value.risk-low {
+  color: var(--color-danger);
 }

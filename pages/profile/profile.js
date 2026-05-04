@@ -3,11 +3,18 @@
 
 const storageService = require('../../services/storage-service');
 const gameService = require('../../services/game-service');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
-    // 页面数据
-    currentGameName: ''
+    themeClass: '',
+    currentGameName: '',
+    themePreference: 'system',
+    themeOptions: [
+      { value: 'light', label: '浅色', icon: '☀️' },
+      { value: 'dark', label: '深色', icon: '🌙' },
+      { value: 'system', label: '跟随系统', icon: '📱' }
+    ]
   },
 
   onLoad() {
@@ -16,7 +23,20 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     this.loadCurrentGame();
+    this.loadThemePreference();
+  },
+
+  loadThemePreference() {
+    const pref = themeService.getPreference();
+    this.setData({ themePreference: pref });
+  },
+
+  onThemeChange(e) {
+    const value = e.currentTarget.dataset.value;
+    themeService.setPreference(value);
+    this.setData({ themePreference: value });
   },
 
   /**

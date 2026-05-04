@@ -3,9 +3,11 @@ const CalculatorFactory = require('../../core/calculator/calculator-factory');
 const DynamicProbabilityCalculator = require('../../core/calculator/dynamic-probability-calculator');
 const PlanningStorage = require('../../services/planning-storage');
 const { formatProbability } = require('../../utils/format-probability');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
+    themeClass: '',
     gameId: '',
     gameName: '',
     resourceTypes: [],
@@ -76,6 +78,7 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     const app = getApp();
     const gameId = app.globalData.selectedGameId || 'genshin';
 

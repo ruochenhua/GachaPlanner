@@ -10,13 +10,12 @@
     "pages/version-list/version-list",
     "pages/rule-settings/rule-settings",
     "pages/config-manager/config-manager",
-    "pages/planning-data/planning-data"
+    "pages/planning-data/planning-data",
+    "pages/game-select/game-select"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#C4A77D",
-    "navigationBarTitleText": "GachaPlaner",
-    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom",
     "backgroundColor": "#FAF9F7"
   },
   "tabBar": {

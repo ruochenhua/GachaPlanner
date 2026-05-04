@@ -11,8 +11,7 @@ Component({
   },
   data: {
     targetSummary: '',
-    statusBg: '#FFFFFF',
-    statusColor: '#C4A77D',
+    statusClass: '',
     daysUntilPool: 0
   },
   observers: {
@@ -43,18 +42,14 @@ Component({
         targetSummary = '未设定目标';
       }
 
-      // 状态颜色
-      let statusColor = '#C4A77D';
-      let statusBg = '#FFFFFF';
+      // 状态 class（替代硬编码颜色）
+      let statusClass = '';
       if (probability >= 0.8) {
-        statusColor = '#7FB069';
-        statusBg = '#F0F7EC';
+        statusClass = 'status-success';
       } else if (probability >= 0.5) {
-        statusColor = '#F5A623';
-        statusBg = '#FEF8E8';
+        statusClass = 'status-warning';
       } else if (probability > 0) {
-        statusColor = '#C47070';
-        statusBg = '#FDE8E8';
+        statusClass = 'status-danger';
       }
 
       // 计算距离卡池开始的天数
@@ -69,7 +64,7 @@ Component({
         }
       }
 
-      this.setData({ targetSummary, statusColor, statusBg, daysUntilPool });
+      this.setData({ targetSummary, statusClass, daysUntilPool });
     },
     onTapTitle() {
       this.triggerEvent('taptitle', { gameId: this.properties.gameId });

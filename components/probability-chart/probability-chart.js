@@ -4,6 +4,36 @@
 
 const MAX_CHART_POINTS = 100;
 const DRAW_THROTTLE_MS = 100;
+const themeService = require('../../services/theme-service');
+
+const CHART_COLORS = {
+  light: {
+    grid: '#EBE8E4',
+    gridLine: '#F0EDE9',
+    text: '#78716C',
+    primary: '#C4A77D',
+    primaryFillStart: 'rgba(196, 167, 125, 0.35)',
+    primaryFillEnd: 'rgba(196, 167, 125, 0.02)',
+    success: '#7FB069',
+    successFillStart: 'rgba(127, 176, 105, 0.25)',
+    successFillEnd: 'rgba(127, 176, 105, 0.02)',
+    labelText: '#44403C',
+    labelBg: 'rgba(255, 255, 255, 0.9)'
+  },
+  dark: {
+    grid: '#3E3833',
+    gridLine: '#292524',
+    text: '#A8A29E',
+    primary: '#D4BC99',
+    primaryFillStart: 'rgba(212, 188, 153, 0.25)',
+    primaryFillEnd: 'rgba(212, 188, 153, 0.01)',
+    success: '#8BC476',
+    successFillStart: 'rgba(139, 196, 118, 0.2)',
+    successFillEnd: 'rgba(139, 196, 118, 0.01)',
+    labelText: '#F5F3F0',
+    labelBg: 'rgba(41, 37, 36, 0.9)'
+  }
+};
 
 Component({
   /**
@@ -64,9 +94,16 @@ Component({
    */
   lifetimes: {
     attached() {
+      this.theme = themeService.resolve();
+      this._onThemeChange = (theme) => {
+        this.theme = theme;
+        this.redrawNow();
+      };
+      themeService.onChange(this._onThemeChange);
       this.initCanvas();
     },
     detached() {
+      themeService.offChange(this._onThemeChange);
       if (this._drawThrottleTimer) {
         clearTimeout(this._drawThrottleTimer);
         this._drawThrottleTimer = null;
@@ -141,6 +178,10 @@ Component({
       return distribution.map((d) =>
         this.mapToCanvas(d.pulls, this.normalizeProbability(d.probability), maxPulls)
       );
+    },
+
+    colors() {
+      return CHART_COLORS[this.theme] || CHART_COLORS.light;
     },
 
     strokeSmoothCurve(ctx, points) {
@@ -254,13 +295,19 @@ Component({
             return;
           }
 
+          const width = res[0].width;
+          const height = res[0].height;
+          if (typeof width !== 'number' || typeof height !== 'number' || width <= 0 || height <= 0) {
+            return;
+          }
+
           const canvas = res[0].node;
           const ctx = canvas.getContext('2d');
 
           const dpr = wx.getSystemInfoSync().pixelRatio;
 
-          canvas.width = res[0].width * dpr;
-          canvas.height = res[0].height * dpr;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
 
           ctx.scale(dpr, dpr);
 
@@ -272,8 +319,8 @@ Component({
 
           this.setData(
             {
-              canvasWidth: res[0].width,
-              canvasHeight: res[0].height
+              canvasWidth: width,
+              canvasHeight: height
             },
             () => {
               const dist = this.data.distribution || [];
@@ -387,7 +434,7 @@ Component({
       const chartWidth = canvasWidth - left - right;
       const chartHeight = canvasHeight - top - bottom;
 
-      ctx.strokeStyle = '#EBE8E4';  // Gray 200
+      ctx.strokeStyle = this.colors().grid;
       ctx.lineWidth = 1;
 
       // X轴
@@ -424,7 +471,7 @@ Component({
 
         // 绘制刻度标签
         ctx.font = '10px sans-serif';
-        ctx.fillStyle = '#78716C';  // Gray 500
+        ctx.fillStyle = this.colors().text;
         ctx.textAlign = 'center';
         ctx.fillText(i.toString(), x, y);
       }
@@ -439,7 +486,7 @@ Component({
         // 绘制水平网格线（虚线，0% 不画）
         if (index > 0) {
           ctx.beginPath();
-          ctx.strokeStyle = '#F0EDE9';
+          ctx.strokeStyle = this.colors().gridLine;
           ctx.lineWidth = 1;
           ctx.setLineDash([4, 4]);
           ctx.moveTo(left, yLine);
@@ -450,7 +497,7 @@ Component({
 
         // 绘制刻度线
         ctx.beginPath();
-        ctx.strokeStyle = '#EBE8E4';
+        ctx.strokeStyle = this.colors().grid;
         ctx.lineWidth = 1;
         ctx.moveTo(left - 5, yLine);
         ctx.lineTo(left, yLine);
@@ -458,7 +505,7 @@ Component({
 
         // 绘制刻度标签
         ctx.font = '10px sans-serif';
-        ctx.fillStyle = '#78716C';
+        ctx.fillStyle = this.colors().text;
         ctx.textAlign = 'right';
         ctx.fillText(label, x, y);
       });
@@ -479,16 +526,18 @@ Component({
         this.mapToCanvas(d.pulls, this.normalizeProbability(d.probability), maxPulls)
       );
 
-      ctx.strokeStyle = '#C4A77D';
+      ctx.strokeStyle = this.colors().primary;
       ctx.lineWidth = 2;
       this.strokeSmoothCurve(ctx, points);
 
       // 渐变填充
-      const gradient = ctx.createLinearGradient(0, top, 0, canvasHeight - bottom);
-      gradient.addColorStop(0, 'rgba(196, 167, 125, 0.35)');
-      gradient.addColorStop(1, 'rgba(196, 167, 125, 0.02)');
+      const gradientY0 = Number.isFinite(top) ? top : 0;
+      const gradientY1 = Number.isFinite(canvasHeight - bottom) ? canvasHeight - bottom : canvasHeight;
+      const gradient = ctx.createLinearGradient(0, gradientY0, 0, gradientY1);
+      gradient.addColorStop(0, this.colors().primaryFillStart);
+      gradient.addColorStop(1, this.colors().primaryFillEnd);
       ctx.fillStyle = gradient;
-      this.fillUnderSmoothCurve(ctx, points, canvasHeight - bottom);
+      this.fillUnderSmoothCurve(ctx, points, gradientY1);
     },
 
     /**
@@ -514,18 +563,20 @@ Component({
       );
 
       // 使用不同颜色绘制最终曲线
-      ctx.strokeStyle = '#7FB069';
+      ctx.strokeStyle = this.colors().success;
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 3]);
       this.strokeSmoothCurve(ctx, points);
       ctx.setLineDash([]);
 
       // 渐变填充
-      const gradient = ctx.createLinearGradient(0, top, 0, canvasHeight - bottom);
-      gradient.addColorStop(0, 'rgba(127, 176, 105, 0.25)');
-      gradient.addColorStop(1, 'rgba(127, 176, 105, 0.02)');
+      const gradientY0 = Number.isFinite(top) ? top : 0;
+      const gradientY1 = Number.isFinite(canvasHeight - bottom) ? canvasHeight - bottom : canvasHeight;
+      const gradient = ctx.createLinearGradient(0, gradientY0, 0, gradientY1);
+      gradient.addColorStop(0, this.colors().successFillStart);
+      gradient.addColorStop(1, this.colors().successFillEnd);
       ctx.fillStyle = gradient;
-      this.fillUnderSmoothCurve(ctx, points, canvasHeight - bottom);
+      this.fillUnderSmoothCurve(ctx, points, gradientY1);
     },
 
     /**
@@ -588,7 +639,7 @@ Component({
       const { x, y } = this.mapToCanvas(currentPoint.pulls, currentPoint.probability, maxPulls);
 
       ctx.beginPath();
-      ctx.strokeStyle = '#C4A77D';
+      ctx.strokeStyle = this.colors().primary;
       ctx.lineWidth = 1;
       ctx.setLineDash([5, 5]);
       ctx.moveTo(x, y);
@@ -598,7 +649,7 @@ Component({
 
       ctx.beginPath();
       ctx.arc(x, y, 4, 0, 2 * Math.PI);
-      ctx.fillStyle = '#C4A77D';
+      ctx.fillStyle = this.colors().primary;
       ctx.fill();
 
       const probPercent = Math.round(currentPoint.probability * 100);
@@ -611,11 +662,11 @@ Component({
       const textY = y - 12 - textHeight + 3;
 
       // 白色背景防重叠
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = this.colors().labelBg;
       this.fillRoundRect(ctx, textX - 4, textY - 2, textWidth + 8, textHeight + 4, 4);
 
       ctx.font = 'bold 11px sans-serif';
-      ctx.fillStyle = '#44403C';
+      ctx.fillStyle = this.colors().labelText;
       ctx.textAlign = 'center';
       ctx.fillText(labelText, x, y - 12);
     },
@@ -642,7 +693,7 @@ Component({
       const { x, y } = this.mapToCanvas(finalPoint.pulls, finalPoint.probability, maxPulls);
 
       ctx.beginPath();
-      ctx.strokeStyle = '#7FB069';
+      ctx.strokeStyle = this.colors().success;
       ctx.lineWidth = 1;
       ctx.setLineDash([5, 5]);
       ctx.moveTo(x, y);
@@ -652,7 +703,7 @@ Component({
 
       ctx.beginPath();
       ctx.arc(x, y, 4, 0, 2 * Math.PI);
-      ctx.fillStyle = '#7FB069';
+      ctx.fillStyle = this.colors().success;
       ctx.fill();
 
       const probPercent = Math.round(finalPoint.probability * 100);
@@ -665,11 +716,11 @@ Component({
       const textY = y - 12 - textHeight + 3;
 
       // 白色背景防重叠
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = this.colors().labelBg;
       this.fillRoundRect(ctx, textX - 4, textY - 2, textWidth + 8, textHeight + 4, 4);
 
       ctx.font = 'bold 11px sans-serif';
-      ctx.fillStyle = '#44403C';
+      ctx.fillStyle = this.colors().labelText;
       ctx.textAlign = 'center';
       ctx.fillText(labelText, x, y - 12);
     },
@@ -731,26 +782,26 @@ Component({
       // 实线项 - 当前概率
       let y = legendY;
       ctx.beginPath();
-      ctx.strokeStyle = '#C4A77D';
+      ctx.strokeStyle = this.colors().primary;
       ctx.lineWidth = 2;
       ctx.moveTo(legendX - lineWidth, y);
       ctx.lineTo(legendX, y);
       ctx.stroke();
-      ctx.fillStyle = '#78716C';
+      ctx.fillStyle = this.colors().text;
       ctx.fillText('当前概率', legendX - lineWidth - 6, y);
 
       // 虚线项 - 预测概率（如果有）
       if (hasFinal) {
         y += itemHeight;
         ctx.beginPath();
-        ctx.strokeStyle = '#7FB069';
+        ctx.strokeStyle = this.colors().success;
         ctx.lineWidth = 2;
         ctx.setLineDash([4, 3]);
         ctx.moveTo(legendX - lineWidth, y);
         ctx.lineTo(legendX, y);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = '#78716C';
+        ctx.fillStyle = this.colors().text;
         ctx.fillText('预测概率', legendX - lineWidth - 6, y);
       }
     }

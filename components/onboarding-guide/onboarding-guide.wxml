@@ -2,37 +2,26 @@
   <swiper
     class="guide-swiper"
     indicator-dots="{{true}}"
-    indicator-color="{{indicatorColor}}"
-    indicator-active-color="{{indicatorActiveColor}}"
     current="{{currentPage}}"
     bindchange="onPageChange"
     duration="{{300}}"
   >
-    <!-- 引导页面 -->
     <swiper-item wx:for="{{pages}}" wx:key="id">
-      <view class="guide-page" style="background-color: {{item.backgroundColor}};">
-        <!-- 内容区域 -->
+      <view class="guide-page">
         <view class="guide-content">
           <text class="guide-icon">{{item.icon}}</text>
           <text class="guide-title">{{item.title}}</text>
           <text class="guide-description">{{item.description}}</text>
           <text class="guide-highlight" wx:if="{{item.highlight}}">{{item.highlight}}</text>
         </view>
-
-        <!-- 操作按钮 -->
         <view class="guide-actions">
-          <!-- 跳过按钮（非最后一页） -->
           <view class="skip-btn" wx:if="{{currentPage < totalPages - 1}}" bindtap="onSkip">
             <text>跳过</text>
           </view>
-
-          <!-- 开始使用按钮（最后一页） -->
           <view class="start-btn" wx:if="{{currentPage === totalPages - 1}}" bindtap="onComplete">
             <text>开始使用</text>
           </view>
         </view>
-
-        <!-- 进度指示 -->
         <view class="guide-progress">
           <text class="progress-text">{{currentPage + 1}} / {{totalPages}}</text>
         </view>

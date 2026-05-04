@@ -1,13 +1,8 @@
 <view class="probability-display">
-  <!-- 概率标签 -->
   <view class="probability-label">达成概率</view>
-
-  <!-- 概率数字 -->
-  <view class="probability-value {{riskLevel}}" style="color: {{riskColor}}">
+  <view class="probability-value {{riskClass}}">
     <text class="probability-number">{{displayProbability}}</text>
   </view>
-
-  <!-- 风险指示器 -->
   <view class="risk-indicator">
     <text class="risk-icon">{{riskIcon}}</text>
     <text class="risk-text">{{riskText}}</text>

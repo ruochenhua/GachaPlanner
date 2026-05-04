@@ -4,6 +4,7 @@
 const configLoader = require('./config/config-loader');
 const configValidator = require('./config/config-validator');
 const gameService = require('./services/game-service');
+const themeService = require('./services/theme-service');
 
 App({
   globalData: {
@@ -25,5 +26,13 @@ App({
         }
       }
     }
+
+    // 初始化主题服务
+    themeService.init();
+  },
+
+  onShow() {
+    // 每次显示时同步主题（处理从系统设置切回的场景）
+    themeService.apply();
   }
 });

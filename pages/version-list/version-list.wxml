@@ -1,4 +1,5 @@
-<view class="version-list-page">
+<custom-nav-bar title="版本" />
+<view class="{{themeClass}} version-list-page">
   <!-- 统计概览 -->
   <view class="summary-card">
     <view class="summary-title">数据版本概览</view>

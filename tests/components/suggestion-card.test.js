@@ -58,9 +58,7 @@ describe('智能建议卡片组件', () => {
 
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
-      expect(component.data.bgColor).toBe('#E8F5E9');
-      expect(component.data.textColor).toBe('#7FB069');
-      expect(component.data.borderColor).toBe('#9FC089');
+      expect(component.data.levelClass).toBe('level-info');
       expect(component.data.confidencePercent).toBe(90);
     });
 
@@ -74,9 +72,7 @@ describe('智能建议卡片组件', () => {
 
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
-      expect(component.data.bgColor).toBe('#FFF8E1');
-      expect(component.data.textColor).toBe('#E4C786');
-      expect(component.data.borderColor).toBe('#F4D796');
+      expect(component.data.levelClass).toBe('level-warning');
       expect(component.data.confidencePercent).toBe(70);
     });
 
@@ -90,9 +86,7 @@ describe('智能建议卡片组件', () => {
 
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
-      expect(component.data.bgColor).toBe('#FFEBEE');
-      expect(component.data.textColor).toBe('#C47070');
-      expect(component.data.borderColor).toBe('#D48080');
+      expect(component.data.levelClass).toBe('level-danger');
       expect(component.data.confidencePercent).toBe(80);
     });
   });
@@ -148,7 +142,7 @@ describe('智能建议卡片组件', () => {
     test('应处理无效level（回退到info）', () => {
       const suggestion = { type: 'priority', level: 'invalid', content: '测试' };
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
-      expect(component.data.bgColor).toBe('#E8F5E9');
+      expect(component.data.levelClass).toBe('level-info');
     });
 
     test('应处理缺少confidence（默认0）', () => {
@@ -159,20 +153,23 @@ describe('智能建议卡片组件', () => {
   });
 
   describe('Task 9: 可访问性支持', () => {
-    test('颜色对比度应符合WCAG AA标准', () => {
-      const colors = component.data.levelColors;
+    test('应输出正确的状态 class', () => {
+      const suggestion = {
+        type: 'priority',
+        level: 'info',
+        content: '测试建议',
+        confidence: 0.9
+      };
+      componentConfig.methods.onSuggestionChange.call(component, suggestion);
+      expect(component.data.levelClass).toBe('level-info');
 
-      // info级别对比度验证（预期 ≥ 4.5:1）
-      expect(colors.info.text).toBe('#7FB069');
-      expect(colors.info.bg).toBe('#E8F5E9');
+      suggestion.level = 'warning';
+      componentConfig.methods.onSuggestionChange.call(component, suggestion);
+      expect(component.data.levelClass).toBe('level-warning');
 
-      // warning级别对比度验证
-      expect(colors.warning.text).toBe('#E4C786');
-      expect(colors.warning.bg).toBe('#FFF8E1');
-
-      // danger级别对比度验证
-      expect(colors.danger.text).toBe('#C47070');
-      expect(colors.danger.bg).toBe('#FFEBEE');
+      suggestion.level = 'danger';
+      componentConfig.methods.onSuggestionChange.call(component, suggestion);
+      expect(component.data.levelClass).toBe('level-danger');
     });
   });
 });

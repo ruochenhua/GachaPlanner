@@ -1,4 +1,5 @@
-<view class="detail-page">
+<custom-nav-bar title="记录详情" />
+<view class="{{themeClass}} detail-page">
   <!-- 查看模式 -->
   <view class="view-mode" wx:if="{{!isEditMode && record}}">
     <!-- 基本信息 -->

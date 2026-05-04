@@ -1,4 +1,5 @@
-<view class="history-page">
+<custom-nav-bar title="历史" />
+<view class="{{themeClass}} history-page">
   <!-- 准确度统计卡片 -->
   <view class="stats-section">
     <accuracy-stats-card gameId="{{currentGameFilter}}" showTrend="{{true}}" />

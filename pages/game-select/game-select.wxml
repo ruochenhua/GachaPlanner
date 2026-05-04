@@ -1,0 +1,54 @@
+<custom-nav-bar title="选择游戏" showBack="{{true}}" />
+<view class="game-select-page {{themeClass}}">
+  <!-- 搜索栏 -->
+  <view class="sticky-header">
+    <view class="search-bar-wrapper">
+      <search-bar
+        placeholder="搜索游戏名称..."
+        value="{{keyword}}"
+        bind:input="onSearchInput"
+        themeClass="{{themeClass}}"
+      />
+      <view class="sort-toggle" wx:if="{{!keyword}}" bindtap="onSortToggle">
+        <text class="sort-icon">{{sortIcon}}</text>
+      </view>
+    </view>
+    
+    <!-- 分类筛选 Tab -->
+    <filter-tabs
+      categories="{{categories}}"
+      activeId="{{activeCategory}}"
+      bind:change="onCategoryChange"
+      themeClass="{{themeClass}}"
+    />
+  </view>
+  
+  <!-- 游戏网格 -->
+  <game-select-grid
+    games="{{filteredGames}}"
+    iconFailed="{{iconFailed}}"
+    themeClass="{{themeClass}}"
+    bind:tapgame="onGameTap"
+    bind:iconerror="onIconError"
+  />
+  
+  <!-- 字母索引导航 -->
+  <letter-index
+    letters="{{letterIndex}}"
+    bind:tap="onLetterTap"
+    themeClass="{{themeClass}}"
+  />
+  
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && filteredGames.length === 0}}">
+    <text class="empty-icon">{{keyword ? '🔍' : '📂'}}</text>
+    <text class="empty-title">{{keyword ? '未找到相关游戏' : '该分类暂无游戏'}}</text>
+    <text class="empty-subtitle" wx:if="{{keyword}}">试试其他关键词？</text>
+  </view>
+</view>

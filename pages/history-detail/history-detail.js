@@ -6,9 +6,11 @@
 const historyService = require('../../services/history-service');
 const gameService = require('../../services/game-service');
 const { formatDateTime, formatRelativeTime } = require('../../utils/time');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
+    themeClass: '',
     // 记录ID
     recordId: '',
     // 记录数据

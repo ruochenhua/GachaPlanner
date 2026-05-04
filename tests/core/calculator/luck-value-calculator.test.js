@@ -2,7 +2,7 @@
 // 幸运值计算器单元测试
 
 const LuckValueCalculator = require('../../../core/calculator/luck-value-calculator');
-const hokLuckConfig = require('../../../config/games/hok-luck');
+const hokLuckConfig = require('../../../config/games/hok');
 
 describe('LuckValueCalculator - 幸运值计算器', () => {
   let calculator;

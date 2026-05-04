@@ -1,7 +1,7 @@
 /* components/reminder-setter/reminder-setter.wxss */
 
 .reminder-setter {
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -102,5 +102,5 @@
 
 .setter-btn.confirm {
   background-color: var(--color-primary);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }

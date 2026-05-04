@@ -9,7 +9,7 @@
 
 /* 用户信息区域 */
 .user-info-section {
-  background-color: white;
+  background-color: var(--color-text-inverse);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
@@ -30,7 +30,7 @@
 
 /* 功能设置区域 */
 .settings-section {
-  background-color: white;
+  background-color: var(--color-text-inverse);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
@@ -74,7 +74,7 @@
 
 /* 危险操作区域 */
 .danger-section {
-  background-color: white;
+  background-color: var(--color-text-inverse);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
 }
@@ -108,7 +108,7 @@
 .danger-btn {
   padding: var(--spacing-sm) var(--spacing-lg);
   background-color: var(--color-error);
-  color: white;
+  color: var(--color-text-inverse);
   border-radius: var(--radius-md);
   font-size: var(--font-size-body-sm);
   transition: background-color 0.2s;
@@ -116,4 +116,49 @@
 
 .danger-btn:active {
   background-color: var(--color-error-dark);
+}
+
+/* 主题选择器 */
+.theme-selector {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.theme-options {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  width: 100%;
+}
+
+.theme-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border-default);
+  background-color: var(--color-bg-card);
+  transition: all 0.2s;
+}
+
+.theme-option.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.theme-icon {
+  font-size: 24px;
+}
+
+.theme-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.theme-option.active .theme-label {
+  color: var(--color-primary-dark);
+  font-weight: var(--font-weight-medium);
 }

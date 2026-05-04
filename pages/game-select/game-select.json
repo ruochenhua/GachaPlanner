@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar",
+    "search-bar": "../../components/search-bar/search-bar",
+    "filter-tabs": "../../components/filter-tabs/filter-tabs",
+    "game-select-grid": "../../components/game-select-grid/game-select-grid",
+    "letter-index": "../../components/letter-index/letter-index"
+  }
+}

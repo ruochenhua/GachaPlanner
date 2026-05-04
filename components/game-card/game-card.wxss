@@ -45,7 +45,7 @@
 .placeholder-text {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 /* 游戏名称 */
@@ -95,16 +95,16 @@
 
 /* 概率颜色编码 */
 .game-probability.success {
-  background-color: rgba(127, 176, 105, 0.2);
+  background-color: var(--color-state-success-bg);
   color: var(--color-success);
 }
 
 .game-probability.warning {
-  background-color: rgba(228, 199, 134, 0.2);
+  background-color: var(--color-state-warning-bg);
   color: var(--color-warning);
 }
 
 .game-probability.error {
-  background-color: rgba(196, 112, 112, 0.2);
+  background-color: var(--color-state-error-bg);
   color: var(--color-danger);
 }

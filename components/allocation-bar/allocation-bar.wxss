@@ -1,10 +1,10 @@
 .allocation-bar {
   padding: 24rpx 0;
-  border-bottom: 1rpx solid #E5E0D8;
+  border-bottom: 1rpx solid var(--color-border-divider);
 }
 
 .allocation-bar.highlight {
-  background-color: #FFF8E1;
+  background-color: var(--color-state-warning-bg);
   border-radius: 12rpx;
   padding: 24rpx;
 }
@@ -19,13 +19,13 @@
 .game-name {
   font-size: 28rpx;
   font-weight: 600;
-  color: #2C2520;
+  color: var(--color-text-primary);
 }
 
 .probability {
   font-size: 28rpx;
   font-weight: 600;
-  color: #C4A77D;
+  color: var(--color-primary);
 }
 
 .controls {
@@ -47,14 +47,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2rpx solid #E5E0D8;
+  border: 2rpx solid var(--color-border-divider);
   border-radius: 8rpx;
-  background: white;
+  background: var(--color-bg-card);
 }
 
 .step-text {
   font-size: 24rpx;
-  color: #2C2520;
+  color: var(--color-text-primary);
   font-weight: 500;
 }
 
@@ -64,15 +64,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2rpx solid #C4A77D;
+  border: 2rpx solid var(--color-primary);
   border-radius: 8rpx;
-  background: white;
+  background: var(--color-bg-card);
   padding: 0 16rpx;
 }
 
 .value-text {
   font-size: 32rpx;
-  color: #2C2520;
+  color: var(--color-text-primary);
   font-weight: 600;
 }
 
@@ -84,7 +84,7 @@
 
 .allocation-label {
   font-size: 24rpx;
-  color: #7A7168;
+  color: var(--color-text-secondary);
   min-width: 120rpx;
   text-align: right;
   white-space: nowrap;
@@ -93,7 +93,7 @@
 .progress-track {
   flex: 1;
   height: 8rpx;
-  background: #E5E0D8;
+  background: var(--color-border-divider);
   border-radius: 4rpx;
   overflow: hidden;
 }

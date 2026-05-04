@@ -2,7 +2,7 @@
  * 配置导入导出测试
  */
 
-const { exportConfig, importConfig, validateEnhancedConfig } = require('../../config/config-template-enhanced.js');
+const { exportConfig, importConfig, validateEnhancedConfig } = require('../../config/games/_template.js');
 const { PRESET_LIBRARY } = require('../../config/games/presets/preset-library.js');
 
 describe('配置导入导出 - 集成测试', () => {

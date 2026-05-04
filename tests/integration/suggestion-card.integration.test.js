@@ -41,8 +41,7 @@ describe('智能建议卡片组件集成测试', () => {
       componentConfig.methods.onSuggestionChange.call(component, primarySuggestion);
 
       expect(component.data.displayIcon).toBe('✅');
-      expect(component.data.bgColor).toBe('#E8F5E9');
-      expect(component.data.textColor).toBe('#7FB069');
+      expect(component.data.levelClass).toBe('level-info');
       expect(component.data.confidencePercent).toBe(90);
     });
 
@@ -58,8 +57,7 @@ describe('智能建议卡片组件集成测试', () => {
       componentConfig.methods.onSuggestionChange.call(component, primarySuggestion);
 
       expect(component.data.displayIcon).toBe('⚠️');
-      expect(component.data.bgColor).toBe('#FFF8E1');
-      expect(component.data.textColor).toBe('#E4C786');
+      expect(component.data.levelClass).toBe('level-warning');
     });
 
     test('应正确展示低概率建议', () => {
@@ -74,8 +72,7 @@ describe('智能建议卡片组件集成测试', () => {
       componentConfig.methods.onSuggestionChange.call(component, primarySuggestion);
 
       expect(component.data.displayIcon).toBe('❌');
-      expect(component.data.bgColor).toBe('#FFEBEE');
-      expect(component.data.textColor).toBe('#C47070');
+      expect(component.data.levelClass).toBe('level-danger');
     });
 
     test('应正确展示囤积建议', () => {
@@ -132,8 +129,7 @@ describe('智能建议卡片组件集成测试', () => {
         componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
         expect(component.data.displayIcon).toBeDefined();
-        expect(component.data.bgColor).toBeDefined();
-        expect(component.data.textColor).toBeDefined();
+        expect(component.data.levelClass).toBeDefined();
 
         // 验证所有建议都有必要的字段
         expect(suggestion.type).toBeDefined();
@@ -174,8 +170,7 @@ describe('智能建议卡片组件集成测试', () => {
 
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
-      expect(component.data.bgColor).toMatch(/E8F5E9/i);
-      expect(component.data.textColor).toMatch(/7FB069/i);
+      expect(component.data.levelClass).toBe('level-info');
     });
 
     test('warning级别应使用黄色系', () => {
@@ -187,8 +182,7 @@ describe('智能建议卡片组件集成测试', () => {
 
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
-      expect(component.data.bgColor).toMatch(/FFF8E1/i);
-      expect(component.data.textColor).toMatch(/E4C786/i);
+      expect(component.data.levelClass).toBe('level-warning');
     });
 
     test('danger级别应使用红色系', () => {
@@ -200,8 +194,7 @@ describe('智能建议卡片组件集成测试', () => {
 
       componentConfig.methods.onSuggestionChange.call(component, suggestion);
 
-      expect(component.data.bgColor).toMatch(/FFEBEE/i);
-      expect(component.data.textColor).toMatch(/C47070/i);
+      expect(component.data.levelClass).toBe('level-danger');
     });
   });
 

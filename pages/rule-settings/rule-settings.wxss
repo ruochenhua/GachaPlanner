@@ -2,8 +2,9 @@
 /* 规则设置页面样式 */
 
 .rule-settings-container {
+  background: var(--color-bg-page);
   padding: 24px;
-  background-color: #F5F3F0;
+  background-color: var(--color-gray-100);
   min-height: 100vh;
 }
 
@@ -18,8 +19,8 @@
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid #E5E0D8;
-  border-top-color: #C4A77D;
+  border: 3px solid var(--color-border-divider);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -33,14 +34,14 @@
 .loading-text {
   margin-top: 16px;
   font-size: 14px;
-  color: #8B8680;
+  color: var(--color-text-secondary);
 }
 
 .settings-content {
-  background-color: #FFFFFF;
+  background-color: var(--color-bg-card);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .game-header {
@@ -49,13 +50,13 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #E5E0D8;
+  border-bottom: 1px solid var(--color-border-divider);
 }
 
 .game-name {
   font-size: 20px;
   font-weight: 600;
-  color: #3D3833;
+  color: var(--color-text-primary);
 }
 
 .param-source {
@@ -65,13 +66,13 @@
 }
 
 .param-source.default {
-  background-color: #E5E0D8;
-  color: #8B8680;
+  background-color: var(--color-border-divider);
+  color: var(--color-text-secondary);
 }
 
 .param-source.custom {
-  background-color: #C4A77D;
-  color: #FFFFFF;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .param-item {
@@ -91,14 +92,14 @@
 
 .param-label {
   font-size: 16px;
-  color: #3D3833;
+  color: var(--color-text-primary);
   font-weight: 500;
 }
 
 .param-value {
   margin-left: auto;
   font-size: 16px;
-  color: #C4A77D;
+  color: var(--color-primary);
   font-weight: 600;
   font-family: 'SF Mono', 'Consolas', monospace;
 }
@@ -110,7 +111,7 @@
 .param-range {
   margin-top: 8px;
   font-size: 12px;
-  color: #8B8680;
+  color: var(--color-text-secondary);
 }
 
 .action-buttons {
@@ -123,61 +124,69 @@
 .reset-button {
   flex: 1;
   height: 44px;
-  line-height: 44px;
-  background-color: #E5E0D8;
-  color: #8B8680;
+  background-color: var(--color-border-divider);
+  color: var(--color-text-secondary);
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
   border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .save-button {
   flex: 1;
   height: 44px;
-  line-height: 44px;
-  background-color: #C4A77D;
-  color: #FFFFFF;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
   border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .save-button.disabled {
-  background-color: #D4BC99;
-  color: #FFFFFF;
+  background-color: var(--color-primary-light);
+  color: var(--color-text-inverse);
 }
 
 .source-info {
   display: flex;
   align-items: center;
   padding: 12px;
-  background-color: #F5F3F0;
+  background-color: var(--color-gray-100);
   border-radius: 8px;
   margin-bottom: 24px;
 }
 
 .source-label {
   font-size: 14px;
-  color: #8B8680;
+  color: var(--color-text-secondary);
 }
 
 .source-value {
   margin-left: 8px;
   font-size: 14px;
-  color: #3D3833;
+  color: var(--color-text-primary);
 }
 
 .tips-section {
   padding: 16px;
-  background-color: #F5F3F0;
+  background-color: var(--color-gray-100);
   border-radius: 8px;
 }
 
 .tips-title {
   font-size: 16px;
-  color: #3D3833;
+  color: var(--color-text-primary);
   font-weight: 500;
   margin-bottom: 12px;
   display: block;
@@ -185,7 +194,7 @@
 
 .tips-content {
   font-size: 14px;
-  color: #8B8680;
+  color: var(--color-text-secondary);
   line-height: 20px;
   display: block;
   margin-bottom: 8px;

@@ -1,10 +1,10 @@
 /* 准确度统计卡片组件样式 */
 
 .stats-card {
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px var(--color-shadow);
 }
 
 /* 加载状态 */
@@ -12,7 +12,7 @@
   text-align: center;
   padding: 20px;
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 空数据状态 */
@@ -23,7 +23,7 @@
 
 .empty-text {
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 统计内容 */
@@ -62,14 +62,59 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 .rating-badge {
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 12px;
-  color: #FFFFFF;
+  color: var(--color-text-inverse);
+}
+
+/* 评级颜色类 */
+.hit-rate-value.rating-excellent,
+.hit-rate-value.rating-excellent .rate-number,
+.hit-rate-value.rating-excellent .rate-percent {
+  color: var(--color-success);
+}
+
+.rating-badge.rating-excellent {
+  background-color: var(--color-state-success-bg);
+  color: var(--color-state-success-text);
+}
+
+.hit-rate-value.rating-good,
+.hit-rate-value.rating-good .rate-number,
+.hit-rate-value.rating-good .rate-percent {
+  color: var(--color-warning);
+}
+
+.rating-badge.rating-good {
+  background-color: var(--color-state-warning-bg);
+  color: var(--color-state-warning-text);
+}
+
+.hit-rate-value.rating-average,
+.hit-rate-value.rating-average .rate-number,
+.hit-rate-value.rating-average .rate-percent {
+  color: var(--color-primary);
+}
+
+.rating-badge.rating-average {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.hit-rate-value.rating-poor,
+.hit-rate-value.rating-poor .rate-number,
+.hit-rate-value.rating-poor .rate-percent {
+  color: var(--color-danger);
+}
+
+.rating-badge.rating-poor {
+  background-color: var(--color-state-error-bg);
+  color: var(--color-state-error-text);
 }
 
 /* 统计行 */
@@ -78,8 +123,8 @@
   align-items: center;
   justify-content: space-around;
   padding: 16px 0;
-  border-top: 1px solid #E5E5E5;
-  border-bottom: 1px solid #E5E5E5;
+  border-top: 1px solid var(--color-border-divider);
+  border-bottom: 1px solid var(--color-border-divider);
 }
 
 .stat-item {
@@ -94,32 +139,32 @@
 }
 
 .stat-item.success .stat-icon {
-  color: #7FB069;
+  color: var(--color-success);
 }
 
 .stat-item.failure .stat-icon {
-  color: #C47070;
+  color: var(--color-danger);
 }
 
 .stat-item.total .stat-icon {
-  color: #C4A77D;
+  color: var(--color-primary);
 }
 
 .stat-value {
   font-size: 20px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .stat-label {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 .stat-divider {
   width: 1px;
   height: 40px;
-  background: #E5E5E5;
+  background: var(--color-border-divider);
 }
 
 /* 趋势显示 */
@@ -139,13 +184,13 @@
 }
 
 .trend-indicator.up {
-  background: rgba(127, 176, 105, 0.15);
-  color: #7FB069;
+  background: var(--color-state-success-bg);
+  color: var(--color-success);
 }
 
 .trend-indicator.down {
-  background: rgba(196, 112, 112, 0.15);
-  color: #C47070;
+  background: var(--color-state-error-bg);
+  color: var(--color-danger);
 }
 
 .trend-arrow {
@@ -159,5 +204,5 @@
 
 .trend-label {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }

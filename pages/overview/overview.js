@@ -3,6 +3,7 @@ const goalService = require('../../services/goal-service');
 const overviewService = require('../../services/overview-service');
 const CalculatorFactory = require('../../core/calculator/calculator-factory');
 const { formatProbability } = require('../../utils/format-probability');
+const themeService = require('../../services/theme-service');
 
 const throttle = (fn, delay) => {
   let timer = null;
@@ -25,10 +26,10 @@ Page({
     conflictDismissed: false,
     simulatorExpanded: false,
     strategies: [],
-    // 策略卡片不再需要预览状态
     lastAdjustmentHint: '',
     originalAllocations: null,
-    canUndoReset: false
+    canUndoReset: false,
+    themeClass: ''
   },
 
   onLoad() {
@@ -36,8 +37,11 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     this.loadData();
   },
+
+
 
   async loadData() {
     this.setData({ loading: true });
@@ -80,7 +84,10 @@ Page({
           target: targets.length > 0 ? targets[0] : null
         };
 
-        gamesData.push(gameData);
+        // 只显示有目标或有资源数据的游戏
+        if (targets.length > 0 || totalPulls > 0) {
+          gamesData.push(gameData);
+        }
 
         if (targets.length > 0) {
           const neededPulls = this._estimateNeededPulls(targets, resources, config);
@@ -161,7 +168,7 @@ Page({
 
   _calculateTotalPulls(resources, config) {
     if (!resources || !config) return 0;
-    const conversionRate = config.conversionRate?.primogemsToFate || 160;
+    const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
     const resourceKeys = Object.keys(config.resources || {});
     if (resourceKeys.length === 0) return 0;
     const primaryResourceKey = resourceKeys[0];
@@ -173,7 +180,7 @@ Page({
 
   _calculateGameProbability(resources, config) {
     if (!resources || !config) return 0;
-    const conversionRate = config.conversionRate?.primogemsToFate || 160;
+    const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
     const resourceKeys = Object.keys(config.resources || {});
     if (resourceKeys.length === 0) return 0;
     const primaryResourceKey = resourceKeys[0];
@@ -212,20 +219,8 @@ Page({
   },
 
   onAddGoal() {
-    const supportedGames = gameService.getSupportedGames();
-    const gameNames = supportedGames.map(id => {
-      const config = gameService.getGameConfig(id);
-      return config.success ? config.data.name : id;
-    });
-
-    wx.showActionSheet({
-      itemList: gameNames,
-      success: (res) => {
-        const gameId = supportedGames[res.tapIndex];
-        wx.navigateTo({
-          url: `/pages/planning/planning?gameId=${gameId}&autoFocusTarget=true`
-        });
-      }
+    wx.navigateTo({
+      url: '/pages/game-select/game-select'
     });
   },
 

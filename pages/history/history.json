@@ -3,6 +3,8 @@
   "usingComponents": {
     "accuracy-stats-card": "/components/accuracy-stats-card/accuracy-stats-card",
     "history-card": "/components/history-card/history-card",
-    "history-form": "/components/history-form/history-form"
-  }
+    "history-form": "/components/history-form/history-form",
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar"
+  },
+  "navigationStyle": "custom"
 }

@@ -1,12 +1,5 @@
-<view class="reminder-list-page">
-  <!-- 自定义导航栏 -->
-  <view class="nav-bar">
-    <view class="nav-left" bindtap="onBack">
-      <text class="nav-arrow">←</text>
-    </view>
-    <view class="nav-title">提醒管理</view>
-  </view>
-
+<custom-nav-bar title="提醒" />
+<view class="{{themeClass}} reminder-list-page">
   <!-- 标签切换 -->
   <view class="tab-bar">
     <view

@@ -1,10 +1,10 @@
 /* 规划时间轴组件样式 */
 
 .timeline-container {
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 /* 空数据状态 */
@@ -15,7 +15,7 @@
 
 .empty-text {
   font-size: 14px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 时间轴滚动区域 */
@@ -38,7 +38,7 @@
   left: 16px;
   right: 16px;
   height: 2px;
-  background: #D4D4D4;
+  background: var(--color-gray-300);
   z-index: 0;
 }
 
@@ -63,32 +63,32 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid #C4A77D;
-  background: #FFFFFF;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg-card);
   margin-bottom: 8px;
 }
 
 .node-dot.past {
-  border-color: #9B9B9B;
-  background: #9B9B9B;
+  border-color: var(--color-text-muted);
+  background: var(--color-text-muted);
 }
 
 .node-dot.current {
   width: 20px;
   height: 20px;
-  border-color: #7FB069;
-  background: #7FB069;
+  border-color: var(--color-success);
+  background: var(--color-success);
 }
 
 .node-dot.future {
-  border-color: #C4A77D;
+  border-color: var(--color-primary);
 }
 
 .dot-inner {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   position: absolute;
   top: 6px;
   left: 6px;
@@ -102,30 +102,30 @@
   gap: 4px;
   padding: 8px;
   border-radius: 8px;
-  background: #FAFAFA;
+  background: var(--color-bg-page);
   min-width: 80px;
 }
 
 .node-content:active {
-  background: #F5F5F5;
+  background: var(--color-gray-100);
 }
 
 .node-date {
   font-size: 12px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 .game-badge {
   font-size: 10px;
-  color: #C4A77D;
+  color: var(--color-primary);
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(196, 167, 125, 0.15);
+  background: var(--color-primary-light);
 }
 
 .node-pool {
   font-size: 14px;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
   text-align: center;
   max-width: 80px;
   overflow: hidden;
@@ -135,7 +135,7 @@
 
 .node-probability {
   font-size: 12px;
-  color: #7FB069;
+  color: var(--color-success);
   font-weight: 500;
 }
 
@@ -147,21 +147,21 @@
 .timeline-node.past .node-date,
 .timeline-node.past .node-pool,
 .timeline-node.past .game-badge {
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 .timeline-node.past .game-badge {
-  background: rgba(155, 155, 155, 0.15);
+  background: var(--color-gray-100);
 }
 
 .timeline-node.past .node-probability {
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 当前节点高亮 */
 .timeline-node.current .node-content {
-  background: rgba(127, 176, 105, 0.1);
-  border: 1px solid #7FB069;
+  background: var(--color-state-success-bg);
+  border: 1px solid var(--color-success);
 }
 
 /* 滚动指示器 */
@@ -172,5 +172,5 @@
 
 .indicator-text {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }

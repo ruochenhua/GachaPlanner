@@ -1,0 +1,37 @@
+<view class="game-grid {{themeClass}}">
+  <view class="grid-inner">
+    <view
+      wx:for="{{games}}"
+      wx:key="gameId"
+      id="game-{{item.gameId}}"
+      class="game-card"
+      data-game-id="{{item.gameId}}"
+      bindtap="onGameTap"
+    >
+      <view class="icon-wrapper">
+        <image
+          wx:if="{{!iconFailed[item.gameId]}}"
+          class="game-icon"
+          src="/assets/images/games/{{item.gameId}}.png"
+          mode="aspectFill"
+          data-game-id="{{item.gameId}}"
+          binderror="onIconError"
+        />
+        <view
+          wx:if="{{iconFailed[item.gameId]}}"
+          class="game-icon-fallback"
+          style="{{getFallbackStyle(item.gameId)}}"
+        >
+          <text class="fallback-letter">{{getFirstLetter(item.gameId)}}</text>
+        </view>
+      </view>
+      <text class="game-name">{{item.name}}</text>
+      <view class="game-meta" wx:if="{{item.metadata}}">
+        <text class="meta-hot" wx:if="{{item.metadata.hotScore >= 80}}">🔥</text>
+        <text class="meta-score">{{item.metadata.hotScore}}</text>
+        <text class="meta-sep">·</text>
+        <text class="meta-category">{{item.metadata.category}}</text>
+      </view>
+    </view>
+  </view>
+</view>

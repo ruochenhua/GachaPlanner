@@ -1,6 +1,8 @@
 {
   "navigationBarTitleText": "提醒管理",
   "usingComponents": {
-    "accuracy-stats-card": "/components/accuracy-stats-card/accuracy-stats-card"
-  }
+    "accuracy-stats-card": "/components/accuracy-stats-card/accuracy-stats-card",
+    "custom-nav-bar": "../../components/custom-nav-bar/custom-nav-bar"
+  },
+  "navigationStyle": "custom"
 }

@@ -5,19 +5,19 @@
   flex-direction: column;
   gap: 12px;
   padding: 12px 16px;
-  background: rgba(228, 199, 134, 0.15);
+  background: var(--color-state-warning-bg);
   border-radius: 8px;
-  border: 1px solid rgba(228, 199, 134, 0.3);
+  border: 1px solid var(--color-state-warning-bg);
 }
 
 .expiry-warning.expired {
-  background: rgba(228, 199, 134, 0.2);
-  border-color: rgba(228, 199, 134, 0.5);
+  background: var(--color-state-warning-bg);
+  border-color: var(--color-state-warning-bg);
 }
 
 .expiry-warning.warning {
-  background: rgba(228, 199, 134, 0.1);
-  border-color: rgba(228, 199, 134, 0.2);
+  background: var(--color-state-warning-bg);
+  border-color: var(--color-state-warning-bg);
 }
 
 .warning-content {
@@ -39,12 +39,12 @@
 .warning-title {
   font-size: 14px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
 }
 
 .warning-message {
   font-size: 12px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 .warning-actions {
@@ -60,20 +60,20 @@
 }
 
 .check-btn {
-  background: #C4A77D;
-  color: #FFFFFF;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .check-btn:active {
-  background: #A88B5F;
+  background: var(--color-primary-dark);
 }
 
 .dismiss-btn {
   background: transparent;
-  border: 1px solid #D4D4D4;
-  color: #6B6B6B;
+  border: 1px solid var(--color-border-divider);
+  color: var(--color-text-secondary);
 }
 
 .dismiss-btn:active {
-  background: rgba(228, 199, 134, 0.1);
+  background: var(--color-state-warning-bg);
 }

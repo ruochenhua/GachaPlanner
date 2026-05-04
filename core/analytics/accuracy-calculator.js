@@ -135,31 +135,27 @@ function calculateRating(hitRate) {
   if (hitRate >= 95) {
     return {
       level: 'excellent',
-      label: '优秀',
-      color: '#7FB069' // Success Green
+      label: '优秀'
     };
   }
 
   if (hitRate >= 80) {
     return {
       level: 'good',
-      label: '良好',
-      color: '#E4C786' // Warning Yellow
+      label: '良好'
     };
   }
 
   if (hitRate >= 60) {
     return {
       level: 'average',
-      label: '一般',
-      color: '#C4A77D' // Primary
+      label: '一般'
     };
   }
 
   return {
     level: 'poor',
-    label: '较差',
-    color: '#C47070' // Danger Red
+    label: '较差'
   };
 }
 

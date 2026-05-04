@@ -2,7 +2,7 @@
 // 幸运值计算器集成测试
 
 const CalculatorFactory = require('../../core/calculator/calculator-factory');
-const hokLuckConfig = require('../../config/games/hok-luck');
+const hokLuckConfig = require('../../config/games/hok');
 
 describe('LuckValueCalculator - 集成测试', () => {
   describe('工厂集成', () => {

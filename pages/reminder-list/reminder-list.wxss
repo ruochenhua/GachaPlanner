@@ -5,40 +5,10 @@
   background-color: var(--color-gray-50);
 }
 
-/* 自定义导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  height: 44px;
-  background-color: var(--color-primary);
-  padding: 0 var(--spacing-lg);
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-}
-
-.nav-arrow {
-  font-size: 20px;
-  color: var(--color-white, #fff);
-}
-
-.nav-title {
-  flex: 1;
-  text-align: center;
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-white, #fff);
-}
-
 /* 标签栏 */
 .tab-bar {
   display: flex;
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border-bottom: 1px solid var(--color-gray-200);
 }
 
@@ -97,7 +67,7 @@
 }
 
 .reminder-card {
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
@@ -125,7 +95,7 @@
 
 .card-status.active {
   background-color: var(--color-success);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }
 
 .card-status.fired {
@@ -161,7 +131,7 @@
   bottom: 0;
   width: 60px;
   background-color: var(--color-danger);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -186,7 +156,7 @@
 
 .card-progress.success {
   background-color: var(--color-success);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }
 
 .card-progress.warning {
@@ -196,7 +166,7 @@
 
 .card-progress.danger {
   background-color: var(--color-danger);
-  color: var(--color-white, #fff);
+  color: var(--color-text-inverse);
 }
 
 .progress-bar-mini {
@@ -239,7 +209,7 @@
   justify-content: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
-  background-color: var(--color-white, #fff);
+  background-color: var(--color-text-inverse);
   border: 2px dashed var(--color-gray-300);
   border-radius: var(--radius-lg);
   color: var(--color-gray-500);

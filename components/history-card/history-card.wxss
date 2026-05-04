@@ -1,11 +1,11 @@
 /* 历史记录卡片组件样式 */
 
 .history-card {
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--color-shadow);
   transition: transform 0.2s;
 }
 
@@ -23,12 +23,12 @@
 
 .game-name {
   font-size: 14px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 .time-text {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 /* 卡片主体 */
@@ -39,13 +39,13 @@
 .pool-name {
   font-size: 16px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
 .target-text {
   font-size: 14px;
-  color: #6B6B6B;
+  color: var(--color-text-secondary);
 }
 
 /* 卡片底部 */
@@ -63,13 +63,13 @@
 
 .probability-label {
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }
 
 .probability-value {
   font-size: 14px;
   font-weight: 500;
-  color: #C4A77D;
+  color: var(--color-primary);
 }
 
 /* 结果徽章 */
@@ -80,18 +80,18 @@
 }
 
 .result-badge.success {
-  background: rgba(127, 176, 105, 0.15);
-  color: #7FB069;
+  background: var(--color-state-success-bg);
+  color: var(--color-success);
 }
 
 .result-badge.failure {
-  background: rgba(196, 112, 112, 0.15);
-  color: #C47070;
+  background: var(--color-state-error-bg);
+  color: var(--color-danger);
 }
 
 .result-badge.pending {
-  background: rgba(228, 199, 134, 0.15);
-  color: #E4C786;
+  background: var(--color-state-warning-bg);
+  color: var(--color-warning);
 }
 
 /* 统计信息 */
@@ -100,7 +100,7 @@
   gap: 16px;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid var(--color-border-divider);
   font-size: 12px;
-  color: #9B9B9B;
+  color: var(--color-text-muted);
 }

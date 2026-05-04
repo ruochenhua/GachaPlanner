@@ -36,7 +36,7 @@ class CalculatorFactory {
 
     // 如果配置了大小保底机制（guaranteeRate），自动使用 GuaranteeCalculator
     let effectivePityType = pityType;
-    if (guaranteeRate !== undefined && guaranteeRate < 1.0 && pityType !== 'guarantee') {
+    if (guaranteeRate !== undefined && guaranteeRate > 0 && guaranteeRate < 1.0 && pityType !== 'guarantee') {
       effectivePityType = 'guarantee';
       console.log('检测到大小保底机制，使用 GuaranteeCalculator');
     }

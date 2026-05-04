@@ -5,9 +5,11 @@
 
 const historyService = require('../../services/history-service');
 const gameService = require('../../services/game-service');
+const themeService = require('../../services/theme-service');
 
 Page({
   data: {
+    themeClass: '',
     // 历史记录列表
     records: [],
     // 是否正在加载
@@ -36,6 +38,7 @@ Page({
   },
 
   onShow() {
+    themeService.apply();
     // 每次显示页面时刷新数据
     this.refreshHistory();
   },

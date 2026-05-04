@@ -5,7 +5,7 @@
 
 const presetLibrary = require('../config/games/presets/preset-library.js');
 const { PRESET_LIBRARY } = presetLibrary;
-const { validateEnhancedConfig, exportConfig, importConfig } = require('../config/config-template-enhanced.js');
+const { validateEnhancedConfig, exportConfig, importConfig } = require('../config/games/_template.js');
 
 /**
  * 预设模板库服务类

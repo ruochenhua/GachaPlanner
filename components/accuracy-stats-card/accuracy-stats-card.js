@@ -5,6 +5,15 @@
 
 const historyService = require('../../services/history-service');
 
+const RATING_CLASS_MAP = {
+  excellent: 'rating-excellent',
+  good: 'rating-good',
+  average: 'rating-average',
+  poor: 'rating-poor'
+};
+
+
+
 Component({
   properties: {
     // 游戏ID筛选（可选）
@@ -31,9 +40,9 @@ Component({
     // 评级
     rating: {
       level: 'average',
-      label: '一般',
-      color: '#C4A77D'
+      label: '一般'
     },
+    ratingClass: 'rating-average',
     // 趋势
     trend: {
       direction: 'stable',
@@ -75,6 +84,7 @@ Component({
           failures,
           total,
           rating,
+          ratingClass: RATING_CLASS_MAP[rating.level] || 'rating-average',
           trend,
           hasData: total > 0,
           loading: false
@@ -92,28 +102,6 @@ Component({
      */
     refresh() {
       this.loadStats();
-    },
-
-    /**
-     * 获取趋势图标
-     * @returns {string} 图标字符
-     */
-    getTrendIcon() {
-      const { direction } = this.data.trend;
-      if (direction === 'up') return '↑';
-      if (direction === 'down') return '↓';
-      return '→';
-    },
-
-    /**
-     * 获取趋势颜色
-     * @returns {string} 颜色值
-     */
-    getTrendColor() {
-      const { direction } = this.data.trend;
-      if (direction === 'up') return '#7FB069';
-      if (direction === 'down') return '#C47070';
-      return '#9B9B9B';
     }
   }
 });

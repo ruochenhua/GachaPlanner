@@ -1,0 +1,18 @@
+<view class="nav-bar {{themeClass}}" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px; {{bgColor ? 'background-color: ' + bgColor + ';' : ''}}">
+  <view class="nav-content" style="height: {{capsuleHeight}}px;">
+    <!-- 返回按钮 -->
+    <view wx:if="{{showBack || _showBack}}" class="nav-back" bindtap="onBack">
+      <view class="nav-back-icon"></view>
+    </view>
+    <view wx:else class="nav-back-placeholder"></view>
+
+    <!-- 标题 -->
+    <text class="nav-title">{{title}}</text>
+
+    <!-- 右侧占位（与胶囊按钮等宽，保持标题居中） -->
+    <view class="nav-right-placeholder" style="width: {{capsuleRight + 87}}px;"></view>
+  </view>
+</view>
+
+<!-- 占位块，防止内容被导航栏遮挡 -->
+<view class="nav-bar-placeholder" style="height: {{navBarHeight}}px;"></view>

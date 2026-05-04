@@ -1,7 +1,8 @@
 <!-- pages/planning-data/planning-data.wxml -->
 <!-- 规划数据管理页面 -->
 
-<view class="container">
+<custom-nav-bar title="规划数据" />
+<view class="{{themeClass}} container">
   <!-- 数据列表 -->
   <view class="data-list" wx:if="{{planningDataList.length > 0}}">
     <view class="section-title">已保存的规划数据</view>

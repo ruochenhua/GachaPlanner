@@ -1,0 +1,62 @@
+/* Custom Navigation Bar */
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-index-fixed);
+  background-color: var(--color-bg-page);
+  border-bottom: 1px solid var(--color-border-divider);
+  box-sizing: border-box;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.nav-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+}
+
+.nav-back-icon {
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid var(--color-text-primary);
+  border-bottom: 2px solid var(--color-text-primary);
+  transform: rotate(45deg);
+}
+
+.nav-back-placeholder {
+  width: 32px;
+  min-width: 32px;
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+}
+
+.nav-right-placeholder {
+  min-width: 32px;
+}
+
+/* 占位块 */
+.nav-bar-placeholder {
+  width: 100%;
+}
