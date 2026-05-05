@@ -88,9 +88,9 @@ Page({
         // 使用默认参数
         this.setData({
           baseRate: config.baseRate,
-          hardPity: config.hardPity,
-          softPityStart: config.softPityStart,
-          softPityIncrement: config.softPityIncrement,
+          hardPity: config.hardPity?.count || config.hardPity,
+          softPityStart: config.softPity?.start || config.softPityStart,
+          softPityIncrement: config.softPity?.increment || config.softPityIncrement,
           isCustom: false,
           updatedAt: config.updatedAt
         });

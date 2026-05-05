@@ -50,9 +50,8 @@ module.exports = createGameConfig('hok', {
     publisher: '腾讯'
   },
 
-  // backward compatibility aliases
-  hardPity: 361,
-  softPityStart: 0,
-  softPityIncrement: 0,
-  guaranteeRate: 0
+  hardPity: {
+    enabled: false,
+    count: 361
+  }
 });

@@ -16,7 +16,7 @@ class HardPityCalculator extends BaseCalculator {
    * @returns {number} 单抽概率
    */
   calculateSingleProbability(pull, baseRate, config) {
-    const hardPity = config.hardPity?.count || config.hardPity || 90;
+    const hardPity = config.hardPity?.count || 90;
 
     // 硬保底抽：必定触发
     if (pull >= hardPity) {
@@ -36,7 +36,7 @@ class HardPityCalculator extends BaseCalculator {
    */
   calculateProbabilityDistribution(resources, target, config) {
     const baseRate = config.baseRate;
-    const hardPity = config.hardPity?.count || config.hardPity || 90;
+    const hardPity = config.hardPity?.count || 90;
     const maxPulls = target.pulls || hardPity; // 默认计算到保底
     const currentPity = target.currentPity || 0; // 继承抽数
 
@@ -106,7 +106,7 @@ class HardPityCalculator extends BaseCalculator {
         gameId: config.gameId,
         baseRate: config.baseRate,
         pityType: config.pityType,
-        hardPity: config.hardPity?.count || config.hardPity
+        hardPity: config.hardPity?.count
       }
     });
 

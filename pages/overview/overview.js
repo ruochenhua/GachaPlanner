@@ -168,7 +168,7 @@ Page({
 
   _calculateTotalPulls(resources, config) {
     if (!resources || !config) return 0;
-    const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+    const conversionRate = config.conversionRate?.primaryToPull || 160;
     const resourceKeys = Object.keys(config.resources || {});
     if (resourceKeys.length === 0) return 0;
     const primaryResourceKey = resourceKeys[0];
@@ -180,7 +180,7 @@ Page({
 
   _calculateGameProbability(resources, config) {
     if (!resources || !config) return 0;
-    const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+    const conversionRate = config.conversionRate?.primaryToPull || 160;
     const resourceKeys = Object.keys(config.resources || {});
     if (resourceKeys.length === 0) return 0;
     const primaryResourceKey = resourceKeys[0];
@@ -417,7 +417,7 @@ Page({
       const game = this.data.games.find(g => g.gameId === alloc.gameId);
       if (!game) return;
 
-      const conversionRate = game.config.conversionRate?.primogemsToFate || 160;
+      const conversionRate = game.config.conversionRate?.primaryToPull || 160;
       const resourceKeys = Object.keys(game.config.resources || {});
       const newResources = { ...game.resources };
 

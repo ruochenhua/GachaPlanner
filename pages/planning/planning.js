@@ -448,9 +448,7 @@ Page({
 
     try {
       // 计算总抽数
-      const conversionRate = gameConfig.conversionRate?.primaryToPull
-        || gameConfig.conversionRate?.primogemsToFate
-        || gameConfig.conversionRate?.stellarJadeToPass || 160;
+      const conversionRate = gameConfig.conversionRate?.primaryToPull || 160;
       const resourceKeys = Object.keys(gameConfig.resources);
       const primaryKey = resourceKeys[0];
       const secondaryKey = resourceKeys[1] || null;
@@ -464,7 +462,7 @@ Page({
 
       for (const target of targets) {
         const rank = target.desiredRank || target.constellations || 0;
-        const basePulls = target.type === 'weapon' ? 80 : (gameConfig.hardPity?.count || gameConfig.hardPity || 90);
+        const basePulls = target.type === 'weapon' ? 80 : (gameConfig.hardPity?.count || 90);
         const needed = basePulls * (rank + 1);
         totalNeededPulls += needed;
 
@@ -626,7 +624,7 @@ Page({
         { poolStartDate, poolEndDate, dailyIncome, otherIncome }
       );
 
-      const conversionRate = gameConfig.conversionRate?.primaryToPull || gameConfig.conversionRate?.primogemsToFate || 160;
+      const conversionRate = gameConfig.conversionRate?.primaryToPull || 160;
       const dailyPulls = Math.floor((dailyIncome * result.poolDays) / conversionRate);
       const otherPulls = Math.floor(otherIncome / conversionRate);
       const finalPulls = currentPulls + dailyPulls + otherPulls;

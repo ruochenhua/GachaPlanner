@@ -39,9 +39,8 @@ module.exports = createGameConfig('arknights', {
     publisher: '鹰角网络'
   },
 
-  // backward compatibility aliases
-  hardPity: 300,
-  softPityStart: 50,
-  softPityIncrement: 0.02,
-  guaranteeRate: 0
+  hardPity: {
+    enabled: false,
+    count: 300
+  }
 });

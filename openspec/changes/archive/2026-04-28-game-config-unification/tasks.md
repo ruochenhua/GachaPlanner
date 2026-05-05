@@ -65,8 +65,10 @@
   - 如有引用游戏配置字段，一并适配
 - [x] E.3 修改 `pages/index/index.js`（已适配新字段）
   - 如有引用游戏配置字段，一并适配
-- [ ] E.4 删除兼容层字段（代码层已适配，配置文件中的 backward aliases 仍待清理）
-  - 从增强版配置中移除旧字段别名
+- [x] E.4 删除兼容层字段
+  - 从增强版配置中移除旧字段别名（hardPity/softPityStart/softPityIncrement/guaranteeRate/primogemsToFate）
+  - 代码中清理所有 fallback 逻辑
+  - 配置文件改用新格式对象（hardPity: {count}, softPity: {start, increment}）
 
 ### 模块 F：回归测试
 

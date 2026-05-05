@@ -74,7 +74,7 @@ function calculateDynamicProbability(resources, config, timeRange) {
 
   // 计算概率时间线
   const timeline = [];
-  const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+  const conversionRate = config.conversionRate?.primaryToPull || 160;
   const resourceKeys = Object.keys(config.resources || {});
   const primaryResourceKey = resourceKeys[0];
 
@@ -143,7 +143,7 @@ function calculateProbabilityWithResources(resources, config) {
       return 0;
     }
 
-    const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+    const conversionRate = config.conversionRate?.primaryToPull || 160;
     const resourceKeys = Object.keys(config.resources || {});
 
     if (resourceKeys.length === 0) {
@@ -164,7 +164,7 @@ function calculateProbabilityWithResources(resources, config) {
 
     // 构建计算参数
     const target = {
-      pulls: Math.min(totalPulls, config.hardPity?.count || config.hardPity || 90),
+      pulls: Math.min(totalPulls, config.hardPity?.count || 90),
       currentPity: 0
     };
 

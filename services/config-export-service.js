@@ -64,9 +64,9 @@ function importGameConfig(jsonStr) {
     // 保存到本地存储
     const saveResult = storageService.saveCustomRuleSettings(config.gameId, {
       baseRate: config.baseRate,
-      hardPity: config.hardPity?.count || config.hardPity,
-      softPityStart: config.softPity?.start || config.softPityStart,
-      softPityIncrement: config.softPity?.increment || config.softPityIncrement,
+      hardPity: config.hardPity?.count,
+      softPityStart: config.softPity?.start,
+      softPityIncrement: config.softPity?.increment,
       isCustom: true
     });
 

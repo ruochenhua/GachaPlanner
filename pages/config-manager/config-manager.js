@@ -37,10 +37,10 @@ Page({
         gameName: config.name,
         configPreview: {
           baseRate: (config.baseRate * 100).toFixed(1) + '%',
-          hardPity: config.hardPity + '抽',
-          softPityStart: config.softPityStart + '抽',
-          softPityIncrement: (config.softPityIncrement * 100).toFixed(0) + '%',
-          guaranteeRate: config.guaranteeRate ? (config.guaranteeRate * 100) + '%' : '无',
+          hardPity: (config.hardPity?.count || config.hardPity) + '抽',
+          softPityStart: (config.softPity?.start || config.softPityStart) + '抽',
+          softPityIncrement: ((config.softPity?.increment || config.softPityIncrement || 0) * 100).toFixed(0) + '%',
+          guaranteeRate: (config.guarantee?.rate || config.guaranteeRate) ? ((config.guarantee?.rate || config.guaranteeRate) * 100) + '%' : '无',
           isCustom: config._isCustom || false
         }
       });

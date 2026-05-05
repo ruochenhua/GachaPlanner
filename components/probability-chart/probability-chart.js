@@ -590,10 +590,10 @@ Component({
       }
 
       // 扩展分布到最终抽数
-      const hardPity = config.hardPity || 90;
+      const hardPity = config.hardPity?.count || 90;
       const baseRate = config.baseRate || 0.006;
-      const softPityStart = config.softPityStart || 74;
-      const softPityIncrement = config.softPityIncrement || 0.06;
+      const softPityStart = config.softPity?.start || 74;
+      const softPityIncrement = config.softPity?.increment || 0.06;
 
       const finalDistribution = [...currentDistribution];
       const lastPoint = currentDistribution[currentDistribution.length - 1];

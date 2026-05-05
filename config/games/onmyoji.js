@@ -64,9 +64,9 @@ module.exports = createGameConfig('onmyoji', {
     publisher: '网易'
   },
 
-  // backward compatibility aliases
-  hardPity: 400,
-  softPityStart: 0,
-  softPityIncrement: 0,
-  guaranteeRate: 0
+  hardPity: {
+    enabled: true,
+    count: 400,
+    resetOnSuccess: true
+  }
 });

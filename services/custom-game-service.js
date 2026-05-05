@@ -436,16 +436,15 @@ class CustomGameService {
       },
 
       conversionRate: {
-        [`${template.resourceConfig.primaryResource.id}ToPull`]: template.resourceConfig.primaryResource.convertRate
+        primaryToPull: template.resourceConfig.primaryResource.convertRate
       }
     };
 
     // 添加保底参数
     if (template.pityConfig.type === 'hard') {
-      config.hardPity = template.pityConfig.hardPity;
+      config.hardPity = { count: template.pityConfig.hardPity };
     } else if (template.pityConfig.type === 'soft') {
-      config.softPityStart = template.pityConfig.softPityStart;
-      config.softPityIncrement = template.pityConfig.softPityRate;
+      config.softPity = { start: template.pityConfig.softPityStart, increment: template.pityConfig.softPityRate };
     }
 
     // 添加UP机制

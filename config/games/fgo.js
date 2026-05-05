@@ -39,9 +39,8 @@ module.exports = createGameConfig('fgo', {
     publisher: 'TYPE-MOON'
   },
 
-  // backward compatibility aliases
-  hardPity: 300,
-  softPityStart: 0,
-  softPityIncrement: 0,
-  guaranteeRate: 0
+  hardPity: {
+    enabled: false,
+    count: 300
+  }
 });

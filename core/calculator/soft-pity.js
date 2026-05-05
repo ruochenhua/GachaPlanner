@@ -16,8 +16,8 @@ class SoftPityCalculator extends BaseCalculator {
    * @returns {number} 单抽概率
    */
   calculateSingleProbability(pull, baseRate, config) {
-    const softPityStart = config.softPity?.start || config.softPityStart || 74;
-    const softPityIncrement = config.softPity?.increment || config.softPityIncrement || 0.06;
+    const softPityStart = config.softPity?.start || 74;
+    const softPityIncrement = config.softPity?.increment || 0.06;
 
     // 软保底区间：概率逐步提升
     if (pull >= softPityStart) {
@@ -40,8 +40,8 @@ class SoftPityCalculator extends BaseCalculator {
    */
   calculateProbabilityDistribution(resources, target, config) {
     const baseRate = config.baseRate;
-    const softPityStart = config.softPity?.start || config.softPityStart || 74;
-    const softPityIncrement = config.softPity?.increment || config.softPityIncrement || 0.06;
+    const softPityStart = config.softPity?.start || 74;
+    const softPityIncrement = config.softPity?.increment || 0.06;
     const maxPulls = target.pulls || 100;
     const currentPity = target.currentPity || 0;
 
@@ -105,8 +105,8 @@ class SoftPityCalculator extends BaseCalculator {
         gameId: config.gameId,
         baseRate: config.baseRate,
         pityType: config.pityType,
-        softPityStart: config.softPity?.start || config.softPityStart,
-        softPityIncrement: config.softPity?.increment || config.softPityIncrement
+        softPityStart: config.softPity?.start,
+        softPityIncrement: config.softPity?.increment
       }
     });
 

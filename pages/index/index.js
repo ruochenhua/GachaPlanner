@@ -61,7 +61,7 @@ Page({
             probabilities.push(probability);
 
             // 计算该游戏的总抽数
-            const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+            const conversionRate = config.conversionRate?.primaryToPull || 160;
             const resourceKeys = Object.keys(config.resources || {});
             let totalPulls = 0;
             if (resourceKeys.length > 0) {
@@ -97,7 +97,7 @@ Page({
         const gameConfig = gameService.getGameConfig(game.gameId);
         if (gameConfig.success) {
           const config = gameConfig.data;
-          const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+          const conversionRate = config.conversionRate?.primaryToPull || 160;
           const resourceKeys = Object.keys(config.resources || {});
 
           if (resourceKeys.length > 0) {
@@ -181,7 +181,7 @@ Page({
       }
 
       // 计算总抽数
-      const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
+      const conversionRate = config.conversionRate?.primaryToPull || 160;
       if (conversionRate <= 0) {
         console.error('转换率无效:', conversionRate);
         return 0;
@@ -206,7 +206,7 @@ Page({
 
       // 构建计算参数
       const target = {
-        pulls: Math.min(totalPulls, config.hardPity?.count || config.hardPity || 90),
+        pulls: Math.min(totalPulls, config.hardPity?.count || 90),
         currentPity: 0
       };
 
