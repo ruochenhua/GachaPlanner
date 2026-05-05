@@ -26,43 +26,6 @@ const GAME_CONFIGS = {
 };
 
 /**
- * 为增强版配置添加兼容层字段
- * 供现有代码（尚未迁移）使用
- * @param {Object} config - 增强版游戏配置
- * @returns {Object} 增强版 + 兼容层字段
- */
-function addCompatibilityLayer(config) {
-  if (!config) return config;
-
-  const compatResources = {};
-  if (config.resources?.primary) {
-    compatResources[config.resources.primary.id] = {
-      name: config.resources.primary.name,
-      icon: config.resources.primary.icon
-    };
-  }
-  if (config.resources?.secondary) {
-    compatResources[config.resources.secondary.id] = {
-      name: config.resources.secondary.name,
-      icon: config.resources.secondary.icon
-    };
-  }
-
-  return {
-    ...config,
-    // 兼容层：旧字段名映射
-    hardPity: config.hardPity?.count ?? 90,
-    softPityStart: config.softPity?.start ?? 74,
-    softPityIncrement: config.softPity?.increment ?? 0.06,
-    guaranteeRate: config.guarantee?.rate ?? 0.5,
-    captureLightRate: config.guarantee?.captureLightRate ?? 0.55,
-    primogemsToFate: config.conversionRate?.primaryToPull ?? 160,
-    // 兼容层：resources 旧格式
-    resources: compatResources
-  };
-}
-
-/**
  * 加载指定游戏的配置（优先合并用户自定义参数）
  * @param {string} gameId - 游戏ID (如 'genshin', 'starrail')
  * @returns {Object} Result对象 {success, data, error}
@@ -74,20 +37,17 @@ function loadGameConfig(gameId) {
     return error(`游戏配置不存在：${gameId}`);
   }
 
-  // 添加兼容层字段
-  const configWithCompat = addCompatibilityLayer(baseConfig);
-
   // 尝试加载用户自定义规则设置
   const customResult = storageService.loadCustomRuleSettings(gameId);
   if (customResult.success && customResult.data && customResult.data.isCustom) {
     // 合并自定义参数到基础配置
     const customSettings = customResult.data;
     const mergedConfig = {
-      ...configWithCompat,
-      baseRate: customSettings.baseRate ?? configWithCompat.baseRate,
-      hardPity: customSettings.hardPity ?? configWithCompat.hardPity,
-      softPityStart: customSettings.softPityStart ?? configWithCompat.softPityStart,
-      softPityIncrement: customSettings.softPityIncrement ?? configWithCompat.softPityIncrement,
+      ...baseConfig,
+      baseRate: customSettings.baseRate ?? baseConfig.baseRate,
+      hardPity: customSettings.hardPity ?? baseConfig.hardPity,
+      softPityStart: customSettings.softPityStart ?? baseConfig.softPityStart,
+      softPityIncrement: customSettings.softPityIncrement ?? baseConfig.softPityIncrement,
       _isCustom: true,
       _customUpdatedAt: customSettings.updatedAt
     };
@@ -95,7 +55,7 @@ function loadGameConfig(gameId) {
     return success(mergedConfig);
   }
 
-  return success(configWithCompat);
+  return success(baseConfig);
 }
 
 /**
@@ -136,6 +96,5 @@ function loadAllGames() {
 module.exports = {
   loadGameConfig,
   loadOriginalGameConfig,
-  loadAllGames,
-  addCompatibilityLayer
+  loadAllGames
 };

@@ -82,7 +82,7 @@ function calculateTotalPulls(gamesData) {
   gamesData.forEach(game => {
     if (!game.resources || !game.config) return;
 
-    const conversionRate = game.config.conversionRate?.primogemsToFate || 160;
+    const conversionRate = game.config.conversionRate?.primaryToPull || game.config.conversionRate?.primogemsToFate || 160;
     const resourceKeys = Object.keys(game.config.resources || {});
 
     if (resourceKeys.length === 0) return;
@@ -121,14 +121,14 @@ function calculateHypotheticalProbability(config, totalPulls) {
         hypotheticalResources[resourceKeys[1]] = totalPulls;
       } else {
         // 如果没有次要资源，将抽数转换为主要资源
-        const conversionRate = config.conversionRate?.primogemsToFate || 160;
+        const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
         hypotheticalResources[resourceKeys[0]] = totalPulls * conversionRate;
       }
     }
 
     // 构建计算参数
     const target = {
-      pulls: Math.min(totalPulls, config.hardPity || 90),
+      pulls: Math.min(totalPulls, config.hardPity?.count || config.hardPity || 90),
       currentPity: 0
     };
 

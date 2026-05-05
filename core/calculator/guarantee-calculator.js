@@ -22,13 +22,11 @@ class GuaranteeCalculator extends BaseCalculator {
    * @returns {Array} 概率分布数组
    */
   calculateProbabilityDistribution(resources, target, config) {
-    const {
-      baseRate = 0.006,
-      hardPity = 90,
-      softPityStart = 74,
-      softPityIncrement = 0.06,
-      guaranteeRate = 0.5
-    } = config;
+    const baseRate = config.baseRate || 0.006;
+    const hardPity = config.hardPity?.count || config.hardPity || 90;
+    const softPityStart = config.softPity?.start || config.softPityStart || 74;
+    const softPityIncrement = config.softPity?.increment || config.softPityIncrement || 0.06;
+    const guaranteeRate = config.guarantee?.rate || config.guaranteeRate || 0.5;
 
     const maxPulls = target.pulls || hardPity;
     const currentPity = target.currentPity || 0;
@@ -172,8 +170,8 @@ class GuaranteeCalculator extends BaseCalculator {
       config: {
         gameId: config.gameId,
         baseRate: config.baseRate,
-        hardPity: config.hardPity,
-        guaranteeRate: config.guaranteeRate
+        hardPity: config.hardPity?.count || config.hardPity,
+        guaranteeRate: config.guarantee?.rate || config.guaranteeRate
       }
     });
 

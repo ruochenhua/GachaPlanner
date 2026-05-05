@@ -5,10 +5,9 @@ describe('GuaranteeCalculator - 大小保底计算', () => {
   const config = {
     gameId: 'genshin',
     baseRate: 0.006,
-    hardPity: 90,
-    softPityStart: 74,
-    softPityIncrement: 0.06,
-    guaranteeRate: 0.5
+    hardPity: { count: 90 },
+    softPity: { start: 74, increment: 0.06 },
+    guarantee: { rate: 0.5 }
   };
 
   beforeEach(() => {
@@ -67,7 +66,7 @@ describe('GuaranteeCalculator - 大小保底计算', () => {
   });
 
   test('武器类型 guaranteeRate=0.75 时小保底概率应接近 100%', () => {
-    const weaponConfig = { ...config, hardPity: 80, guaranteeRate: 0.75 };
+    const weaponConfig = { ...config, hardPity: { count: 80 }, guarantee: { rate: 0.75 } };
     const result = calculator.calculate({
       resources: {},
       target: { pulls: 80, currentPity: 0, isGuaranteed: false },

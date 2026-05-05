@@ -382,7 +382,7 @@ Page({
     const currentPity = parseInt(e.detail.value) || 0;
     const type = this.data.targetForm.type || 'character';
     const typeConfig = this.data.gameConfig?.targetTypes?.[type] || {};
-    const maxPity = typeConfig.hardPity || this.data.gameConfig?.hardPity || 90;
+    const maxPity = typeConfig.hardPity || this.data.gameConfig?.hardPity?.count || this.data.gameConfig?.hardPity || 90;
     const clampedPity = Math.min(currentPity, maxPity);
     this.setData({ 'targetForm.currentPity': clampedPity });
   },
@@ -448,7 +448,8 @@ Page({
 
     try {
       // 计算总抽数
-      const conversionRate = gameConfig.conversionRate?.primogemsToFate
+      const conversionRate = gameConfig.conversionRate?.primaryToPull
+        || gameConfig.conversionRate?.primogemsToFate
         || gameConfig.conversionRate?.stellarJadeToPass || 160;
       const resourceKeys = Object.keys(gameConfig.resources);
       const primaryKey = resourceKeys[0];
@@ -463,7 +464,7 @@ Page({
 
       for (const target of targets) {
         const rank = target.desiredRank || target.constellations || 0;
-        const basePulls = target.type === 'weapon' ? 80 : (gameConfig.hardPity || 90);
+        const basePulls = target.type === 'weapon' ? 80 : (gameConfig.hardPity?.count || gameConfig.hardPity || 90);
         const needed = basePulls * (rank + 1);
         totalNeededPulls += needed;
 
@@ -481,14 +482,14 @@ Page({
         // 为每个目标单独计算概率（使用各自的卡池参数和大保底状态）
         for (const target of targets) {
           const typeConfig = gameConfig.targetTypes?.[target.type] || {};
-          const targetHardPity = typeConfig.hardPity || gameConfig.hardPity || 90;
-          const targetGuaranteeRate = typeConfig.guaranteeRate || gameConfig.guaranteeRate || 0.5;
+          const targetHardPity = typeConfig.hardPity || gameConfig.hardPity?.count || gameConfig.hardPity || 90;
+          const targetGuaranteeRate = typeConfig.guaranteeRate || gameConfig.guarantee?.rate || gameConfig.guaranteeRate || 0.5;
 
           // 为该目标创建临时配置（覆盖 hardPity 和 guaranteeRate）
           const targetConfig = {
             ...gameConfig,
-            hardPity: targetHardPity,
-            guaranteeRate: targetGuaranteeRate
+            hardPity: { count: targetHardPity },
+            guarantee: { ...gameConfig.guarantee, rate: targetGuaranteeRate }
           };
 
           const calcTarget = {
@@ -525,8 +526,8 @@ Page({
         const firstTypeConfig = gameConfig.targetTypes?.[firstTarget.type] || {};
         const firstConfig = {
           ...gameConfig,
-          hardPity: firstTypeConfig.hardPity || gameConfig.hardPity || 90,
-          guaranteeRate: firstTypeConfig.guaranteeRate || gameConfig.guaranteeRate || 0.5
+          hardPity: { count: firstTypeConfig.hardPity || gameConfig.hardPity?.count || gameConfig.hardPity || 90 },
+          guarantee: { ...gameConfig.guarantee, rate: firstTypeConfig.guaranteeRate || gameConfig.guarantee?.rate || gameConfig.guaranteeRate || 0.5 }
         };
         const firstCalcTarget = {
           pulls: totalPulls,
@@ -625,7 +626,7 @@ Page({
         { poolStartDate, poolEndDate, dailyIncome, otherIncome }
       );
 
-      const conversionRate = gameConfig.conversionRate?.primogemsToFate || 160;
+      const conversionRate = gameConfig.conversionRate?.primaryToPull || gameConfig.conversionRate?.primogemsToFate || 160;
       const dailyPulls = Math.floor((dailyIncome * result.poolDays) / conversionRate);
       const otherPulls = Math.floor(otherIncome / conversionRate);
       const finalPulls = currentPulls + dailyPulls + otherPulls;

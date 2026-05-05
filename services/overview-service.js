@@ -2,7 +2,7 @@ const CalculatorFactory = require('../core/calculator/calculator-factory');
 
 function calculateGameProbability(resources, config) {
   if (!resources || !config) return 0;
-  const conversionRate = config.conversionRate?.primogemsToFate || 160;
+  const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
   const resourceKeys = Object.keys(config.resources || {});
   if (resourceKeys.length === 0) return 0;
   const primaryResourceKey = resourceKeys[0];
@@ -11,7 +11,7 @@ function calculateGameProbability(resources, config) {
   const secondaryValue = secondaryResourceKey ? (Number(resources[secondaryResourceKey]) || 0) : 0;
   const totalPulls = Math.floor(primaryValue / conversionRate) + secondaryValue;
   if (totalPulls === 0) return 0;
-  const target = { pulls: Math.min(totalPulls, config.hardPity || 90), currentPity: 0 };
+  const target = { pulls: Math.min(totalPulls, config.hardPity?.count || config.hardPity || 90), currentPity: 0 };
   try {
     const calculator = CalculatorFactory.createCalculator(config);
     const result = calculator.calculate({ resources, target, config });
@@ -25,7 +25,7 @@ function calculateGameProbability(resources, config) {
 }
 
 function buildResourcesFromPulls(totalPulls, originalResources, config) {
-  const conversionRate = config.conversionRate?.primogemsToFate || 160;
+  const conversionRate = config.conversionRate?.primaryToPull || config.conversionRate?.primogemsToFate || 160;
   const resourceKeys = Object.keys(config.resources || {});
   const newResources = { ...originalResources };
   const secondaryKey = resourceKeys[1];

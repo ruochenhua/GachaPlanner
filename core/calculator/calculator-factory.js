@@ -32,11 +32,18 @@ class CalculatorFactory {
    * @returns {Object} 计算器实例
    */
   static createCalculator(config) {
-    const { pityType, guaranteeRate, multiPool } = config;
+    const { pityType, multiPool } = config;
+    const guaranteeRate = config.guarantee?.rate ?? config.guaranteeRate;
+    const guaranteeEnabled = config.guarantee?.enabled;
 
-    // 如果配置了大小保底机制（guaranteeRate），自动使用 GuaranteeCalculator
+    // 自动检测大小保底机制
+    // 新格式：guarantee.enabled 显式启用
+    // 旧格式/过渡：guaranteeRate 存在且有效（guarantee 对象未显式设置 enabled）
+    const hasGuarantee = (guaranteeEnabled === true) ||
+      (guaranteeEnabled === undefined && guaranteeRate !== undefined && guaranteeRate > 0 && guaranteeRate < 1.0);
+
     let effectivePityType = pityType;
-    if (guaranteeRate !== undefined && guaranteeRate > 0 && guaranteeRate < 1.0 && pityType !== 'guarantee') {
+    if (hasGuarantee && pityType !== 'guarantee') {
       effectivePityType = 'guarantee';
       console.log('检测到大小保底机制，使用 GuaranteeCalculator');
     }
@@ -46,7 +53,7 @@ class CalculatorFactory {
     console.log('创建计算器:', {
       pityType: effectivePityType,
       calculatorType: CalculatorClass.name,
-      guaranteeRate: config.guaranteeRate
+      guaranteeRate: config.guarantee?.rate ?? config.guaranteeRate
     });
 
     // 如果是多池计算器，需要传入配置对象

@@ -4,22 +4,22 @@
 
 ### 模块 A：genshin + 依赖（先做一个完整的，验证流程）
 
-- [ ] A.1 重写 `config/games/genshin.js` 为增强版格式
+- [x] A.1 重写 `config/games/genshin.js` 为增强版格式
   - 使用 `_template.js` 的 `createGameConfig`
   - 保留所有核心参数
   - 添加 `metadata` 字段
   - **保留旧字段别名**（兼容层）：`hardPity` (number)、`softPityStart`、`softPityIncrement`、`guaranteeRate`、`primogemsToFate`
-- [ ] A.2 修改 `services/game-service.js` 中 genshin 相关的资源读取逻辑
+- [x] A.2 修改 `services/game-service.js` 中 genshin 相关的资源读取逻辑（通过 `gameConfig.resources.primary/secondary`）
   - `getGameResources()`：重写遍历逻辑
     - 旧：`Object.keys(config.resources).forEach(key => ...)`
     - 新：直接读取 `config.resources.primary` 和 `config.resources.secondary`
     - 注意：不同游戏的资源名称不同（如 starrail 的 stellarJade），但结构统一为 primary/secondary
-- [ ] A.3 修改 `pages/planning/planning.js` 中 genshin 相关的字段访问
+- [x] A.3 修改 `pages/planning/planning.js` 中 genshin 相关的字段访问
   - `resources` 遍历方式：`Object.keys(config.resources)` → `config.resources.primary/secondary`
   - `conversionRate`：`primogemsToFate` / `stellarJadeToPass` → `primaryToPull`
   - `hardPity`：`config.hardPity` (number) → `config.hardPity?.count`
   - `targetTypes`：结构不变（`targetTypes[type].hardPity` / `targetTypes[type].guaranteeRate` 保持原样），无需修改
-- [ ] A.4 修改 `core/calculator/` 中引用旧字段的地方
+- [x] A.4 修改 `core/calculator/` 中引用旧字段的地方
   - `calculator-factory.js`：`config.guaranteeRate` → `config.guarantee?.rate`
   - `hard-pity.js`：`config.hardPity` → `config.hardPity?.count`
   - `soft-pity.js`：`config.softPityStart` → `config.softPity?.start`
@@ -27,52 +27,52 @@
   - `guarantee-calculator.js`：`config.hardPity` → `config.hardPity?.count`
   - `dynamic-probability-calculator.js`：`config.hardPity` → `config.hardPity?.count`
   - `combined-probability-calculator.js`：`config.hardPity` → `config.hardPity?.count`
-- [ ] A.5 运行测试验证 genshin 模块功能正常
+- [x] A.5 运行测试验证 genshin 模块功能正常（全部 291 个测试通过）
 
 ### 模块 B：starrail + 依赖
 
-- [ ] B.1 重写 `config/games/starrail.js` 为增强版格式（同 A.1 模式）
-- [ ] B.2 验证 starrail 的规划计算结果与改造前一致
+- [x] B.1 重写 `config/games/starrail.js` 为增强版格式（同 A.1 模式）
+- [x] B.2 验证 starrail 的规划计算结果与改造前一致（测试通过）
 
 ### 模块 C：其余游戏配置
 
-- [ ] C.1 从 `arknights-enhanced.js` 迁移为 `config/games/arknights.js`
+- [x] C.1 从 `arknights-enhanced.js` 迁移为 `config/games/arknights.js`
   - 修正 `gameId` 拼写（`arnights` → `arknights`）
-- [ ] C.2 从 `fgo-enhanced.js` 迁移为 `config/games/fgo.js`
-- [ ] C.3 合并 `hok-enhanced.js` + `hok-luck.js` 为 `config/games/hok.js`
-- [ ] C.4 从 `onmyoji-multi-pool.js` 迁移为 `config/games/onmyoji.js`
+- [x] C.2 从 `fgo-enhanced.js` 迁移为 `config/games/fgo.js`
+- [x] C.3 合并 `hok-enhanced.js` + `hok-luck.js` 为 `config/games/hok.js`
+- [x] C.4 从 `onmyoji-multi-pool.js` 迁移为 `config/games/onmyoji.js`
 
 ### 模块 D：配置加载器与验证器
 
-- [ ] D.1 更新 `config-loader.js`
+- [x] D.1 更新 `config-loader.js`
   - 删除旧的基础版 `require`
   - 显式注册所有增强版配置：`genshin`, `starrail`, `arknights`, `fgo`, `hok`, `onmyoji`
   - 更新 `loadAllGames()` 返回增强版格式
   - 更新 `loadGameConfig()` 返回增强版格式
-- [ ] D.2 更新 `config-validator.js`
+- [x] D.2 更新 `config-validator.js`（`validateEnhancedConfig` 已验证新字段结构）
   - 验证增强版配置的必填字段
   - 验证 `metadata` 字段结构
   - 验证 `resources` 新结构
-- [ ] D.3 删除旧文件
+- [x] D.3 删除旧文件（`-enhanced.js` / `-luck.js` / `-multi-pool.js` / `config-template-enhanced.js` 已删除）
   - 删除 `config/games/*-enhanced.js` 和 `*-luck.js` 等示例文件
   - 删除 `config/config-template-enhanced.js`（已复制到 `games/_template.js`）
 
 ### 模块 E：全局适配与清理
 
-- [ ] E.1 修改 `pages/overview/overview.js`
+- [x] E.1 修改 `pages/overview/overview.js`（已适配 game-select 流程）
   - `game-service` API 变更适配
-- [ ] E.2 修改 `pages/history/history.js` 及 `history-detail.js`
+- [x] E.2 修改 `pages/history/history.js` 及 `history-detail.js`（无旧字段引用，无需修改）
   - 如有引用游戏配置字段，一并适配
-- [ ] E.3 修改 `pages/index/index.js`
+- [x] E.3 修改 `pages/index/index.js`（已适配新字段）
   - 如有引用游戏配置字段，一并适配
-- [ ] E.4 删除兼容层字段（确认所有依赖代码已适配后）
+- [ ] E.4 删除兼容层字段（代码层已适配，配置文件中的 backward aliases 仍待清理）
   - 从增强版配置中移除旧字段别名
 
 ### 模块 F：回归测试
 
-- [ ] F.1 运行 `npx jest --no-coverage`，确保 267 个测试全部通过
-- [ ] F.2 在开发者工具中验证原神/崩铁的规划计算结果与改造前一致
-- [ ] F.3 验证新注册的游戏（明日方舟/FGO/王者/阴阳师）配置可正常加载
+- [x] F.1 运行 `npx jest --no-coverage`，全部 291 个测试通过
+- [ ] F.2 在开发者工具中验证原神/崩铁的规划计算结果与改造前一致（需手动）
+- [x] F.3 验证新注册的游戏配置可正常加载（通过 Jest 测试验证）
 
 ## Phase 2: Game Selector 界面
 

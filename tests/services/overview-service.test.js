@@ -65,8 +65,8 @@ describe('OverviewService', () => {
   describe('calculateAllocation - 资源分配守恒', () => {
     const mockConfig = {
       resources: { primogems: { name: '原石' }, intertwinedFates: { name: '纠缠之缘' } },
-      conversionRate: { primogemsToFate: 160 },
-      hardPity: 90
+      conversionRate: { primaryToPull: 160 },
+      hardPity: { count: 90 }
     };
 
     test('单游戏不调整', () => {
@@ -112,8 +112,8 @@ describe('OverviewService', () => {
   describe('generateStrategies - 策略生成', () => {
     const mockConfig = {
       resources: { primogems: { name: '原石' }, intertwinedFates: { name: '纠缠之缘' } },
-      conversionRate: { primogemsToFate: 160 },
-      hardPity: 90
+      conversionRate: { primaryToPull: 160 },
+      hardPity: { count: 90 }
     };
 
     test('空数组返回空策略', () => {
